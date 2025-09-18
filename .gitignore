@@ -1,7 +1,6 @@
 #Sistema/IDE
 .DS_Store
 Thumbs.db
-.vscode/
 
 #Dependências/Build
 node_modules/
