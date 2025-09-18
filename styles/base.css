@@ -1,0 +1,474 @@
+@layer base, components, utilities;
+
+:root {
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-muted: #666666;
+  --color-primary: #1976d2;
+  --color-primary-contrast: #ffffff;
+
+  --radius-1: 0.25rem;
+  --radius-2: 0.5rem;
+  --radius-3: 1rem;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+
+  --container-max: 72rem;
+
+  --sticky-offset: 6rem;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial,
+    "Noto Sans", "Liberation Sans", sans-serif;
+  --step--1: clamp(0.875rem, 0.86rem + 0.1vw, 0.95rem);
+  --step-0: 1rem;
+  --step-1: clamp(1.125rem, 1.1rem + 0.3vw, 1.375rem);
+  --step-2: clamp(1.25rem, 1.2rem + 0.6vw, 1.75rem);
+  --step-3: clamp(1.5rem, 1.4rem + 1vw, 2.25rem);
+
+  --surface-1: #eaeaea;
+
+  --mix-contrast: #000;
+  --primary-rgb: 25 118 210;
+
+  --focus-ring: var(--color-primary);
+
+  --shadow-rgb: 0 0 0;
+  --shadow-1: 0 1px 0 rgb(var(--shadow-rgb) / 0.05);
+  --shadow-1-inset: inset 0 1px 2px rgb(var(--shadow-rgb) / 0.12);
+
+  --border-color: #e0e0e0;
+  --border-1: 1px solid var(--border-color);
+
+  accent-color: var(--color-primary);
+
+  color-scheme: light dark;
+}
+
+@supports (background: color-mix(in srgb, #000, #fff)) {
+  :root {
+    --surface-1: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 6%);
+    --border-color: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 18%);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-bg: #0e0f10;
+    --color-text: #f1f5f9;
+    --color-muted: #9aa4b2;
+
+    --focus-ring: #8bb8ff;
+    --mix-contrast: #fff;
+
+    --shadow-1: 0 1px 0 rgb(var(--shadow-rgb) / 0.12);
+    --shadow-1-inset: inset 0 1px 2px rgb(var(--shadow-rgb) / 0.2);
+  }
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 100%;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+
+  .scroll-area {
+    overscroll-behavior: contain;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+  }
+
+  img {
+    display: block;
+  }
+  svg {
+    fill: currentColor;
+    stroke: currentColor;
+  }
+  img,
+  svg,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  ul,
+  ol,
+  figure {
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-rendering: optimizeLegibility;
+  }
+
+  @supports (text-wrap: balance) {
+    h1,
+    h2,
+    h3 {
+      text-wrap: balance;
+    }
+  }
+
+  h1 {
+    font-size: var(--step-3);
+    line-height: 1.2;
+  }
+  h2 {
+    font-size: var(--step-2);
+    line-height: 1.25;
+  }
+  h3 {
+    font-size: var(--step-1);
+    line-height: 1.3;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6, section, article, div)[id]:target {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 4px;
+    scroll-margin-top: var(--sticky-offset);
+  }
+
+  :where(
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      main,
+      nav,
+      header,
+      footer,
+      aside,
+      section,
+      article,
+      [role="region"]
+    )[id] {
+    scroll-margin-top: var(--sticky-offset);
+  }
+
+  ul,
+  ol {
+    padding-left: 1.25rem;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    text-decoration-skip-ink: auto;
+  }
+  a:hover {
+    text-decoration-thickness: 0.12em;
+  }
+  a:focus-visible {
+    text-decoration-thickness: 0.12em;
+  }
+
+  pre {
+    padding: var(--space-2);
+    background: var(--surface-1);
+    border: var(--border-1);
+    border-radius: var(--radius-2);
+    overflow: auto;
+    line-height: 1.45;
+  }
+  pre code {
+    background: transparent;
+  }
+
+  code,
+  kbd,
+  samp {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.95em;
+    line-height: 1.3;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  :where(a, button, input, select, textarea, summary, [tabindex]):not(
+      [tabindex="-1"]
+    ):focus-visible {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    border-radius: var(--radius-1);
+    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--focus-ring);
+  }
+
+  @supports not selector(:focus-visible) {
+    :where(a, button, input, select, textarea, summary, [tabindex]):not([tabindex="-1"]):focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+      border-radius: var(--radius-1);
+      box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--focus-ring);
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    font-weight: 600;
+  }
+  th,
+  td {
+    padding: 0.6rem 0.8rem;
+    border: var(--border-1);
+    text-align: left;
+  }
+  caption {
+    caption-side: top;
+    padding: 0.5rem 0;
+    color: var(--color-muted);
+  }
+  .table-scroll {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  tbody tr:nth-child(even) > * {
+    background: var(--surface-1);
+  }
+
+  @supports (background: color-mix(in srgb, #000, #fff)) {
+    tbody tr:nth-child(even) > * {
+      background: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 4%);
+    }
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+  }
+  .skip-link:focus {
+    position: fixed;
+    z-index: 1000;
+    left: var(--space-2);
+    top: var(--space-2);
+    background: var(--surface-1);
+    color: var(--color-text);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-2);
+    box-shadow: 0 0 0 2px var(--focus-ring);
+  }
+
+  ::selection {
+    background: rgba(var(--primary-rgb) / 0.28);
+    color: var(--color-text);
+  }
+
+  @supports (background: color-mix(in srgb, #000, #fff)) {
+    ::selection {
+      background: color-mix(in srgb, var(--color-primary), transparent 70%);
+      color: var(--color-text);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(a, button, input, select, textarea, summary, [tabindex]):not(
+        [tabindex="-1"]
+      ):focus-visible {
+      outline: 2px solid CanvasText;
+    }
+    .skip-link:focus {
+      background: Canvas;
+      color: CanvasText;
+      box-shadow: none;
+      outline: 2px solid CanvasText;
+      outline-offset: 2px;
+    }
+  }
+
+  @media (prefers-contrast: more) {
+    :where(a, button, input, select, textarea, summary, [tabindex]):not(
+        [tabindex="-1"]
+      ):focus-visible {
+      outline-width: 3px;
+    }
+  }
+
+  @media print {
+    :root {
+      --color-bg: #fff;
+      --color-text: #000000;
+    }
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 12pt;
+    }
+    .btn,
+    .btn--primary {
+      box-shadow: none !important;
+      background: transparent !important;
+      color: var(--color-text) !important;
+      border: 1px solid var(--color-text);
+    }
+    header,
+    nav,
+    .site-footer {
+      display: none;
+    }
+    a[href^="http"]::after,
+    a[href^="//"]::after
+    {
+      content: " (" attr(href) ")";
+      font-size: 0.9em;
+    }
+    table {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    tr,
+    img,
+    pre {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@layer components {
+  .container {
+    width: min(100% - clamp(1rem, 4vw, 2rem), var(--container-max));
+    margin-inline: auto;
+  }
+
+  .btn {
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    display: inline-block;
+    padding: 0.6rem 1rem;
+    border: 0;
+    border-radius: var(--radius-2);
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    background: var(--surface-1);
+    color: var(--color-text);
+  }
+  .btn--primary {
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+  }
+  .btn--primary:active {
+    background: color-mix(in srgb, var(--color-primary), var(--mix-contrast) 10%);
+  }
+  .btn:active {
+    box-shadow: var(--shadow-1-inset);
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover {
+      box-shadow: var(--shadow-1);
+    }
+    .btn--primary:hover {
+      background: color-mix(in srgb, var(--color-primary), var(--mix-contrast) 5%);
+    }
+  }
+}
+
+@layer utilities {
+  .flow > * + * {
+    margin-top: var(--space-2);
+  }
+
+  .visually-hidden {
+    position: absolute !important;
+    height: 1px !important;
+    width: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .sr-only-focusable:focus {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    white-space: normal !important;
+  }
+
+  .no-wrap {
+    white-space: nowrap;
+  }
+  .break-anywhere {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .bordered {
+    border: var(--border-1);
+  }
+  .rounded {
+    border-radius: var(--radius-2);
+  }
+}

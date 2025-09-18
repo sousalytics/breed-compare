@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!-- Metadados -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- SEO -->
+    <title>Breed Compare - Compare raças de cães com dados claros e objetivos</title>
+    <meta
+      name="description"
+      content="Compare raças de cães por tamanho, peso, temperamento e mais."
+    />
+
+    <!-- Evita indexação enquanto protótipo -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Interface do navegador e suporte a claro/escuro -->
+    <meta name="theme-color" content="#1e88e5" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Substituir pela URL final quando for publicar-->
+    <!-- <link rel="canonical" href="https://sousalytics.github.io/breed-compare/"> -->
+
+    <!-- Segurança CSP mínima para ambiente local (será ajustado depois) -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self';
+      script-src 'self';
+      style-src 'self';
+      img-src 'self' data:;
+      font-src 'self' data:;
+      connect-src 'self' ws:;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      upgrade-insecure-requests;"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles/base.css" />
+
+    <!-- LEMBRAR DE COLOCAR FAVICON AQUI -->
+    <!-- <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml"> -->
+  </head>
+  <body>
+    <!-- Skip-link -->
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <!-- LANDMARK: Cabeçalho com navegação -->
+    <header class="site-header">
+      <nav aria-label="Navegação principal">
+        <!-- Logo com texto. Vai virar img com alt depois -->
+        <a class="logo" href="./">Breed Compare</a>
+        <ul class="menu">
+          <li><a href="index.html" aria-current="page">Início</a></li>
+          <li><a href="comparar.html">Comparar</a></li>
+          <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- LANDMARK: Conteúdo principal -->
+    <main id="conteudo" tabindex="-1">
+      <h1>Compare raças de cães por tamanho, peso, temperamento e mais</h1>
+      <p>Bem-vindo! Este é o esqueleto inicial do site.</p>
+
+      <!-- Seções futuras -->
+      <section aria-labelledby="intro">
+        <h2 id="intro">O que vai ter aqui?</h2>
+        <ul>
+          <li>Mapa do site simples</li>
+          <li>Tabela de comparação acessível</li>
+          <li>Componentes progressivos (JS opcional)</li>
+        </ul>
+      </section>
+      <div class="table-scroll">
+        <table>
+          ...
+        </table>
+      </div>
+
+      <noscript>
+        <!-- Mensagem para quem navega sem JS -->
+        <p>
+          <strong>Observação:</strong> algumas melhorias funcionam melhor com JavaScript habilitado,
+          mas o site continua utilizável.
+        </p>
+      </noscript>
+    </main>
+
+    <!-- LANDMARK: Rodapé -->
+    <footer class="site-footer">
+      <small>
+        &copy; 2025 sousalytics -
+        <a href="https://www.linkedin.com/in/sousalytics" target="_blank" rel="noopener noreferrer"
+          >LinkedIn</a
+        >
+        - v0.1
+      </small>
+    </footer>
+
+    <!-- JS com progressive enhancement -->
+    <script src="scripts/main.js" defer></script>
+  </body>
+</html>
