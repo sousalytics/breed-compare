@@ -11,16 +11,16 @@
       name="description"
       content="Compare raças de cães por tamanho, peso, temperamento e mais."
     />
+    <!-- Substituir pela URL final quando for publicar-->
+    <link rel="canonical" href="https://sousalytics.github.io/breed-compare/" />
 
     <!-- Evita indexação enquanto protótipo -->
     <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebots" content="noindex, nofollow" />
 
     <!-- Interface do navegador e suporte a claro/escuro -->
     <meta name="theme-color" content="#1e88e5" />
     <meta name="color-scheme" content="light dark" />
-
-    <!-- Substituir pela URL final quando for publicar-->
-    <link rel="canonical" href="https://sousalytics.github.io/breed-compare/" />
 
     <!-- Social (Open Graph / Twitter) -->
     <meta property="og:title" content="Breed Compare - Compare raças de cães" />
@@ -37,15 +37,13 @@
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self';
+      img-src 'self' data:;
       script-src 'self';
       style-src 'self';
-      img-src 'self' data:;
-      font-src 'self' data:;
-      connect-src 'self' ws:;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
-      upgrade-insecure-requests"
+      connect-src 'self';"
     />
 
     <!-- CSS -->
@@ -111,6 +109,6 @@
     </footer>
 
     <!-- JS com progressive enhancement -->
-    <script src="scripts/main.js" defer></script>
+    <!-- <script src="scripts/main.js" defer></script> -->
   </body>
 </html>
