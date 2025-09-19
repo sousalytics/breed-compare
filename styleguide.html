@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Canis - Guia de Estilo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bloquear indexação -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
+
+    <meta
+      name="description"
+      content="Guia de estilo do projeto Canis: paletas, tipografia e componentes base."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+
+    <style>
+      body {
+        font-family: var(--font-body, Inter), system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-title, Poppins), system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+      }
+      .card {
+        background: var(--color-surface);
+        border: var(--border-1);
+        border-radius: var(--radius-2);
+        padding: var(--space-3);
+      }
+      .input {
+        width: 100%;
+        padding: 0.55rem 0.75rem;
+        border: var(--border-1);
+        border-radius: var(--radius-2);
+        background: var(--color-surface);
+        color: var(--color-text);
+      }
+      .input:focus-visible {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--focus-ring);
+      }
+      .brand {
+        font-family: var(--font-title, Poppins), sans-serif;
+        font-weight: 700;
+        font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+        color: var(--color-primary);
+        letter-spacing: 0.2px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header
+      class="container"
+      style="display: flex; gap: 0.75rem; align-items: center; padding: var(--space-2) 0"
+    >
+      <a class="logo brand" href="./" aria-label="Canis — Página Inicial">Canis</a>
+
+      <div style="margin-left: auto; display: flex; gap: 0.5rem; align-items: center">
+        <span class="no-wrap" aria-hidden="true">Paleta:</span>
+        <button
+          type="button"
+          id="theme-toggle"
+          class="btn touch-target"
+          aria-pressed="false"
+          aria-label="Alternar paleta"
+        >
+          Alternar paleta
+        </button>
+      </div>
+    </header>
+    <main id="conteudo" class="container flow" style="padding-bottom: var(--space-4)">
+      <!-- CORES -->
+      <section class="card" aria-labelledby="cores">
+        <h2 id="cores">Cores (tokens de UI)</h2>
+        <p style="color: var(--color-muted)">
+          Visualize os principais tokens. Verifique contraste AA de texto/ícones.
+        </p>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--space-2);
+            margin-top: var(--space-2);
+          "
+        >
+          <!-- Swatch helper -->
+          <div class="rounded bordered" style="padding: var(--space-2)">
+            <div
+              style="
+                height: 52px;
+                border-radius: var(--radius-2);
+                background: var(--color-bg);
+                border: var(--border-1);
+              "
+            ></div>
+            <strong style="display: block; margin-top: 0.5rem">--color-bg</strong>
+            <small style="color: var(--color-muted)">Fundo</small>
+          </div>
+          <div class="rounded bordered" style="padding: var(--space-2)">
+            <div
+              style="
+                height: 52px;
+                border-radius: var(--radius-2);
+                background: var(--color-surface);
+                border: var(--border-1);
+              "
+            ></div>
+            <strong style="display: block; margin-top: 0.5rem">--color-surface</strong>
+            <small style="color: var(--color-muted)">Superfícies</small>
+          </div>
+          <div class="rounded bordered" style="padding: var(--space-2)">
+            <div
+              style="height: 52px; border-radius: var(--radius-2); background: var(--color-primary)"
+            ></div>
+            <strong style="display: block; margin-top: 0.5rem">--color-primary</strong>
+            <small style="color: var(--color-muted)">Ações/links</small>
+          </div>
+          <div class="rounded bordered" style="padding: var(--space-2)">
+            <div
+              style="height: 52px; border-radius: var(--radius-2); background: var(--color-accent)"
+            ></div>
+            <strong style="display: block; margin-top: 0.5rem">--color-accent</strong>
+            <small style="color: var(--color-muted)">CTA “Comparar”</small>
+          </div>
+          <div class="rounded bordered" style="padding: var(--space-2)">
+            <div
+              style="height: 52px; border-radius: var(--radius-2); background: var(--color-text)"
+            ></div>
+            <strong style="display: block; margin-top: 0.5rem">--color-text</strong>
+            <small style="color: var(--color-muted)">Texto principal</small>
+          </div>
+          <div class="rounded bordered" style="padding: var(--space-2)">
+            <div
+              style="height: 52px; border-radius: var(--radius-2); background: var(--color-muted)"
+            ></div>
+            <strong style="display: block; margin-top: 0.5rem">--color-muted</strong>
+            <small style="color: var(--color-muted)">Texto secundário</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tipografia -->
+      <section class="card" aria-labelledby="type">
+        <h2 id="type">Tipografia</h2>
+        <p><strong>Títulos</strong> — Poppins 700 (token <code>--font-title</code>)</p>
+        <h1>Canis — Comparador de raças</h1>
+        <p><strong>Corpo</strong> — Inter 400/600 (token <code>--font-body</code>)</p>
+        <p>
+          Texto corrido para leitura longa. Este é um
+          <a class="link-primary" href="#" style="color: var(--color-primary)">link primário</a>
+          dentro do texto.
+        </p>
+      </section>
+
+      <!-- Componentes: botões, inputs, tabela -->
+      <section class="card" aria-labelledby="componentes">
+        <h2 id="componentes">Componentes</h2>
+
+        <div class="flow">
+          <!-- Botões -->
+          <div>
+            <h3>Botões</h3>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+              <button class="btn btn--primary touch-target">Buscar raça</button>
+              <button class="btn btn--compare touch-target">Comparar</button>
+              <button class="btn touch-target" disabled>Desabilitado</button>
+            </div>
+          </div>
+
+          <!-- Campo de busca -->
+          <div>
+            <h3>Campo de busca</h3>
+            <form
+              role="search"
+              aria-label="Busca por raça"
+              onsubmit="return false;"
+              style="display: flex; gap: 0.5rem; margin-top: 0.5rem; max-width: 520px"
+            >
+              <label class="visually-hidden" for="q">Buscar raça</label>
+              <input
+                id="q"
+                name="q"
+                class="input"
+                type="search"
+                placeholder="Ex.: Labrador"
+                aria-describedby="hint-q"
+                enterkeyhint="search"
+                autocomplete="off"
+              />
+              <button
+                type="submit"
+                class="btn btn--primary touch-target"
+                aria-label="Executar busca"
+              >
+                Buscar
+              </button>
+            </form>
+            <small id="hint-q" style="color: var(--color-muted)"
+              >Dica: você pode digitar parte do nome.</small
+            >
+          </div>
+
+          <!-- Tabela exemplo -->
+          <div>
+            <h3>Tabela</h3>
+            <div class="table-scroll">
+              <table>
+                <caption>
+                  Tabela de exemplo (zebra e bordas via tokens)
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Raça</th>
+                    <th scope="col">Tamanho</th>
+                    <th scope="col">Expectativa de vida</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Labrador Retriever</td>
+                    <td>Médio/Grande</td>
+                    <td>11–13 anos</td>
+                  </tr>
+                  <tr>
+                    <td>Golden Retriever</td>
+                    <td>Médio/Grande</td>
+                    <td>10–12 anos</td>
+                  </tr>
+                  <tr>
+                    <td>Beagle</td>
+                    <td>Médio</td>
+                    <td>12–15 anos</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ícone exemplo -->
+      <section class="card" aria-labelledby="icones">
+        <h2 id="icones">Ícones (amostra)</h2>
+        <p>Ícone inline com <code>currentColor</code> (herda a cor do texto):</p>
+        <p style="display: flex; align-items: center; gap: 0.5rem">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+            style="vertical-align: -2px"
+          >
+            <circle cx="7" cy="7" r="3" fill="currentColor" />
+          </svg>
+          Texto ao lado do ícone.
+        </p>
+      </section>
+    </main>
+
+    <footer class="container" style="padding: var(--space-2) 0; color: var(--color-muted)">
+      <small>Guia de Estilo — Canis. </small>
+    </footer>
+
+    <script>
+      (function () {
+        const html = document.documentElement;
+        const btn = document.getElementById("theme-toggle");
+        const KEY = "canis-theme";
+
+        const getPref = () => {
+          try {
+            return localStorage.getItem(KEY);
+          } catch {
+            return null;
+          }
+        };
+        const setPref = (val) => {
+          try {
+            localStorage.setItem(KEY, val);
+          } catch {}
+        };
+
+        // Restaura preferência salva
+        const saved = getPref();
+        if (saved === "alt") {
+          html.setAttribute("data-theme", "alt");
+          btn.setAttribute("aria-pressed", "true");
+        } else if (saved === "default") {
+          html.removeAttribute("data-theme");
+          btn.setAttribute("aria-pressed", "false");
+        }
+
+        // Força via querystring
+        const forced = new URLSearchParams(location.search).get("theme");
+        if (forced === "alt") {
+          html.setAttribute("data-theme", "alt");
+          btn.setAttribute("aria-pressed", "true");
+        }
+        if (forced === "default") {
+          html.removeAttribute("data-theme");
+          btn.setAttribute("aria-pressed", "false");
+        }
+
+        // Clique para alternar
+        btn.addEventListener("click", () => {
+          const isAlt = html.hasAttribute("data-theme");
+          if (isAlt) {
+            html.removeAttribute("data-theme");
+            btn.setAttribute("aria-pressed", "false");
+            setPref("default");
+          } else {
+            html.setAttribute("data-theme", "alt");
+            btn.setAttribute("aria-pressed", "true");
+            setPref("alt");
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
