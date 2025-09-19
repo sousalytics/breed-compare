@@ -1,0 +1,96 @@
+/* ===== Paleta 1 (Principal) - Blue + âmbar ===== */
+:root {
+  /* Cores */
+  --color-bg: #fafafc;
+  --color-surface: #ffffff;
+  --color-text: #0b1320;
+  --color-muted: #667085;
+
+  --color-primary: #0033a0; /* links e botão primário */
+  --color-primary-contrast: #ffffff;
+  --color-accent: #b45309; /* CTA "Comparar" (âmbar 700) */
+
+  /* Foco/Seleção */
+  --focus-ring: var(--color-primary);
+  --mix-contrast: #000;
+  --primary-rgb: 0 51 160;
+
+  /* Tipografia/Escala */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial,
+    "Noto Sans", "Liberation Sans", sans-serif;
+  --step--1: clamp(0.875rem, 0.86rem + 0.1vw, 0.95rem);
+  --step-0: 1rem;
+  --step-1: clamp(1.125rem, 1.1rem + 0.3vw, 1.375rem);
+  --step-2: clamp(1.25rem, 1.2rem + 0.6vw, 1.75rem);
+  --step-3: clamp(1.5rem, 1.4rem + 1vw, 2.25rem);
+
+  /* Espaçamento/Raios/Container */
+  --radius-1: 0.25rem;
+  --radius-2: 0.5rem;
+  --radius-3: 1rem;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+
+  --container-max: 72rem;
+  --sticky-offset: 6rem;
+
+  /* Sombras/Bordas/Superfícies */
+  --shadow-rgb: 0 0 0;
+  --shadow-1: 0 1px 0 rgb(var(--shadow-rgb) / 0.05);
+  --shadow-1-inset: inset 0 1px 2px rgb(var(--shadow-rgb) / 0.12);
+
+  --border-color: #e0e0e0;
+  --border-1: 1px solid var(--border-color);
+
+  --surface-1: #eaeaea;
+
+  /* Propriedades Globais */
+  accent-color: var(--color-primary);
+  color-scheme: light;
+
+  /*Tokens de Estado*/
+  --color-success: #0f9d58;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+}
+
+/* Ajustes dinâmicos com suporte color-mix */
+@supports (background: color-mix(in srgb, #000, #fff)) {
+  :root {
+    --surface-1: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 6%);
+    --border-color: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 18%);
+  }
+}
+
+/* ===== Paleta 2 (Alternativa) — Deep Blue + Teal ===== */
+html[data-theme="alt"] {
+  --color-bg: #f7fafc;
+  --color-surface: #ffffff;
+  --color-text: #0b1320;
+  --color-muted: #667085;
+
+  --color-primary: #1d4ed8; /* links e botão primário */
+  --color-primary-contrast: #ffffff;
+  --color-accent: #0f766e; /* CTA "Comparar" (teal 700) */
+
+  --focus-ring: var(--color-primary);
+  --mix-contrast: #000;
+  --primary-rgb: 29 78 216;
+
+  --border-color: #e5e7eb;
+
+  --surface-1: #eaeaea;
+
+  --color-success: #0f9d58;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+}
+@supports (background: color-mix(in srgb, #000, #fff)) {
+  html[data-theme="alt"] {
+    --surface-1: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 6%);
+    --border-color: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 18%);
+  }
+}

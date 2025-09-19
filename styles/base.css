@@ -1,74 +1,5 @@
 @layer base, components, utilities;
 
-:root {
-  --color-bg: #ffffff;
-  --color-text: #111111;
-  --color-muted: #666666;
-  --color-primary: #1976d2;
-  --color-primary-contrast: #ffffff;
-
-  --radius-1: 0.25rem;
-  --radius-2: 0.5rem;
-  --radius-3: 1rem;
-
-  --space-1: 0.5rem;
-  --space-2: 1rem;
-  --space-3: 1.5rem;
-  --space-4: 2rem;
-
-  --container-max: 72rem;
-
-  --sticky-offset: 6rem;
-
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial,
-    "Noto Sans", "Liberation Sans", sans-serif;
-  --step--1: clamp(0.875rem, 0.86rem + 0.1vw, 0.95rem);
-  --step-0: 1rem;
-  --step-1: clamp(1.125rem, 1.1rem + 0.3vw, 1.375rem);
-  --step-2: clamp(1.25rem, 1.2rem + 0.6vw, 1.75rem);
-  --step-3: clamp(1.5rem, 1.4rem + 1vw, 2.25rem);
-
-  --surface-1: #eaeaea;
-
-  --mix-contrast: #000;
-  --primary-rgb: 25 118 210;
-
-  --focus-ring: var(--color-primary);
-
-  --shadow-rgb: 0 0 0;
-  --shadow-1: 0 1px 0 rgb(var(--shadow-rgb) / 0.05);
-  --shadow-1-inset: inset 0 1px 2px rgb(var(--shadow-rgb) / 0.12);
-
-  --border-color: #e0e0e0;
-  --border-1: 1px solid var(--border-color);
-
-  accent-color: var(--color-primary);
-
-  color-scheme: light dark;
-}
-
-@supports (background: color-mix(in srgb, #000, #fff)) {
-  :root {
-    --surface-1: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 6%);
-    --border-color: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 18%);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --color-bg: #0e0f10;
-    --color-text: #f1f5f9;
-    --color-muted: #9aa4b2;
-
-    --focus-ring: #8bb8ff;
-    --mix-contrast: #fff;
-
-    --shadow-1: 0 1px 0 rgb(var(--shadow-rgb) / 0.12);
-    --shadow-1-inset: inset 0 1px 2px rgb(var(--shadow-rgb) / 0.2);
-  }
-}
-
 @layer base {
   *,
   *::before,
@@ -418,7 +349,19 @@
     pointer-events: none;
   }
 
+  .btn--compare {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .btn--compare:active {
+    background: color-mix(in srgb, var(--color-accent), var(--mix-contrast) 10%);
+  }
+
   @media (hover: hover) and (pointer: fine) {
+    .btn--compare:hover {
+      box-shadow: var(--shadow-1);
+      background: color-mix(in srgb, var(--color-accent), var(--mix-contrast) 5%);
+    }
     .btn:hover {
       box-shadow: var(--shadow-1);
     }
