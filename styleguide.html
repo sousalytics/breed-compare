@@ -245,7 +245,7 @@
         </div>
       </section>
 
-      <!-- Ícone exemplo -->
+      <!-- Ícone inline exemplo -->
       <section class="card" aria-labelledby="icones">
         <h2 id="icones">Ícones (amostra)</h2>
         <p>Ícone inline com <code>currentColor</code> (herda a cor do texto):</p>
@@ -271,8 +271,264 @@
           Texto ao lado do ícone.
         </p>
       </section>
-    </main>
 
+      <!-- Ícone sprite exemplo -->
+      <section class="card" aria-labelledby="icones-sprite">
+        <h2 id="icones-sprite">Ícones (via sprite SVG)</h2>
+        <p>
+          Herdando <code>currentColor</code> e usando os tamanhos <code>.icon--sm</code>,
+          <code>.icon--md</code>…
+        </p>
+
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap">
+          <div class="with-icon">
+            <svg class="icon icon--sm" aria-hidden="true" focusable="false">
+              <use href="assets/icons/sprite.svg#i-energy"></use>
+            </svg>
+            <span>Energia (16px)</span>
+          </div>
+
+          <div class="with-icon">
+            <svg class="icon icon--md icon--positive" aria-hidden="true" focusable="false">
+              <use href="assets/icons/sprite.svg#i-grooming"></use>
+            </svg>
+            <span>Grooming (20px, positivo)</span>
+          </div>
+
+          <div class="with-icon" style="color: var(--color-muted)">
+            <svg class="icon icon--lg" aria-hidden="true" focusable="false">
+              <use href="assets/icons/sprite.svg#i-barking"></use>
+            </svg>
+            <span>Vocalização (24px, muted)</span>
+          </div>
+        </div>
+
+        <pre><code>&lt;svg class="icon icon--md" aria-hidden="true"&gt;
+  &lt;use href="assets/icons/sprite.svg#i-energy"&gt;&lt;/use&gt;
+&lt;/svg&gt;</code></pre>
+      </section>
+
+      <!--Catálogo de ícones por tamanho-->
+      <section class="card" aria-labelledby="icon-catalog">
+        <h2 id="icon-catalog">Catálogo de ícones (sprite + tamanhos)</h2>
+        <p>
+          Todos herdam <code>currentColor</code>. Use <code>icon--sm</code>, <code>icon--md</code>,
+          <code>icon--lg</code> para tamanho; e <code>icon--muted/--positive/--danger</code> para
+          variações de cor contextual.
+        </p>
+
+        <ul
+          class="icon-grid list-unstyled"
+          role="list"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--space-2);
+          "
+        >
+          <!-- Helper de item -->
+          <li
+            class="rounded bordered"
+            style="padding: var(--space-2); background: var(--color-surface)"
+          >
+            <strong style="display: block; margin-bottom: 0.5rem">#i-energy</strong>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--sm" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-energy"></use>
+              </svg>
+              <span>sm (16px)</span>
+            </div>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--md icon--positive" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-energy"></use>
+              </svg>
+              <span>md (20px, positive)</span>
+            </div>
+            <div class="with-icon">
+              <svg class="icon icon--lg" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-energy"></use>
+              </svg>
+              <span>lg (24px)</span>
+            </div>
+          </li>
+
+          <li
+            class="rounded bordered"
+            style="padding: var(--space-2); background: var(--color-surface)"
+          >
+            <strong style="display: block; margin-bottom: 0.5rem">#i-trainability</strong>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--sm" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-trainability"></use>
+              </svg>
+              <span>sm</span>
+            </div>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--md" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-trainability"></use>
+              </svg>
+              <span>md</span>
+            </div>
+            <div class="with-icon">
+              <svg class="icon icon--lg icon--muted" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-trainability"></use>
+              </svg>
+              <span>lg (muted)</span>
+            </div>
+          </li>
+
+          <li
+            class="rounded bordered"
+            style="padding: var(--space-2); background: var(--color-surface)"
+          >
+            <strong style="display: block; margin-bottom: 0.5rem">#i-grooming</strong>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--sm" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-grooming"></use>
+              </svg>
+              <span>sm</span>
+            </div>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--md icon--danger" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-grooming"></use>
+              </svg>
+              <span>md (danger)</span>
+            </div>
+            <div class="with-icon">
+              <svg class="icon icon--lg" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-grooming"></use>
+              </svg>
+              <span>lg</span>
+            </div>
+          </li>
+
+          <li
+            class="rounded bordered"
+            style="padding: var(--space-2); background: var(--color-surface)"
+          >
+            <strong style="display: block; margin-bottom: 0.5rem">#i-barking</strong>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--sm" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-barking"></use>
+              </svg>
+              <span>sm</span>
+            </div>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--md" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-barking"></use>
+              </svg>
+              <span>md</span>
+            </div>
+            <div class="with-icon">
+              <svg class="icon icon--lg" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-barking"></use>
+              </svg>
+              <span>lg</span>
+            </div>
+          </li>
+
+          <li
+            class="rounded bordered"
+            style="padding: var(--space-2); background: var(--color-surface)"
+          >
+            <strong style="display: block; margin-bottom: 0.5rem">#i-sociability</strong>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--sm" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-sociability"></use>
+              </svg>
+              <span>sm</span>
+            </div>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--md" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-sociability"></use>
+              </svg>
+              <span>md</span>
+            </div>
+            <div class="with-icon">
+              <svg class="icon icon--lg" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-sociability"></use>
+              </svg>
+              <span>lg</span>
+            </div>
+          </li>
+
+          <li
+            class="rounded bordered"
+            style="padding: var(--space-2); background: var(--color-surface)"
+          >
+            <strong style="display: block; margin-bottom: 0.5rem">#i-apt</strong>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--sm" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-apt"></use>
+              </svg>
+              <span>sm</span>
+            </div>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--md" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-apt"></use>
+              </svg>
+              <span>md</span>
+            </div>
+            <div class="with-icon">
+              <svg class="icon icon--lg" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-apt"></use>
+              </svg>
+              <span>lg</span>
+            </div>
+          </li>
+
+          <li
+            class="rounded bordered"
+            style="padding: var(--space-2); background: var(--color-surface)"
+          >
+            <strong style="display: block; margin-bottom: 0.5rem">#i-exercise</strong>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--sm" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-exercise"></use>
+              </svg>
+              <span>sm</span>
+            </div>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--md icon--positive" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-exercise"></use>
+              </svg>
+              <span>md (positive)</span>
+            </div>
+            <div class="with-icon">
+              <svg class="icon icon--lg" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-exercise"></use>
+              </svg>
+              <span>lg</span>
+            </div>
+          </li>
+
+          <li
+            class="rounded bordered"
+            style="padding: var(--space-2); background: var(--color-surface)"
+          >
+            <strong style="display: block; margin-bottom: 0.5rem">#i-health</strong>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--sm" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-health"></use>
+              </svg>
+              <span>sm</span>
+            </div>
+            <div class="with-icon" style="margin-bottom: 0.35rem">
+              <svg class="icon icon--md" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-health"></use>
+              </svg>
+              <span>md</span>
+            </div>
+            <div class="with-icon">
+              <svg class="icon icon--lg icon--danger" aria-hidden="true" focusable="false">
+                <use href="assets/icons/sprite.svg#i-health"></use>
+              </svg>
+              <span>lg (danger)</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
     <footer class="container" style="padding: var(--space-2) 0; color: var(--color-muted)">
       <small>Guia de Estilo — Canis. </small>
     </footer>

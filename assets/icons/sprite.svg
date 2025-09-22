@@ -1,0 +1,69 @@
+<!-- assets/icons/sprite.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- Energia (raio) -->
+  <symbol id="i-energy" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13 2L5 14h6l-1 8 8-12h-6l1-8z"/>
+    </g>
+  </symbol>
+
+  <!-- Treinabilidade (medalha/ribbon) -->
+  <symbol id="i-trainability" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <!-- rabichos da medalha; simplifiquei um pouco para legibilidade em 16px -->
+      <path d="M9 12l-2 6M15 12l2 6"/>
+    </g>
+  </symbol>
+
+  <!-- Grooming (pente) -->
+  <symbol id="i-grooming" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="7" width="18" height="3" rx="1"/>
+      <path d="M6 10v8M9 10v8M12 10v8M15 10v8M18 10v8"/>
+    </g>
+  </symbol>
+
+  <!-- Vocalização (bark) -->
+  <symbol id="i-barking" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 14V6l6 3 6-3v8l-6 3-6-3z"/>
+      <path d="M18 10c1.5.5 2.5 1.5 3 3M18 7c2 .7 3.3 2 4 4"/>
+    </g>
+  </symbol>
+
+  <!-- Sociabilidade (duas silhuetas) -->
+  <symbol id="i-sociability" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="8" cy="8" r="3"/>
+      <circle cx="16" cy="8" r="3"/>
+      <path d="M3 19c0-3 3-5 5-5s5 2 5 5"/>
+      <path d="M11 19c0-3 3-5 5-5s5 2 5 5"/>
+    </g>
+  </symbol>
+
+  <!-- Apartamento (prédio) -->
+  <symbol id="i-apt" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="3" width="10" height="18" rx="1"/>
+      <path d="M8 7h2M12 7h2M8 11h2M12 11h2M8 15h2M12 15h2"/>
+      <path d="M17 21V10h2a2 2 0 0 1 2 2v9"/>
+    </g>
+  </symbol>
+
+  <!-- Exercício (halter) -->
+  <symbol id="i-exercise" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="10" width="3" height="4"/>
+      <rect x="18" y="10" width="3" height="4"/>
+      <rect x="7" y="11" width="10" height="2"/>
+    </g>
+  </symbol>
+
+  <!-- Saúde (cruz) -->
+  <symbol id="i-health" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 4v16M4 12h16"/>
+    </g>
+  </symbol>
+</svg>
