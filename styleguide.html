@@ -21,50 +21,11 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="/styles/tokens.css" />
-    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="./styles/tokens.css" />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/ui.css" />
 
-    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
-
-    <style>
-      body {
-        font-family: var(--font-body, Inter), system-ui, -apple-system, Segoe UI, Roboto, Arial,
-          sans-serif;
-      }
-      h1,
-      h2,
-      h3 {
-        font-family: var(--font-title, Poppins), system-ui, -apple-system, Segoe UI, Roboto, Arial,
-          sans-serif;
-      }
-      .card {
-        background: var(--color-surface);
-        border: var(--border-1);
-        border-radius: var(--radius-2);
-        padding: var(--space-3);
-      }
-      .input {
-        width: 100%;
-        padding: 0.55rem 0.75rem;
-        border: var(--border-1);
-        border-radius: var(--radius-2);
-        background: var(--color-surface);
-        color: var(--color-text);
-      }
-      .input:focus-visible {
-        outline: 2px solid transparent;
-        outline-offset: 2px;
-        box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--focus-ring);
-      }
-      .brand {
-        font-family: var(--font-title, Poppins), sans-serif;
-        font-weight: 700;
-        font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
-        color: var(--color-primary);
-        letter-spacing: 0.2px;
-        text-decoration: none;
-      }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
   </head>
   <body>
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -73,7 +34,7 @@
       class="container"
       style="display: flex; gap: 0.75rem; align-items: center; padding: var(--space-2) 0"
     >
-      <a class="logo brand" href="./" aria-label="Canis — Página Inicial">Canis</a>
+      <a class="logo" href="./" aria-label="Canis — Página Inicial">Canis</a>
 
       <div style="margin-left: auto; display: flex; gap: 0.5rem; align-items: center">
         <span class="no-wrap" aria-hidden="true">Paleta:</span>
@@ -88,7 +49,7 @@
         </button>
       </div>
     </header>
-    <main id="conteudo" class="container flow" style="padding-bottom: var(--space-4)">
+    <main id="conteudo" class="container" tabindex="-1" style="padding-bottom: var(--space-4)">
       <!-- CORES -->
       <section class="card" aria-labelledby="cores">
         <h2 id="cores">Cores (tokens de UI)</h2>
@@ -168,7 +129,7 @@
         <p><strong>Corpo</strong> — Inter 400/600 (token <code>--font-body</code>)</p>
         <p>
           Texto corrido para leitura longa. Este é um
-          <a class="link-primary" href="#" style="color: var(--color-primary)">link primário</a>
+          <a class="link-primary" href="#">link primário</a>
           dentro do texto.
         </p>
       </section>
@@ -221,6 +182,31 @@
             >
           </div>
 
+          <div>
+            <h3>Input – estados</h3>
+            <div style="display: grid; gap: 0.5rem; max-width: 520px">
+              <label for="ex-ok" class="visually-hidden">Exemplo ok</label>
+              <input
+                id="ex-ok"
+                class="input is-success"
+                placeholder="Raça válida (exemplo)"
+                aria-invalid="false"
+              />
+
+              <label for="ex-erro" class="visually-hidden">Exemplo erro</label>
+              <input
+                id="ex-erro"
+                class="input is-error"
+                placeholder="Raça inválida (exemplo)"
+                aria-invalid="true"
+                aria-describedby="msg-erro"
+              />
+              <small id="msg-erro" style="color: var(--color-danger)"
+                >Por favor, digite pelo menos 3 letras.</small
+              >
+            </div>
+          </div>
+
           <!-- Tabela exemplo -->
           <div>
             <h3>Tabela</h3>
@@ -270,10 +256,18 @@
             viewBox="0 0 24 24"
             aria-hidden="true"
             focusable="false"
-            style="vertical-align: -2px"
+            class="icon"
           >
-            <circle cx="7" cy="7" r="3" fill="currentColor" />
+            <path
+              d="M5 12l4 4L19 6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
+
           Texto ao lado do ícone.
         </p>
       </section>
@@ -324,18 +318,19 @@
         }
 
         // Clique para alternar
-        btn.addEventListener("click", () => {
-          const isAlt = html.hasAttribute("data-theme");
-          if (isAlt) {
-            html.removeAttribute("data-theme");
-            btn.setAttribute("aria-pressed", "false");
-            setPref("default");
-          } else {
-            html.setAttribute("data-theme", "alt");
-            btn.setAttribute("aria-pressed", "true");
-            setPref("alt");
-          }
-        });
+        if (btn)
+          btn.addEventListener("click", () => {
+            const isAlt = html.hasAttribute("data-theme");
+            if (isAlt) {
+              html.removeAttribute("data-theme");
+              btn.setAttribute("aria-pressed", "false");
+              setPref("default");
+            } else {
+              html.setAttribute("data-theme", "alt");
+              btn.setAttribute("aria-pressed", "true");
+              setPref("alt");
+            }
+          });
       })();
     </script>
   </body>

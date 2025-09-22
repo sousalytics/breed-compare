@@ -16,11 +16,10 @@
 
     <!-- Evita indexação enquanto protótipo -->
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="googlebots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
 
-    <!-- Interface do navegador e suporte a claro/escuro -->
-    <meta name="theme-color" content="#1e88e5" />
-    <meta name="color-scheme" content="light dark" />
+    <!-- Interface do navegador -->
+    <meta name="theme-color" content="#0033a0" />
 
     <!-- Social (Open Graph / Twitter) -->
     <meta property="og:title" content="Breed Compare - Compare raças de cães" />
@@ -39,7 +38,8 @@
       content="default-src 'self';
       img-src 'self' data:;
       script-src 'self';
-      style-src 'self';
+      style-src 'self' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
@@ -47,10 +47,18 @@
     />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="./styles/tokens.css" />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/ui.css" />
 
-    <!-- LEMBRAR DE COLOCAR FAVICON AQUI -->
-    <!-- <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml"> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
   </head>
   <body>
     <!-- Skip-link -->
@@ -58,9 +66,9 @@
 
     <!-- LANDMARK: Cabeçalho com navegação -->
     <header class="site-header">
-      <nav aria-label="Navegação principal">
+      <nav class="container" aria-label="Navegação principal">
         <!-- Logo com texto. Vai virar img com alt depois -->
-        <a class="logo" href="./">Breed Compare</a>
+        <a class="logo" href="./" aria-label="Canis - Página Inicial">Canis</a>
         <ul class="menu">
           <li><a href="index.html" aria-current="page">Início</a></li>
           <li><a href="comparar.html">Comparar</a></li>
@@ -70,7 +78,7 @@
     </header>
 
     <!-- LANDMARK: Conteúdo principal -->
-    <main id="conteudo" tabindex="-1">
+    <main id="conteudo" class="container" tabindex="-1">
       <h1>Compare raças de cães por tamanho, peso, temperamento e mais</h1>
       <p>Bem-vindo! Este é o esqueleto inicial do site.</p>
 
