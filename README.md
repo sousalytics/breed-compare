@@ -44,7 +44,7 @@
 
 <details>
 <summary>Ver árvore</summary>
-```text
+<pre><code>
 breed-compare/
 ├─ assets/
 │  ├─ icons/
@@ -69,7 +69,7 @@ breed-compare/
 │  └─ brand-notes.md
 ├─ index.html
 └─ styleguide.html
-```
+</code></pre>
 </details>
 
 ## 📝 Licenças
@@ -87,3 +87,7 @@ breed-compare/
    python -m http.server 5500
    # Acesse http://localhost:5500
    ```
+
+```
+
+```
