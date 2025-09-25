@@ -42,16 +42,35 @@
 
 ## 📁 Estrutura
 
+<details>
+<summary>Ver árvore</summary>
+```text
 breed-compare/
 ├─ assets/
-│ ├─ icons/ # sprite.svg
-│ ├─ logos/ # paw-solid.svg, paw-stroke.svg
-│ └─ brand/ # og-1200x630.png, avatar-512.png
-├─ public/ # favicon.svg, favicon-16.png, favicon-32.png, apple-touch-180.png, robots.txt
-├─ styles/ # tokens.css, base.css, ui.css
-├─ docs/ # brand-notes.md
+│  ├─ icons/
+│  │  └─ sprite.svg
+│  ├─ logos/
+│  │  ├─ paw-solid.svg
+│  │  └─ paw-stroke.svg
+│  └─ brand/
+│     ├─ og-1200x630.png
+│     └─ avatar-512.png
+├─ public/
+│  ├─ favicon.svg
+│  ├─ favicon-16.png
+│  ├─ favicon-32.png
+│  ├─ apple-touch-180.png
+│  └─ robots.txt
+├─ styles/
+│  ├─ tokens.css
+│  ├─ base.css
+│  └─ ui.css
+├─ docs/
+│  └─ brand-notes.md
 ├─ index.html
 └─ styleguide.html
+```
+</details>
 
 ## 📝 Licenças
 
