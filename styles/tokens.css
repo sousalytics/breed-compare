@@ -9,6 +9,7 @@
   --color-primary: #0033a0; /* links e botão primário */
   --color-primary-contrast: #ffffff;
   --color-accent: #b45309; /* CTA "Comparar" (âmbar 700) */
+  --color-accent-contrast: #ffffff;
 
   /* Foco/Seleção */
   --focus-ring: var(--color-primary);

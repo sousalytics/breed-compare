@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- SEO -->
-    <title>Breed Compare - Compare raças de cães com dados claros e objetivos</title>
+    <title>Guia Raças - Compare raças de cães com dados claros e objetivos</title>
     <meta
       name="description"
       content="Compare raças de cães por tamanho, peso, temperamento e mais."
     />
-    <!-- Substituir pela URL final quando for publicar-->
-    <link rel="canonical" href="https://sousalytics.github.io/breed-compare/" />
+
+    <link rel="canonical" href="www.guiaracas.com.br" />
 
     <!-- Evita indexação enquanto protótipo -->
     <meta name="robots" content="noindex, nofollow" />
@@ -22,15 +22,20 @@
     <meta name="theme-color" content="#0033a0" />
 
     <!-- Social (Open Graph / Twitter) -->
-    <meta property="og:title" content="Breed Compare - Compare raças de cães" />
+    <meta property="og:title" content="Guia Raças - Compare raças de cães" />
     <meta property="og:description" content="Compare raças com dados claros e objetivos" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sousalytics.github.io/breed-compare/" />
-    <meta
-      property="og:image"
-      content="https://sousalytics.github.io/breed-compare/assets/og-default.png"
-    />
+    <meta property="og:image" content="./assets/brand/og-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon / Apple Touch Icon -->
+    <link rel="icon" href="./public/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./public/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="./public/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./public/apple-touch-180.png" />
 
     <!-- Segurança CSP mínima para ambiente local (será ajustado depois) -->
     <meta
@@ -51,14 +56,13 @@
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/ui.css" />
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap"
     />
-
-    <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
   </head>
   <body>
     <!-- Skip-link -->
@@ -67,8 +71,13 @@
     <!-- LANDMARK: Cabeçalho com navegação -->
     <header class="site-header">
       <nav class="container" aria-label="Navegação principal">
-        <!-- Logo com texto. Vai virar img com alt depois -->
-        <a class="logo" href="./" aria-label="Canis - Página Inicial">Canis</a>
+        <a class="logo with-icon" href="./" aria-label="Guia Raças — Página inicial">
+          <svg class="icon icon--lg logo__glyph" aria-hidden="true">
+            <use href="assets/icons/sprite.svg?v=paw2#i-brand-paw"></use>
+          </svg>
+          <span class="logo__wordmark">Guia Raças</span>
+        </a>
+
         <ul class="menu">
           <li><a href="index.html" aria-current="page">Início</a></li>
           <li><a href="comparar.html">Comparar</a></li>
@@ -127,7 +136,7 @@
     <!-- LANDMARK: Rodapé -->
     <footer class="site-footer">
       <small>
-        &copy; 2025 sousalytics -
+        &copy; 2025 Sousalytics -
         <a href="https://www.linkedin.com/in/sousalytics" target="_blank" rel="noopener noreferrer"
           >LinkedIn</a
         >

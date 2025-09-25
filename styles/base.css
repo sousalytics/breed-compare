@@ -366,7 +366,7 @@
 
   .btn--compare {
     background: var(--color-accent);
-    color: #fff;
+    color: var(--color-accent-contrast);
   }
   .btn--compare:active {
     background: color-mix(in srgb, var(--color-accent), var(--mix-contrast) 10%);
