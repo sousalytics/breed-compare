@@ -112,7 +112,7 @@
   border-color: var(--color-success);
 }
 
-/* Ícones */
+/* Ícones / Badge */
 :root {
   --icon-12: 0.75rem;
   --icon-16: 1rem;
@@ -177,4 +177,9 @@
 
 .icon-grid > li::marker {
   content: "";
+}
+
+.ref-badge a:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }

@@ -1,0 +1,160 @@
+[
+  {
+    "slug": "labrador-retriever",
+    "nome": "Labrador Retriever",
+
+    "notas": {
+      "resumo": "Cão sociável e ativo; pede exercícios diários e estímulo mental.",
+      "observacoes": "Gosta de água e comida; atenção ao controle de peso e rotina de atividades.",
+      "regras": { "rules_version": "1.0.0" }
+    },
+
+    "fontes": [
+      {
+        "id": "fci-122",
+        "tipo": "Padrão FCI",
+        "nome": "FCI — Labrador Retriever",
+        "url": "https://www.fci.be/en/nomenclature/LABRADOR-RETRIEVER-122.html",
+        "licenca": "—",
+        "acessado_em": "2025-09-27"
+      },
+      {
+        "id": "wp-en-lab",
+        "tipo": "Enciclopédia",
+        "nome": "Wikipedia (EN) — Labrador Retriever",
+        "url": "https://en.wikipedia.org/wiki/Labrador_Retriever",
+        "licenca": "CC BY-SA",
+        "acessado_em": "2025-09-27"
+      }
+    ],
+
+    "citacoes": {
+      "resumo": ["fci-122", "wp-en-lab"],
+      "observacoes": ["wp-en-lab"],
+      "medidas.altura_cm": ["fci-122"],
+      "medidas.peso_kg": ["fci-122"],
+      "medidas.expectativa_anos": ["wp-en-lab"]
+    },
+
+    "medidas": {
+      "altura_cm": { "macho": "54–57", "femea": "52–55" },
+      "peso_kg": { "macho": "29–36", "femea": "25–32" },
+      "expectativa_anos": "10–12"
+    },
+
+    "atributos": {
+      "fci_grupo": 8,
+      "porte": "grande",
+      "braquicefalico": false,
+      "pelagem_tipo": "dupla_curta",
+      "subpelo": "denso",
+      "shedding_estacao": "moderado",
+      "necessita_tosa": "nao",
+      "dobras_cutaneas": false,
+      "funcoes": ["retriever", "water"],
+      "origem_clima": ["temperado", "frio"]
+    }
+  },
+
+  {
+    "slug": "bulldog-ingles",
+    "nome": "Bulldog Inglês",
+
+    "notas": {
+      "resumo": "Companheiro calmo, de baixa energia; cuidado no calor.",
+      "observacoes": "Braquicefálico e com dobras; monitorar respiração e higiene de pele.",
+      "regras": { "rules_version": "1.0.0" }
+    },
+
+    "fontes": [
+      {
+        "id": "fci-149",
+        "tipo": "Padrão FCI",
+        "nome": "FCI — Bulldog",
+        "url": "https://www.fci.be/en/nomenclature/BULLDOG-149.html",
+        "licenca": "—",
+        "acessado_em": "2025-09-27"
+      },
+      {
+        "id": "wp-en-bulldog",
+        "tipo": "Enciclopédia",
+        "nome": "Wikipedia (EN) — Bulldog",
+        "url": "https://en.wikipedia.org/wiki/Bulldog",
+        "licenca": "CC BY-SA",
+        "acessado_em": "2025-09-27"
+      }
+    ],
+
+    "citacoes": {
+      "resumo": ["fci-149"],
+      "observacoes": ["wp-en-bulldog"],
+      "medidas.altura_cm": ["fci-149"],
+      "medidas.peso_kg": ["fci-149"],
+      "medidas.expectativa_anos": ["wp-en-bulldog"]
+    },
+
+    "medidas": {
+      "altura_cm": { "macho": "31–36", "femea": "31–36" },
+      "peso_kg": { "macho": "23–25", "femea": "18–23" },
+      "expectativa_anos": "8–10"
+    },
+    "atributos": {
+      "fci_grupo": 2,
+      "porte": "medio",
+      "braquicefalico": true,
+      "pelagem_tipo": "curta",
+      "subpelo": "nenhum",
+      "shedding_estacao": "baixo",
+      "necessita_tosa": "nao",
+      "dobras_cutaneas": true,
+      "funcoes": ["companhia", "guard"],
+      "origem_clima": ["temperado"]
+    }
+  },
+
+  {
+    "slug": "vira-lata-srd",
+    "nome": "Vira-lata (SRD)",
+
+    "notas": {
+      "resumo": "Perfis diversos e adaptáveis; avalie o indivíduo e a família.",
+      "observacoes": "Priorize adoção responsável: histórico de saúde e acompanhamento veterinário.",
+      "regras": { "rules_version": "1.0.0" }
+    },
+
+    "fontes": [
+      {
+        "id": "ong-adocao",
+        "tipo": "ONG/abrigo",
+        "nome": "Guia de Adoção Responsável",
+        "url": "https://exemplo.ong/guia",
+        "licenca": "—",
+        "acessado_em": "2025-09-27"
+      }
+    ],
+
+    "citacoes": {
+      "resumo": ["ong-adocao"],
+      "observacoes": ["ong-adocao"]
+    },
+
+    "medidas": {
+      "altura_cm": { "macho": "—", "femea": "—" },
+      "peso_kg": { "macho": "—", "femea": "—" },
+      "expectativa_anos": "—"
+    },
+
+    "atributos": {
+      "fci_grupo": null,
+      "porte": "medio",
+      "braquicefalico": false,
+      "pelagem_tipo": "curta",
+      "subpelo": "leve",
+      "shedding_estacao": "moderado",
+      "necessita_tosa": "nao",
+      "dobras_cutaneas": false,
+      "funcoes": ["companhia"],
+      "origem_clima": ["variado", "tropical"]
+    }
+  }
+]

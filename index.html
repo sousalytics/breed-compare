@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-    <!-- Metadados -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- SEO -->
     <title>Guia Raças - Compare raças de cães com dados claros e objetivos</title>
     <meta
       name="description"
       content="Compare raças de cães por tamanho, peso, temperamento e mais."
     />
 
-    <link rel="canonical" href="www.guiaracas.com.br" />
+    <link rel="canonical" href="https://www.guiaracas.com.br" />
 
-    <!-- Evita indexação enquanto protótipo -->
+    <link rel="icon" href="/public/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/public/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/public/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-180.png" />
+
     <meta name="robots" content="noindex, nofollow" />
     <meta name="googlebot" content="noindex, nofollow" />
 
-    <!-- Interface do navegador -->
-    <meta name="theme-color" content="#0033a0" />
-
-    <!-- Social (Open Graph / Twitter) -->
     <meta property="og:title" content="Guia Raças - Compare raças de cães" />
-    <meta property="og:description" content="Compare raças com dados claros e objetivos" />
+    <meta
+      property="og:description"
+      content="Compare raças de cães por tamanho, peso, temperamento e mais."
+    />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://sousalytics.github.io/breed-compare/" />
-    <meta property="og:image" content="./assets/brand/og-1200x630.png" />
+    <meta property="og:url" content="https://www.guiaracas.com.br" />
+    <meta property="og:image" content="/assets/brand/og-1200x630.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Guia Raças" />
+    <meta
+      name="twitter:description"
+      content="Compare raças de cães por tamanho, peso, temperamento e mais."
+    />
+    <meta name="twitter:image" content="/assets/brand/og-1200x630.png" />
 
-    <!-- Favicon / Apple Touch Icon -->
-    <link rel="icon" href="./public/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="./public/favicon-32.png" sizes="32x32" type="image/png" />
-    <link rel="icon" href="./public/favicon-16.png" sizes="16x16" type="image/png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./public/apple-touch-180.png" />
+    <meta name="theme-color" content="#0033a0" />
 
-    <!-- Segurança CSP mínima para ambiente local (será ajustado depois) -->
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self';
@@ -51,12 +53,10 @@
       connect-src 'self';"
     />
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="./styles/tokens.css" />
-    <link rel="stylesheet" href="./styles/base.css" />
-    <link rel="stylesheet" href="./styles/ui.css" />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/ui.css" />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -70,20 +70,30 @@
 
     <!-- LANDMARK: Cabeçalho com navegação -->
     <header class="site-header">
-      <nav class="container" aria-label="Navegação principal">
-        <a class="logo with-icon" href="./" aria-label="Guia Raças — Página inicial">
-          <svg class="icon icon--lg logo__glyph" aria-hidden="true">
-            <use href="assets/icons/sprite.svg?v=paw2#i-brand-paw"></use>
-          </svg>
-          <span class="logo__wordmark">Guia Raças</span>
-        </a>
+      <div class="site-header__inner">
+        <a class="brand" href="/">Guia Raças<span class="sr-only"> — Página inicial</span></a>
+        <nav class="site-nav" aria-label="Navegação principal">
+          <a class="logo with-icon" href="/" aria-label="Guia Raças — Página inicial">
+            <svg class="icon icon--lg logo__glyph" aria-hidden="true">
+              <use href="assets/icons/sprite.svg?v=paw2#i-brand-paw"></use>
+            </svg>
+            <span class="logo__wordmark">Guia Raças</span>
+          </a>
 
-        <ul class="menu">
-          <li><a href="index.html" aria-current="page">Início</a></li>
-          <li><a href="comparar.html">Comparar</a></li>
-          <li><a href="sobre.html">Sobre</a></li>
-        </ul>
-      </nav>
+          <ul class="menu">
+            <li class="menu__item">
+              <a class="menu__link" href="index.html" aria-current="page">Início</a>
+            </li>
+            <li class="menu__item"><a class="menu__link" href="/racas/">Raças</a></li>
+            <li class="menu__item"><a class="menu__link" href="/comparar/">Comparar</a></li>
+            <li class="menu__item"><a class="menu__link" href="/metodologia/">Metodologia</a></li>
+            <li class="menu__item">
+              <a class="menu__link" href="/guia-responsavel/">Guia responsável</a>
+            </li>
+            <li class="menu__item"><a class="menu__link" href="/sobre/">Sobre</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
     <!-- LANDMARK: Conteúdo principal -->

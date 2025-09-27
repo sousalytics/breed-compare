@@ -1,0 +1,60 @@
+{
+  "rules_version": "1.0.0",
+  "pesos": {
+    "atividade_fisica": { "intensidade": 0.4, "duracao": 0.4, "estimulo_mental": 0.2 },
+    "higiene_pelagem": { "escovacao": 0.35, "shedding": 0.35, "tosa": 0.3 },
+    "clima_ambiente": {
+      "tropical-umido": { "calor": 0.45, "umidade": 0.25, "espaco": 0.3 }
+    }
+  },
+  "perfil_ambiente": "tropical-umido",
+
+  "fci_base_intensidade": {
+    "1": 5,
+    "2": 3,
+    "3": 4,
+    "4": 3,
+    "5": 4,
+    "6": 4,
+    "7": 5,
+    "8": 5,
+    "9": 2,
+    "10": 4
+  },
+  "fci_base_minutos": {
+    "1": 90,
+    "2": 45,
+    "3": 60,
+    "4": 45,
+    "5": 75,
+    "6": 75,
+    "7": 90,
+    "8": 90,
+    "9": 30,
+    "10": 60
+  },
+
+  "mental_funcoes": {
+    "herding": 5,
+    "retriever": 4,
+    "pointer": 4,
+    "terrier": 4,
+    "scent": 3,
+    "guard": 3,
+    "water": 4,
+    "sight": 2,
+    "companhia": 2
+  },
+
+  "escovacao_pelo": {
+    "sem_pelo": 1,
+    "curta": 1,
+    "media": 3,
+    "longa": 4,
+    "encaracolada": 4,
+    "dupla_curta": 2,
+    "dupla_longa": 4
+  },
+  "shedding_subpelo": { "nenhum": 1, "leve": 3, "denso": 4 },
+  "tosa_necessidade": { "nao": 1, "ocasional": 2, "regular_8_10": 4, "regular_4_6": 5 }
+}

@@ -1,0 +1,87 @@
+<main id="conteudo" tabindex="-1">
+  <!-- Nome da raça -->
+  <h1>{{NOME}}</h1>
+
+  <nav class="breadcrumbs" aria-label="Trilha de navegação">
+    <ol>
+      <li><a href="{{HOME_URL}}">Home</a></li>
+      <li><a href="{{RACAS_URL}}">Raças</a></li>
+      <li aria-current="page">{{NOME}}</li>
+    </ol>
+  </nav>
+
+  <!-- Resumo curto -->
+  <section aria-labelledby="sec-resumo">
+    <h2 id="sec-resumo">Resumo</h2>
+    <p>{{RESUMO}} {{CITE_RESUMO}}</p>
+  </section>
+
+  <!-- Medidas e padrões -->
+  <section aria-labelledby="sec-medidas">
+    <h2 id="sec-medidas">Medidas e padrões</h2>
+    <h3>Altura</h3>
+    <p>{{ALTURA_M}} cm (♂), {{ALTURA_F}} cm (♀) {{CITE_ALTURA}}</p>
+    <h3>Peso</h3>
+    <p>{{PESO_M}} kg (♂), {{PESO_F}} kg (♀) {{CITE_PESO}}</p>
+    <p><small>Expectativa de vida: {{EXPECTATIVA}} anos {{CITE_EXPECTATIVA}}</small></p>
+  </section>
+
+  <!-- Notas agregadas (0–5) -->
+  <section aria-labelledby="sec-notas">
+    <h2 id="sec-notas">Notas (0–5)</h2>
+    <ul>
+      <li>
+        Atividade física: <strong>{{AF_TOTAL}}</strong> / 5
+        <small>(<a href="/sobre/#metodologia">metodologia</a>)</small>
+      </li>
+      <li>
+        Higiene &amp; Pelagem: <strong>{{HI_TOTAL}}</strong> / 5
+        <small>(<a href="/sobre/#metodologia">metodologia</a>)</small>
+      </li>
+      <li>
+        Clima &amp; Ambiente: <strong>{{CL_TOTAL}}</strong> / 5
+        <small>(<a href="/sobre/#metodologia">metodologia</a>)</small>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Subescalas -->
+  <section aria-labelledby="sec-detalhe">
+    <h2 id="sec-detalhe">Detalhe das subescalas</h2>
+
+    <h3>Atividade física</h3>
+    <ul>
+      <li>Intensidade: {{AF_INTENSIDADE}}/5</li>
+      <li>Duração diária: {{AF_DURACAO}}/5</li>
+      <li>Estímulo mental: {{AF_MENTAL}}/5</li>
+    </ul>
+
+    <h3>Higiene &amp; Pelagem</h3>
+    <ul>
+      <li>Escovação: {{HI_ESCOVACAO}}/5</li>
+      <li>Queda de pelos: {{HI_SHEDDING}}/5</li>
+      <li>Tosa: {{HI_TOSA}}/5</li>
+    </ul>
+
+    <h3>Clima &amp; Ambiente</h3>
+    <ul>
+      <li>Tolerância ao calor: {{CL_CALOR}}/5</li>
+      <li>Tolerância à umidade: {{CL_UMIDADE}}/5</li>
+      <li>Adequação de espaço: {{CL_ESPACO}}/5</li>
+    </ul>
+  </section>
+
+  <!-- Observações editoriais (com citação) -->
+  <section aria-labelledby="sec-observacoes">
+    <h2 id="sec-observacoes">Observações</h2>
+    <p>{{OBSERVACOES}} {{CITE_OBSERVACOES}}</p>
+  </section>
+
+  <!-- Lista de fontes/citações -->
+  <section aria-labelledby="sec-fontes">
+    <h2 id="sec-fontes">Fontes</h2>
+    <ol class="refs">
+      {{REFERENCIAS}}
+    </ol>
+  </section>
+</main>
