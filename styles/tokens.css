@@ -64,6 +64,16 @@
   --color-success: #0f9d58;
   --color-warning: #f59e0b;
   --color-danger: #dc2626;
+
+  /* Tamanhos de Ícone */
+  --icon-12: 0.75rem;
+  --icon-16: 1rem;
+  --icon-20: 1.25rem;
+  --icon-24: 1.5rem;
+  --icon-32: 2rem;
+
+  /* Largura mínima de tabela larga */
+  --table-min-width: 48rem;
 }
 
 /* Ajustes dinâmicos com suporte color-mix */

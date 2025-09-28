@@ -52,97 +52,172 @@
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap"
 />
-</head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><header class="site-header">
-  <div class="site-header__inner">
-    <a class="brand" href="https://www.guiaracas.com.br/">Guia Raças<span class="sr-only"> — Página inicial</span></a>
-    <nav class="site-nav" aria-label="Navegação principal">
-      <ul class="menu">
-        <li class="menu__item"><a class="menu__link" href="https://www.guiaracas.com.br/racas/" aria-current="page">Raças</a></li>
-        <li class="menu__item"><a class="menu__link" href="https://www.guiaracas.com.br/comparar/">Comparar</a></li>
-        <li class="menu__item"><a class="menu__link" href "https://www.guiaracas.com.br/guia-responsavel/">Guia responsável</a></li>
-        <li class="menu__item"><a class="menu__link" href="https://www.guiaracas.com.br/sobre/">Sobre</a></li>
+</head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><header class="header">
+  <div class="header__inner">
+    <a class="logo" href="https://www.guiaracas.com.br/">Guia Raças<span class="visually-hidden"> — Página inicial</span></a>
+    <nav class="nav" aria-label="Navegação principal">
+      <ul class="nav__list">
+        <li class="nav__item"><a class="nav__link" href="https://www.guiaracas.com.br/racas/" aria-current="page">Raças</a></li>
+        <li class="nav__item"><a class="nav__link" href="https://www.guiaracas.com.br/comparar/">Comparar</a></li>
+        <li class="nav__item"><a class="nav__link" href="https://www.guiaracas.com.br/guia-responsavel/">Guia responsável</a></li>
+        <li class="nav__item"><a class="nav__link" href="https://www.guiaracas.com.br/sobre/">Sobre</a></li>
       </ul>
     </nav>
   </div>
-</header><main id="conteudo" tabindex="-1">
-  <!-- Nome da raça -->
-  <h1>Bulldog Inglês</h1>
-
+</header><main id="conteudo" class="page page--breed" tabindex="-1">
   <nav class="breadcrumbs" aria-label="Trilha de navegação">
     <ol>
-      <li><a href="{{HOME_URL}}">Home</a></li>
-      <li><a href="{{RACAS_URL}}">Raças</a></li>
+      <li><a href="https://www.guiaracas.com.br/">Home</a></li>
+      <li><a href="https://www.guiaracas.com.br/racas/">Raças</a></li>
       <li aria-current="page">Bulldog Inglês</li>
     </ol>
   </nav>
 
-  <!-- Resumo curto -->
-  <section aria-labelledby="sec-resumo">
-    <h2 id="sec-resumo">Resumo</h2>
-    <p>Companheiro calmo, de baixa energia; cuidado no calor.</p>
+  <header class="breed__header">
+    <div class="breed__intro">
+      <h1 class="breed__title">Bulldog Inglês</h1>
+
+      <p class="breed__lead">Companheiro calmo, de baixa energia; cuidado no calor.</p>
+
+      <p class="breed__group">Pinscher, Schnauzer, Molossos e Boiadeiros Suiços</p>
+
+      <p class="breed__cta">
+        <a class="btn btn--subtle" href="https://www.guiaracas.com.br/comparar/?ids=bulldog-ingles"
+          >Adicionar à comparação</a
+        >
+      </p>
+    </div>
+
+    <aside class="facts-card" aria-labelledby="sec-medidas">
+      <h2 class="visually-hidden" id="sec-medidas">Medidas e padrões</h2>
+      <dl class="facts facts--inline">
+        <div class="fact">
+          <dt>Altura (cm)</dt>
+          <dd><span>♂ 31–36</span> <span>♀ 31–36</span></dd>
+        </div>
+        <div class="fact">
+          <dt>Peso (kg)</dt>
+          <dd><span>♂ 23–25</span> <span>♀ 18–23</span></dd>
+        </div>
+        <div class="fact">
+          <dt>Expectativa</dt>
+          <dd>8–10 anos</dd>
+        </div>
+      </dl>
+    </aside>
+  </header>
+
+  <section aria-labelledby="sec-indicadores" class="section section--indicators">
+    <h2 id="sec-indicadores">Indicadores (0–5)</h2>
+
+    <article class="indicator">
+      <div class="indicator__row">
+        <h3 class="indicator__label" id="lab-af">Atividade física</h3>
+        <output class="indicator__value" aria-labelledby="lab-af">2/5</output>
+      </div>
+      <ol class="pillbar" data-value="2" aria-hidden="true">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ol>
+      <details class="indicator__details">
+        <summary>Ver aspectos</summary>
+        <dl class="aspects">
+          <div>
+            <dt>Intensidade</dt>
+            <dd>1 — muito baixa</dd>
+          </div>
+          <div>
+            <dt>Duração diária</dt>
+            <dd>2 — 21–40 min</dd>
+          </div>
+          <div>
+            <dt>Estímulo mental</dt>
+            <dd>2 — baixa</dd>
+          </div>
+        </dl>
+      </details>
+    </article>
+
+    <article class="indicator">
+      <div class="indicator__row">
+        <h3 class="indicator__label" id="lab-hi">Higiene &amp; Pelagem</h3>
+        <output class="indicator__value" aria-labelledby="lab-hi">1/5</output>
+      </div>
+      <ol class="pillbar" data-value="1" aria-hidden="true">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ol>
+      <details class="indicator__details">
+        <summary>Ver aspectos</summary>
+        <dl class="aspects">
+          <div>
+            <dt>Escovação</dt>
+            <dd>1 — nunca/mensalmente</dd>
+          </div>
+          <div>
+            <dt>Queda de pelos</dt>
+            <dd>1 — queda muito baixa</dd>
+          </div>
+          <div>
+            <dt>Tosa</dt>
+            <dd>2 — ocasional</dd>
+          </div>
+        </dl>
+      </details>
+    </article>
+
+    <article class="indicator">
+      <div class="indicator__row">
+        <h3 class="indicator__label" id="lab-cl">Clima &amp; Ambiente</h3>
+        <output class="indicator__value" aria-labelledby="lab-cl">3/5</output>
+      </div>
+      <ol class="pillbar" data-value="3" aria-hidden="true">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ol>
+      <details class="indicator__details">
+        <summary>Ver aspectos</summary>
+        <dl class="aspects">
+          <div>
+            <dt>Tolerância ao calor</dt>
+            <dd>2 — tolerância baixa</dd>
+          </div>
+          <div>
+            <dt>Tolerância à umidade</dt>
+            <dd>3 — tolerância moderada</dd>
+          </div>
+          <div>
+            <dt>Espaço</dt>
+            <dd>3 — casa pequena</dd>
+          </div>
+        </dl>
+      </details>
+    </article>
   </section>
 
-  <!-- Medidas e padrões -->
-  <section aria-labelledby="sec-medidas">
-    <h2 id="sec-medidas">Medidas e padrões</h2>
-    <h3>Altura</h3>
-    <p>31–36 cm (♂), 31–36 cm (♀)</p>
-    <h3>Peso</h3>
-    <p>23–25 kg (♂), 18–23 kg (♀)</p>
-    <p><small>Expectativa de vida: 8–10 anos</small></p>
-  </section>
-
-  <!-- Notas agregadas (0–5) -->
-  <section aria-labelledby="sec-notas">
-    <h2 id="sec-notas">Notas (0–5)</h2>
-    <ul>
-      <li>Atividade física: <strong>2</strong> / 5</li>
-      <li>Higiene &amp; Pelagem: <strong>1</strong> / 5</li>
-      <li>Clima &amp; Ambiente: <strong>3</strong> / 5</li>
-    </ul>
-  </section>
-
-  <!-- Subescalas -->
-  <section aria-labelledby="sec-detalhe">
-    <h2 id="sec-detalhe">Detalhe das subescalas</h2>
-
-    <h3>Atividade física</h3>
-    <ul>
-      <li>Intensidade: 1/5</li>
-      <li>Duração diária: 2/5</li>
-      <li>Estímulo mental: 2/5</li>
-    </ul>
-
-    <h3>Higiene &amp; Pelagem</h3>
-    <ul>
-      <li>Escovação: 1/5</li>
-      <li>Queda de pelos: 1/5</li>
-      <li>Tosa: 2/5</li>
-    </ul>
-
-    <h3>Clima &amp; Ambiente</h3>
-    <ul>
-      <li>Tolerância ao calor: 2/5</li>
-      <li>Tolerância à umidade: 3/5</li>
-      <li>Adequação de espaço: 3/5</li>
-    </ul>
-  </section>
-
-  <!-- Observações editoriais -->
-  <section aria-labelledby="sec-observacoes">
+  <section aria-labelledby="sec-observacoes" class="section section--notes">
     <h2 id="sec-observacoes">Observações</h2>
     <p>Braquicefálico e com dobras; monitorar respiração e higiene de pele.</p>
   </section>
 
-  <!-- Transparência: metodologia + fontes (colapsável) -->
-  <section aria-labelledby="sec-transparencia">
+  <section aria-labelledby="sec-transparencia" class="section section--sources">
     <details>
       <summary id="sec-transparencia">
-        Transparência: Metodologia e Fontes (2)
+        Transparência: metodologia e fontes (2)
       </summary>
       <div class="transparencia__conteudo">
         <p>
-          Como calculamos as notas? Veja a <a href="https://www.guiaracas.com.br/sobre/#metodologia">metodologia completa</a>.
+          Como calculamos os indicadores? Veja a
+          <a href="https://www.guiaracas.com.br/sobre/#metodologia">metodologia completa</a>.
         </p>
         <h3 id="sec-fontes">Fontes</h3>
         <ol class="refs">
@@ -153,11 +228,11 @@
     </details>
   </section>
 </main>
-<footer class="site-footer" role="contentinfo">
-  <nav class="footer-nav" aria-label="Links institucionais">
-    <a href="https://www.guiaracas.com.br/sitemap.html">Mapa do site</a>
-    <a href="https://www.guiaracas.com.br/acessibilidade/">Acessibilidade</a>
-    <a href="https://www.guiaracas.com.br/privacidade/">Privacidade</a>
+<footer class="footer" role="contentinfo">
+  <nav class="footer__nav" aria-label="Links institucionais">
+    <a class="footer__link" href="https://www.guiaracas.com.br/sitemap.html">Mapa do site</a>
+    <a class="footer__link" href="https://www.guiaracas.com.br/acessibilidade/">Acessibilidade</a>
+    <a class="footer__link" href="https://www.guiaracas.com.br/privacidade/">Privacidade</a>
   </nav>
   <p>&copy; 2025 Guia Raças</p>
 </footer></body></html>

@@ -1,7 +1,4 @@
-<main id="conteudo" tabindex="-1">
-  <!-- Nome da raça -->
-  <h1>{{NOME}}</h1>
-
+<main id="conteudo" class="page page--breed" tabindex="-1">
   <nav class="breadcrumbs" aria-label="Trilha de navegação">
     <ol>
       <li><a href="{{HOME_URL}}">Home</a></li>
@@ -10,73 +7,151 @@
     </ol>
   </nav>
 
-  <!-- Resumo curto -->
-  <section aria-labelledby="sec-resumo">
-    <h2 id="sec-resumo">Resumo</h2>
-    <p>{{RESUMO}}</p>
+  <header class="breed__header">
+    <div class="breed__intro">
+      <h1 class="breed__title">{{NOME}}</h1>
+
+      <p class="breed__lead">{{RESUMO}}</p>
+
+      <p class="breed__group">{{FCI_GRUPO_NOME}}</p>
+
+      <p class="breed__cta">
+        <a class="btn btn--subtle" href="{{BASE_URL}}/comparar/?ids={{SLUG}}"
+          >Adicionar à comparação</a
+        >
+      </p>
+    </div>
+
+    <aside class="facts-card" aria-labelledby="sec-medidas">
+      <h2 class="visually-hidden" id="sec-medidas">Medidas e padrões</h2>
+      <dl class="facts facts--inline">
+        <div class="fact">
+          <dt>Altura (cm)</dt>
+          <dd><span>♂ {{ALTURA_M}}</span> <span>♀ {{ALTURA_F}}</span></dd>
+        </div>
+        <div class="fact">
+          <dt>Peso (kg)</dt>
+          <dd><span>♂ {{PESO_M}}</span> <span>♀ {{PESO_F}}</span></dd>
+        </div>
+        <div class="fact">
+          <dt>Expectativa</dt>
+          <dd>{{EXPECTATIVA}} anos</dd>
+        </div>
+      </dl>
+    </aside>
+  </header>
+
+  <section aria-labelledby="sec-indicadores" class="section section--indicators">
+    <h2 id="sec-indicadores">Indicadores (0–5)</h2>
+
+    <article class="indicator">
+      <div class="indicator__row">
+        <h3 class="indicator__label" id="lab-af">Atividade física</h3>
+        <output class="indicator__value" aria-labelledby="lab-af">{{AF_TOTAL}}/5</output>
+      </div>
+      <ol class="pillbar" data-value="{{AF_TOTAL}}" aria-hidden="true">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ol>
+      <details class="indicator__details">
+        <summary>Ver aspectos</summary>
+        <dl class="aspects">
+          <div>
+            <dt>Intensidade</dt>
+            <dd>{{AF_INTENSIDADE}} — {{AF_INTENSIDADE_TX}}</dd>
+          </div>
+          <div>
+            <dt>Duração diária</dt>
+            <dd>{{AF_DURACAO}} — {{AF_DURACAO_TX}}</dd>
+          </div>
+          <div>
+            <dt>Estímulo mental</dt>
+            <dd>{{AF_MENTAL}} — {{AF_MENTAL_TX}}</dd>
+          </div>
+        </dl>
+      </details>
+    </article>
+
+    <article class="indicator">
+      <div class="indicator__row">
+        <h3 class="indicator__label" id="lab-hi">Higiene &amp; Pelagem</h3>
+        <output class="indicator__value" aria-labelledby="lab-hi">{{HI_TOTAL}}/5</output>
+      </div>
+      <ol class="pillbar" data-value="{{HI_TOTAL}}" aria-hidden="true">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ol>
+      <details class="indicator__details">
+        <summary>Ver aspectos</summary>
+        <dl class="aspects">
+          <div>
+            <dt>Escovação</dt>
+            <dd>{{HI_ESCOVACAO}} — {{HI_ESCOVACAO_TX}}</dd>
+          </div>
+          <div>
+            <dt>Queda de pelos</dt>
+            <dd>{{HI_SHEDDING}} — {{HI_SHEDDING_TX}}</dd>
+          </div>
+          <div>
+            <dt>Tosa</dt>
+            <dd>{{HI_TOSA}} — {{HI_TOSA_TX}}</dd>
+          </div>
+        </dl>
+      </details>
+    </article>
+
+    <article class="indicator">
+      <div class="indicator__row">
+        <h3 class="indicator__label" id="lab-cl">Clima &amp; Ambiente</h3>
+        <output class="indicator__value" aria-labelledby="lab-cl">{{CL_TOTAL}}/5</output>
+      </div>
+      <ol class="pillbar" data-value="{{CL_TOTAL}}" aria-hidden="true">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ol>
+      <details class="indicator__details">
+        <summary>Ver aspectos</summary>
+        <dl class="aspects">
+          <div>
+            <dt>Tolerância ao calor</dt>
+            <dd>{{CL_CALOR}} — {{CL_CALOR_TX}}</dd>
+          </div>
+          <div>
+            <dt>Tolerância à umidade</dt>
+            <dd>{{CL_UMIDADE}} — {{CL_UMIDADE_TX}}</dd>
+          </div>
+          <div>
+            <dt>Espaço</dt>
+            <dd>{{CL_ESPACO}} — {{CL_ESPACO_TX}}</dd>
+          </div>
+        </dl>
+      </details>
+    </article>
   </section>
 
-  <!-- Medidas e padrões -->
-  <section aria-labelledby="sec-medidas">
-    <h2 id="sec-medidas">Medidas e padrões</h2>
-    <h3>Altura</h3>
-    <p>{{ALTURA_M}} cm (♂), {{ALTURA_F}} cm (♀)</p>
-    <h3>Peso</h3>
-    <p>{{PESO_M}} kg (♂), {{PESO_F}} kg (♀)</p>
-    <p><small>Expectativa de vida: {{EXPECTATIVA}} anos</small></p>
-  </section>
-
-  <!-- Notas agregadas (0–5) -->
-  <section aria-labelledby="sec-notas">
-    <h2 id="sec-notas">Notas (0–5)</h2>
-    <ul>
-      <li>Atividade física: <strong>{{AF_TOTAL}}</strong> / 5</li>
-      <li>Higiene &amp; Pelagem: <strong>{{HI_TOTAL}}</strong> / 5</li>
-      <li>Clima &amp; Ambiente: <strong>{{CL_TOTAL}}</strong> / 5</li>
-    </ul>
-  </section>
-
-  <!-- Subescalas -->
-  <section aria-labelledby="sec-detalhe">
-    <h2 id="sec-detalhe">Detalhe das subescalas</h2>
-
-    <h3>Atividade física</h3>
-    <ul>
-      <li>Intensidade: {{AF_INTENSIDADE}}/5</li>
-      <li>Duração diária: {{AF_DURACAO}}/5</li>
-      <li>Estímulo mental: {{AF_MENTAL}}/5</li>
-    </ul>
-
-    <h3>Higiene &amp; Pelagem</h3>
-    <ul>
-      <li>Escovação: {{HI_ESCOVACAO}}/5</li>
-      <li>Queda de pelos: {{HI_SHEDDING}}/5</li>
-      <li>Tosa: {{HI_TOSA}}/5</li>
-    </ul>
-
-    <h3>Clima &amp; Ambiente</h3>
-    <ul>
-      <li>Tolerância ao calor: {{CL_CALOR}}/5</li>
-      <li>Tolerância à umidade: {{CL_UMIDADE}}/5</li>
-      <li>Adequação de espaço: {{CL_ESPACO}}/5</li>
-    </ul>
-  </section>
-
-  <!-- Observações editoriais -->
-  <section aria-labelledby="sec-observacoes">
+  <section aria-labelledby="sec-observacoes" class="section section--notes">
     <h2 id="sec-observacoes">Observações</h2>
     <p>{{OBSERVACOES}}</p>
   </section>
 
-  <!-- Transparência: metodologia + fontes (colapsável) -->
-  <section aria-labelledby="sec-transparencia">
+  <section aria-labelledby="sec-transparencia" class="section section--sources">
     <details>
       <summary id="sec-transparencia">
         Transparência: metodologia e fontes ({{FONTES_COUNT}})
       </summary>
       <div class="transparencia__conteudo">
         <p>
-          Como calculamos as notas? Veja a <a href="{{SOBRE_METODO_URL}}">metodologia completa</a>.
+          Como calculamos os indicadores? Veja a
+          <a href="{{SOBRE_METODO_URL}}">metodologia completa</a>.
         </p>
         <h3 id="sec-fontes">Fontes</h3>
         <ol class="refs">

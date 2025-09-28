@@ -29,6 +29,18 @@ BREEDS = json.loads(read_text(ROOT / "data" / "racas.json"))
 
 BASE_URL = SITE.get("base_url","").rstrip("/")
 ROBOTS = SITE.get("robots","noindex, nofollow")
+FCI_GROUPS = {
+   1: "Cães Pastores e Boiadeiros",
+   2: "Pinscher, Schnauzer, Molossos e Boiadeiros Suiços",
+   3: "Terriers",
+   4: "Dachshunds",
+   5: "Spitz e Primitivos",
+   6: "Sabujos e Assemelhados",
+   7: "Cães de Aponte (Pointers/Setters)",
+   8: "Cães d'Água e Retrievers",
+   9: "Cães de Companhia",
+   10: "Galgo/Spitz de Caça (Sighthounds)"
+}
 
 def render_head(title: str, description: str, canonical: str) -> str:
   head_tpl = read_text(ROOT / "templates" / "head-base.html")
@@ -40,33 +52,34 @@ def render_head(title: str, description: str, canonical: str) -> str:
           .replace("{{BASE_URL}}", BASE_URL))
 
 def render_chrome(active: str) -> tuple[str,str]:
-    def arcur(h):
-      return ' aria-current="page"' if h == active else ""
+    def arcur(h): return ' aria-current="page"' if h == active else ""
     def href(path): return f"{BASE_URL}{path}"
     header = f"""
-<header class="site-header">
-  <div class="site-header__inner">
-    <a class="brand" href="{href('/')}">Guia Raças<span class="sr-only"> — Página inicial</span></a>
-    <nav class="site-nav" aria-label="Navegação principal">
-      <ul class="menu">
-        <li class="menu__item"><a class="menu__link" href="{href('/racas/')}"{arcur('/racas/')}>Raças</a></li>
-        <li class="menu__item"><a class="menu__link" href="{href('/comparar/')}">Comparar</a></li>
-        <li class="menu__item"><a class="menu__link" href "{href('/guia-responsavel/')}">Guia responsável</a></li>
-        <li class="menu__item"><a class="menu__link" href="{href('/sobre/')}">Sobre</a></li>
+<header class="header">
+  <div class="header__inner">
+    <a class="logo" href="{href('/')}">Guia Raças<span class="visually-hidden"> — Página inicial</span></a>
+    <nav class="nav" aria-label="Navegação principal">
+      <ul class="nav__list">
+        <li class="nav__item"><a class="nav__link" href="{href('/racas/')}"{arcur('/racas/')}>Raças</a></li>
+        <li class="nav__item"><a class="nav__link" href="{href('/comparar/')}">Comparar</a></li>
+        <li class="nav__item"><a class="nav__link" href="{href('/guia-responsavel/')}">Guia responsável</a></li>
+        <li class="nav__item"><a class="nav__link" href="{href('/sobre/')}">Sobre</a></li>
       </ul>
     </nav>
   </div>
 </header>""".strip()
+
     footer = f"""
-<footer class="site-footer" role="contentinfo">
-  <nav class="footer-nav" aria-label="Links institucionais">
-    <a href="{href('/sitemap.html')}">Mapa do site</a>
-    <a href="{href('/acessibilidade/')}">Acessibilidade</a>
-    <a href="{href('/privacidade/')}">Privacidade</a>
+<footer class="footer" role="contentinfo">
+  <nav class="footer__nav" aria-label="Links institucionais">
+    <a class="footer__link" href="{href('/sitemap.html')}">Mapa do site</a>
+    <a class="footer__link" href="{href('/acessibilidade/')}">Acessibilidade</a>
+    <a class="footer__link" href="{href('/privacidade/')}">Privacidade</a>
   </nav>
   <p>&copy; 2025 Guia Raças</p>
 </footer>""".strip()
     return header, footer
+
 
 def wrap_html(head: str, body: str, active: str) -> str:
   header, footer = render_chrome(active)
@@ -174,7 +187,7 @@ def media_ponderada(sub: dict, pesos: dict) -> int:
     if v is not None:
       s += float(v) * float(p)
       w += float(p)
-  return clamp(roundi(s / (w or 1.0)))
+  return clamp(roundi(s / (w or 1.0)), 1, 5)
 
 def build_citation_index(fontes, citacoes):
   by_id = {f["id"]: f for f in (fontes or []) if "id" in f}
@@ -230,12 +243,36 @@ def render_proveniencia(citacoes, id_to_num, by_id):
     add("Expectativa de vida", "medidas.expectativa_anos")
     return f"<ul>\n      " + "\n      ".join(linhas) + "\n    </ul>" if linhas else "<p>—</p>"
 
+def nivel_15(n):
+    return {1:"muito baixa", 2:"baixa", 3:"moderada", 4:"alta", 5:"muito alta"}[clamp(int(n),1,5)]
+
+def label_duracao_bucket(n):
+    n = clamp(int(n),1,5)
+    return ["até 20 min", "21–40 min", "41–60 min", "61–90 min", "90+ min"][n-1]
+
+def label_escovacao(n):
+    return {1:"nunca/mensalmente", 2:"quinzenal", 3:"semanal", 4:"2–3×/sem", 5:"diária"}[clamp(int(n),1,5)]
+
+def label_shedding(n):
+    return f"queda {nivel_15(n)}"
+
+def label_tosa(n):
+    return {1:"nunca", 2:"ocasional", 3:"regular", 4:"frequente", 5:"muito frequente"}[clamp(int(n),1,5)]
+
+def label_tolerancia(n):
+    return f"tolerância {nivel_15(n)}"
+
+def label_espaco(n):
+    return {1:"apto pequeno", 2:"apto OK", 3:"casa pequena", 4:"casa com quintal", 5:"área ampla/sítio"}[clamp(int(n),1,5)]
+
 def render_detalhe(b: dict):
     nome = b["nome"]
     slug = b["slug"]
     notas = b.get("notas", {})
     m = b.get("medidas", {})
     attrs = b.get("atributos", {})
+    grupo_val = attrs.get("fci_grupo")
+    grupo_nome = FCI_GROUPS.get(int(grupo_val), "Não padronizada pela FCI") if grupo_val else "Não padronizada pela FCI"
     fontes = b.get("fontes", [])
     citacoes = b.get("citacoes", {})
 
@@ -244,6 +281,22 @@ def render_detalhe(b: dict):
     HI = media_ponderada(sub["higiene_pelagem"], RULES["pesos"]["higiene_pelagem"])
     perfil = RULES["perfil_ambiente"]
     CL = media_ponderada(sub["clima_ambiente"], RULES["pesos"]["clima_ambiente"][perfil])
+
+    af_i, af_d, af_m = sub["atividade_fisica"]["intensidade"], sub["atividade_fisica"]["duracao"], sub["atividade_fisica"]["estimulo_mental"]
+    hi_e, hi_s, hi_t = sub["higiene_pelagem"]["escovacao"], sub["higiene_pelagem"]["shedding"], sub["higiene_pelagem"]["tosa"]
+    cl_c, cl_u, cl_e = sub["clima_ambiente"]["calor"], sub["clima_ambiente"]["umidade"], sub["clima_ambiente"]["espaco"]
+
+    labels = {
+      "AF_INT_TX": nivel_15(af_i),
+      "AF_DUR_TX": label_duracao_bucket(af_d),
+      "AF_MEN_TX": nivel_15(af_m),
+      "HI_ESC_TX": label_escovacao(hi_e),
+      "HI_SHD_TX": label_shedding(hi_s),
+      "HI_TOS_TX": label_tosa(hi_t),
+      "CL_CAL_TX": label_tolerancia(cl_c),
+      "CL_UMI_TX": label_tolerancia(cl_u),
+      "CL_ESP_TX": label_espaco(cl_e),
+    }
 
     id_to_num, ordered_ids, by_id = build_citation_index(fontes, citacoes)
     refs_ol  = render_references_list(ordered_ids, by_id)
@@ -257,8 +310,13 @@ def render_detalhe(b: dict):
 
     tpl = read_text(ROOT / "templates" / "detalhe-raca.html")
     main = (tpl
+      .replace("{{HOME_URL}}", f"{BASE_URL}/")
+      .replace("{{RACAS_URL}}", f"{BASE_URL}/racas/")
+      .replace("{{SLUG}}", slug)
+      .replace("{{BASE_URL}}", BASE_URL)
       .replace("{{NOME}}", html.escape(nome))
       .replace("{{RESUMO}}", html.escape(notas.get("resumo","")))
+      .replace("{{FCI_GRUPO_NOME}}", html.escape(grupo_nome))
       .replace("{{OBSERVACOES}}", html.escape(notas.get("observacoes","")))
       .replace("{{ALTURA_M}}", html.escape(m.get("altura_cm",{}).get("macho","—")))
       .replace("{{ALTURA_F}}", html.escape(m.get("altura_cm",{}).get("femea","—")))
@@ -277,6 +335,16 @@ def render_detalhe(b: dict):
       .replace("{{CL_CALOR}}", str(sub["clima_ambiente"]["calor"]))
       .replace("{{CL_UMIDADE}}", str(sub["clima_ambiente"]["umidade"]))
       .replace("{{CL_ESPACO}}", str(sub["clima_ambiente"]["espaco"]))
+
+      .replace("{{AF_INTENSIDADE_TX}}", labels["AF_INT_TX"])
+      .replace("{{AF_DURACAO_TX}}", labels["AF_DUR_TX"])
+      .replace("{{AF_MENTAL_TX}}", labels["AF_MEN_TX"])
+      .replace("{{HI_ESCOVACAO_TX}}", labels["HI_ESC_TX"])
+      .replace("{{HI_SHEDDING_TX}}", labels["HI_SHD_TX"])
+      .replace("{{HI_TOSA_TX}}", labels["HI_TOS_TX"])
+      .replace("{{CL_CALOR_TX}}", labels["CL_CAL_TX"])
+      .replace("{{CL_UMIDADE_TX}}", labels["CL_UMI_TX"])
+      .replace("{{CL_ESPACO_TX}}", labels["CL_ESP_TX"])
 
       .replace("{{SOBRE_METODO_URL}}", metodo_url)
       .replace("{{FONTES_COUNT}}", str(fontes_count))
