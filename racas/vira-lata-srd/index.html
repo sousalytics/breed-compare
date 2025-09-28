@@ -70,8 +70,8 @@
 
   <nav class="breadcrumbs" aria-label="Trilha de navegação">
     <ol>
-      <li><a href="https://www.guiaracas.com.br/">Home</a></li>
-      <li><a href="https://www.guiaracas.com.br/racas/">Raças</a></li>
+      <li><a href="{{HOME_URL}}">Home</a></li>
+      <li><a href="{{RACAS_URL}}">Raças</a></li>
       <li aria-current="page">Vira-lata (SRD)</li>
     </ol>
   </nav>
@@ -79,35 +79,26 @@
   <!-- Resumo curto -->
   <section aria-labelledby="sec-resumo">
     <h2 id="sec-resumo">Resumo</h2>
-    <p>Perfis diversos e adaptáveis; avalie o indivíduo e a família. <sup class="ref-badge" title="Guia de Adoção Responsável" aria-label="Ver fontes: Guia de Adoção Responsável">[<a href="#ref-1">1</a>]</sup></p>
+    <p>Perfis diversos e adaptáveis; avalie o indivíduo e a família.</p>
   </section>
 
   <!-- Medidas e padrões -->
   <section aria-labelledby="sec-medidas">
     <h2 id="sec-medidas">Medidas e padrões</h2>
     <h3>Altura</h3>
-    <p>— cm (♂), — cm (♀) </p>
+    <p>— cm (♂), — cm (♀)</p>
     <h3>Peso</h3>
-    <p>— kg (♂), — kg (♀) </p>
-    <p><small>Expectativa de vida: — anos </small></p>
+    <p>— kg (♂), — kg (♀)</p>
+    <p><small>Expectativa de vida: — anos</small></p>
   </section>
 
   <!-- Notas agregadas (0–5) -->
   <section aria-labelledby="sec-notas">
     <h2 id="sec-notas">Notas (0–5)</h2>
     <ul>
-      <li>
-        Atividade física: <strong>3</strong> / 5
-        <small>(<a href="/sobre/#metodologia">metodologia</a>)</small>
-      </li>
-      <li>
-        Higiene &amp; Pelagem: <strong>2</strong> / 5
-        <small>(<a href="/sobre/#metodologia">metodologia</a>)</small>
-      </li>
-      <li>
-        Clima &amp; Ambiente: <strong>4</strong> / 5
-        <small>(<a href="/sobre/#metodologia">metodologia</a>)</small>
-      </li>
+      <li>Atividade física: <strong>3</strong> / 5</li>
+      <li>Higiene &amp; Pelagem: <strong>2</strong> / 5</li>
+      <li>Clima &amp; Ambiente: <strong>4</strong> / 5</li>
     </ul>
   </section>
 
@@ -137,18 +128,28 @@
     </ul>
   </section>
 
-  <!-- Observações editoriais (com citação) -->
+  <!-- Observações editoriais -->
   <section aria-labelledby="sec-observacoes">
     <h2 id="sec-observacoes">Observações</h2>
-    <p>Priorize adoção responsável: histórico de saúde e acompanhamento veterinário. <sup class="ref-badge" title="Guia de Adoção Responsável" aria-label="Ver fontes: Guia de Adoção Responsável">[<a href="#ref-1">1</a>]</sup></p>
+    <p>Priorize adoção responsável: histórico de saúde e acompanhamento veterinário.</p>
   </section>
 
-  <!-- Lista de fontes/citações -->
-  <section aria-labelledby="sec-fontes">
-    <h2 id="sec-fontes">Fontes</h2>
-    <ol class="refs">
-      <li id="ref-1"><span class="ref-tipo">ONG/abrigo</span>: <a href="https://exemplo.ong/guia" target="_blank" rel="noopener noreferrer">Guia de Adoção Responsável</a> <small>(—; acessado em 2025-09-27)</small></li>
-    </ol>
+  <!-- Transparência: metodologia + fontes (colapsável) -->
+  <section aria-labelledby="sec-transparencia">
+    <details>
+      <summary id="sec-transparencia">
+        Transparência: Metodologia e Fontes (1)
+      </summary>
+      <div class="transparencia__conteudo">
+        <p>
+          Como calculamos as notas? Veja a <a href="https://www.guiaracas.com.br/sobre/#metodologia">metodologia completa</a>.
+        </p>
+        <h3 id="sec-fontes">Fontes</h3>
+        <ol class="refs">
+          <li id="ref-1"><span class="ref-tipo">ONG/abrigo</span>: <a href="https://exemplo.ong/guia" target="_blank" rel="noopener noreferrer">Guia de Adoção Responsável</a> <small>(—; acessado em 2025-09-27)</small></li>
+        </ol>
+      </div>
+    </details>
   </section>
 </main>
 <footer class="site-footer" role="contentinfo">

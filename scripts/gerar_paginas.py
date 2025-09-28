@@ -205,10 +205,39 @@ def render_references_list(ordered_ids, by_id):
       items.append(f'<li id="ref-{n}"><span class="ref-tipo">{tipo}</span>: {a}{small}</li>')
   return "\n      ".join(items)
 
+def format_source_links(ids, id_to_num, by_id):
+    links = []
+    for fid in ids or []:
+        n = id_to_num.get(fid)
+        f = by_id.get(fid, {})
+        nome = html.escape(f.get("nome", "Fonte"))
+        if n:
+            links.append(f'<a href="#ref-{n}">{nome}</a>')
+        else:
+            links.append(nome)
+    return ", ".join(links)
+
+def render_proveniencia(citacoes, id_to_num, by_id):
+    linhas = []
+    def add(rotulo, chave):
+        ids = (citacoes or {}).get(chave, [])
+        if ids:
+            linhas.append(f"<li><strong>{rotulo}:</strong> {format_source_links(ids, id_to_num, by_id)}</li>")
+    add("Resumo", "resumo")
+    add("Observações", "observacoes")
+    add("Altura", "medidas.altura_cm")
+    add("Peso", "medidas.peso_kg")
+    add("Expectativa de vida", "medidas.expectativa_anos")
+    return f"<ul>\n      " + "\n      ".join(linhas) + "\n    </ul>" if linhas else "<p>—</p>"
+
 def render_detalhe(b: dict):
-    nome = b["nome"]; slug = b["slug"]
-    notas = b.get("notas", {}); m = b.get("medidas", {}); attrs = b.get("atributos", {})
-    fontes = b.get("fontes", []); citacoes = b.get("citacoes", {})
+    nome = b["nome"]
+    slug = b["slug"]
+    notas = b.get("notas", {})
+    m = b.get("medidas", {})
+    attrs = b.get("atributos", {})
+    fontes = b.get("fontes", [])
+    citacoes = b.get("citacoes", {})
 
     sub = calc_subescalas(attrs, RULES)
     AF = media_ponderada(sub["atividade_fisica"], RULES["pesos"]["atividade_fisica"])
@@ -217,12 +246,9 @@ def render_detalhe(b: dict):
     CL = media_ponderada(sub["clima_ambiente"], RULES["pesos"]["clima_ambiente"][perfil])
 
     id_to_num, ordered_ids, by_id = build_citation_index(fontes, citacoes)
-    c_resumo = cite_badge(citacoes.get("resumo", []), id_to_num, by_id)
-    c_obs    = cite_badge(citacoes.get("observacoes", []), id_to_num, by_id)
-    c_altura = cite_badge(citacoes.get("medidas.altura_cm", []), id_to_num, by_id)
-    c_peso   = cite_badge(citacoes.get("medidas.peso_kg", []), id_to_num, by_id)
-    c_exp    = cite_badge(citacoes.get("medidas.expectativa_anos", []), id_to_num, by_id)
     refs_ol  = render_references_list(ordered_ids, by_id)
+    fontes_count = len(ordered_ids)
+    metodo_url = f"{BASE_URL}/sobre/#metodologia"
 
     title = f"{nome} — características, medidas e ambiente | Guia Raças"
     desc  = f"{nome}: resumo, medidas e notas (atividade física, higiene/pelagem, clima/ambiente)."
@@ -232,34 +258,28 @@ def render_detalhe(b: dict):
     tpl = read_text(ROOT / "templates" / "detalhe-raca.html")
     main = (tpl
       .replace("{{NOME}}", html.escape(nome))
-      .replace("{{HOME_URL}}", f"{BASE_URL}/")
-      .replace("{{RACAS_URL}}", f"{BASE_URL}/racas/")
       .replace("{{RESUMO}}", html.escape(notas.get("resumo","")))
       .replace("{{OBSERVACOES}}", html.escape(notas.get("observacoes","")))
       .replace("{{ALTURA_M}}", html.escape(m.get("altura_cm",{}).get("macho","—")))
       .replace("{{ALTURA_F}}", html.escape(m.get("altura_cm",{}).get("femea","—")))
-      .replace("{{PESO_M}}",   html.escape(m.get("peso_kg",{}).get("macho","—")))
-      .replace("{{PESO_F}}",   html.escape(m.get("peso_kg",{}).get("femea","—")))
+      .replace("{{PESO_M}}", html.escape(m.get("peso_kg",{}).get("macho","—")))
+      .replace("{{PESO_F}}", html.escape(m.get("peso_kg",{}).get("femea","—")))
       .replace("{{EXPECTATIVA}}", html.escape(m.get("expectativa_anos","—")))
 
       .replace("{{AF_TOTAL}}", str(AF)).replace("{{HI_TOTAL}}", str(HI)).replace("{{CL_TOTAL}}", str(CL))
 
       .replace("{{AF_INTENSIDADE}}", str(sub["atividade_fisica"]["intensidade"]))
-      .replace("{{AF_DURACAO}}",     str(sub["atividade_fisica"]["duracao"]))
-      .replace("{{AF_MENTAL}}",      str(sub["atividade_fisica"]["estimulo_mental"]))
-      .replace("{{HI_ESCOVACAO}}",   str(sub["higiene_pelagem"]["escovacao"]))
-      .replace("{{HI_SHEDDING}}",    str(sub["higiene_pelagem"]["shedding"]))
-      .replace("{{HI_TOSA}}",        str(sub["higiene_pelagem"]["tosa"]))
-      .replace("{{CL_CALOR}}",       str(sub["clima_ambiente"]["calor"]))
-      .replace("{{CL_UMIDADE}}",     str(sub["clima_ambiente"]["umidade"]))
-      .replace("{{CL_ESPACO}}",      str(sub["clima_ambiente"]["espaco"]))
+      .replace("{{AF_DURACAO}}", str(sub["atividade_fisica"]["duracao"]))
+      .replace("{{AF_MENTAL}}", str(sub["atividade_fisica"]["estimulo_mental"]))
+      .replace("{{HI_ESCOVACAO}}", str(sub["higiene_pelagem"]["escovacao"]))
+      .replace("{{HI_SHEDDING}}", str(sub["higiene_pelagem"]["shedding"]))
+      .replace("{{HI_TOSA}}", str(sub["higiene_pelagem"]["tosa"]))
+      .replace("{{CL_CALOR}}", str(sub["clima_ambiente"]["calor"]))
+      .replace("{{CL_UMIDADE}}", str(sub["clima_ambiente"]["umidade"]))
+      .replace("{{CL_ESPACO}}", str(sub["clima_ambiente"]["espaco"]))
 
-      .replace("{{CITE_RESUMO}}", c_resumo)
-      .replace("{{CITE_OBSERVACOES}}", c_obs)
-      .replace("{{CITE_ALTURA}}", c_altura)
-      .replace("{{CITE_PESO}}", c_peso)
-      .replace("{{CITE_EXPECTATIVA}}", c_exp)
-
+      .replace("{{SOBRE_METODO_URL}}", metodo_url)
+      .replace("{{FONTES_COUNT}}", str(fontes_count))
       .replace("{{REFERENCIAS}}", refs_ol or "<li>Sem fontes cadastradas para esta página.</li>")
     )
 

@@ -13,35 +13,26 @@
   <!-- Resumo curto -->
   <section aria-labelledby="sec-resumo">
     <h2 id="sec-resumo">Resumo</h2>
-    <p>{{RESUMO}} {{CITE_RESUMO}}</p>
+    <p>{{RESUMO}}</p>
   </section>
 
   <!-- Medidas e padrões -->
   <section aria-labelledby="sec-medidas">
     <h2 id="sec-medidas">Medidas e padrões</h2>
     <h3>Altura</h3>
-    <p>{{ALTURA_M}} cm (♂), {{ALTURA_F}} cm (♀) {{CITE_ALTURA}}</p>
+    <p>{{ALTURA_M}} cm (♂), {{ALTURA_F}} cm (♀)</p>
     <h3>Peso</h3>
-    <p>{{PESO_M}} kg (♂), {{PESO_F}} kg (♀) {{CITE_PESO}}</p>
-    <p><small>Expectativa de vida: {{EXPECTATIVA}} anos {{CITE_EXPECTATIVA}}</small></p>
+    <p>{{PESO_M}} kg (♂), {{PESO_F}} kg (♀)</p>
+    <p><small>Expectativa de vida: {{EXPECTATIVA}} anos</small></p>
   </section>
 
   <!-- Notas agregadas (0–5) -->
   <section aria-labelledby="sec-notas">
     <h2 id="sec-notas">Notas (0–5)</h2>
     <ul>
-      <li>
-        Atividade física: <strong>{{AF_TOTAL}}</strong> / 5
-        <small>(<a href="/sobre/#metodologia">metodologia</a>)</small>
-      </li>
-      <li>
-        Higiene &amp; Pelagem: <strong>{{HI_TOTAL}}</strong> / 5
-        <small>(<a href="/sobre/#metodologia">metodologia</a>)</small>
-      </li>
-      <li>
-        Clima &amp; Ambiente: <strong>{{CL_TOTAL}}</strong> / 5
-        <small>(<a href="/sobre/#metodologia">metodologia</a>)</small>
-      </li>
+      <li>Atividade física: <strong>{{AF_TOTAL}}</strong> / 5</li>
+      <li>Higiene &amp; Pelagem: <strong>{{HI_TOTAL}}</strong> / 5</li>
+      <li>Clima &amp; Ambiente: <strong>{{CL_TOTAL}}</strong> / 5</li>
     </ul>
   </section>
 
@@ -71,17 +62,27 @@
     </ul>
   </section>
 
-  <!-- Observações editoriais (com citação) -->
+  <!-- Observações editoriais -->
   <section aria-labelledby="sec-observacoes">
     <h2 id="sec-observacoes">Observações</h2>
-    <p>{{OBSERVACOES}} {{CITE_OBSERVACOES}}</p>
+    <p>{{OBSERVACOES}}</p>
   </section>
 
-  <!-- Lista de fontes/citações -->
-  <section aria-labelledby="sec-fontes">
-    <h2 id="sec-fontes">Fontes</h2>
-    <ol class="refs">
-      {{REFERENCIAS}}
-    </ol>
+  <!-- Transparência: metodologia + fontes (colapsável) -->
+  <section aria-labelledby="sec-transparencia">
+    <details>
+      <summary id="sec-transparencia">
+        Transparência: metodologia e fontes ({{FONTES_COUNT}})
+      </summary>
+      <div class="transparencia__conteudo">
+        <p>
+          Como calculamos as notas? Veja a <a href="{{SOBRE_METODO_URL}}">metodologia completa</a>.
+        </p>
+        <h3 id="sec-fontes">Fontes</h3>
+        <ol class="refs">
+          {{REFERENCIAS}}
+        </ol>
+      </div>
+    </details>
   </section>
 </main>

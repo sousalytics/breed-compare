@@ -335,6 +335,23 @@
     margin-inline: auto;
   }
 
+  details {
+    margin-block: 1.5rem;
+  }
+
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: disclosure-closed;
+  }
+  summary:focus {
+    outline: none;
+  }
+  summary:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
   .btn {
     transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
     display: inline-block;
