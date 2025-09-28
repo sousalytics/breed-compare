@@ -5,20 +5,30 @@
 
 > Disponível também em [English](./README.en.md) _(em breve)_.
 
-**Status:** ✅ Sprint 1 (Diretrizes Visuais) **finalizado**  
-**Autor:** @sousalytics  
-**Objetivo:** Construir um site acessível, rápido e didático para obter informações de raças de cães.
+**Status**
+
+- ✅ Sprint 1 — Diretrizes Visuais (paleta, tipos, ícones)
+- ✅ Sprint 2 — IA & Navegação (mapa do site, rótulos, headings, breadcrumbs)
+- ⏭️ Sprint 3 — HTML semântico (esqueleto, metodologias e conteúdo base)
+
+**Autor**
+
+@sousalytics
+
+**Objetivo**
+
+Construir um site acessível, rápido e didático para obter informações de raças de cães, sem incentivar eugenia e com foco em adoção responsável.
 
 ---
 
 ## ✨ Visão Geral
 
-- Informações de raças por características (tamanho, energia, treinabilidade, grooming etc.).
-- HTML semântico + CSS moderno + JavaScript vanilla com **progressive enhancement**.
-- Acessibilidade: **WCAG 2.2** e WAI-ARIA APG.
+- Informações por características (medidas, atividade física, higiene/pelagem, clima/ambiente) + metodologia aberta.
+- HTML semântico + CSS moderno + JavaScript vanilla (progressive enhancement).
+- Acessibilidade: **WCAG 2.2** e **WAI-ARIA APG**.
 - Qualidade: **RAIL**, **Core Web Vitals** e **Lighthouse**.
 - SEO técnico: **Google Search Central**.
-- Segurança: **CSP** inicial e boas práticas (OWASP).
+- Segurança: **CSP** e boas práticas **OWASP**.
 
 ## 🧱 Stack & Padrões
 
@@ -47,28 +57,47 @@
 <pre><code>
 breed-compare/
 ├─ assets/
-│  ├─ icons/
-│  │  └─ sprite.svg
+│  ├─ brand/
+│  │  ├─ og-1200x630.png
+│  │  └─ avatar-512.png
+|  ├─ icons/
+│  |   └─ sprite.svg
 │  ├─ logos/
 │  │  ├─ paw-solid.svg
 │  │  └─ paw-stroke.svg
-│  └─ brand/
-│     ├─ og-1200x630.png
-│     └─ avatar-512.png
-├─ public/
-│  ├─ favicon.svg
-│  ├─ favicon-16.png
-│  ├─ favicon-32.png
-│  ├─ apple-touch-180.png
-│  └─ robots.txt
-├─ styles/
-│  ├─ tokens.css
-│  ├─ base.css
-│  └─ ui.css
+├─ comparar/
+|  └─ index.html
+├─ data/
+|  ├─ racas.json
+|  ├─ rules.json
+|  └─ site.json
 ├─ docs/
 │  └─ brand-notes.md
+├─ guia-responsavel/
+│  └─ index.html
+├─ public/
+│  ├─ apple-touch-180.png
+│  ├─ favicon-16.png
+│  ├─ favicon-32.png
+│  ├─ favicon.svg
+│  └─ robots.txt
+├─ racas/
+|  └─ index.html
+├─ scripts/
+|  ├─ gerar_paginas.py
+|  └─ main.js
+├─ sobre/
+|  └─ index.html
+├─ styles/
+│  ├─ base.css
+│  ├─ tokens.css
+│  └─ ui.css
+├─ templates/
+│  ├─ detalhe-raca.html
+|  └─ head-base.html
+├─ 404.html
 ├─ index.html
-└─ styleguide.html
+└─ sitemap.html
 </code></pre>
 </details>
 
