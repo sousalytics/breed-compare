@@ -9,6 +9,19 @@
   },
   "perfil_ambiente": "tropical-umido",
 
+  "fci_grupos": {
+    "1": "Cães Pastores e Boiadeiros (exceto suícos)",
+    "2": "Pinscher, Schnauzer, Molossos e Boiadeiros Suiços",
+    "3": "Terriers",
+    "4": "Dachshunds",
+    "5": "Spitz e Tipos Primitivos",
+    "6": "Sabujos e Rastreadores",
+    "7": "Cães de Aponte",
+    "8": "Retrievers, Levantadores e Cães d'Água",
+    "9": "Cães de Companhia",
+    "10": "Galgos e Lebreiros"
+  },
+
   "fci_base_intensidade": {
     "1": 5,
     "2": 3,

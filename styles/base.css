@@ -16,10 +16,6 @@
     scroll-behavior: smooth;
   }
 
-  .scroll-area {
-    overscroll-behavior: contain;
-  }
-
   .logo {
     font-family: var(--font-title);
     font-weight: var(--weight-bold);
@@ -109,7 +105,6 @@
       h5,
       h6,
       main,
-      nav,
       header,
       footer,
       aside,
@@ -165,11 +160,6 @@
     font: inherit;
   }
 
-  .touch-target {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
   :where(a, button, input, select, textarea, summary, [tabindex]):not(
       [tabindex="-1"]
     ):focus-visible {
@@ -205,9 +195,6 @@
     caption-side: top;
     padding: 0.5rem 0;
     color: var(--color-muted);
-  }
-  .table-wrap {
-    overflow: auto;
   }
 
   .table-scroll {
@@ -305,7 +292,6 @@
       border: 1px solid var(--color-text);
     }
     header,
-    nav,
     .site-footer,
     .header,
     .footer {
@@ -358,16 +344,15 @@
   }
 
   .btn {
-    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
     display: inline-block;
     padding: 0.6rem 1rem;
     border: 0;
     border-radius: var(--radius-2);
-    font: inherit;
-    cursor: pointer;
-    text-decoration: none;
     background: var(--surface-1);
     color: var(--color-text);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
   }
   .btn--primary {
     background: var(--color-primary);
@@ -409,21 +394,16 @@
 }
 
 @layer utilities {
-  .flow > * + * {
-    margin-top: var(--space-2);
-  }
-
   .visually-hidden {
     position: absolute !important;
     width: 1px;
     height: 1px;
     padding: 0;
     margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    overflow: hidden;
   }
 
   .sr-only-focusable:focus {
@@ -435,35 +415,5 @@
     clip: auto !important;
     clip-path: none !important;
     white-space: normal !important;
-  }
-
-  .no-wrap {
-    white-space: nowrap;
-  }
-  .break-anywhere {
-    overflow-wrap: anywhere;
-    word-break: normal;
-  }
-
-  .bordered {
-    border: var(--border-1);
-  }
-  .rounded {
-    border-radius: var(--radius-2);
-  }
-
-  .link-primary {
-    color: var(--color-primary);
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
-  }
-  .link-primary:hover {
-    text-decoration-thickness: 0.12em;
-  }
-
-  .list-unstyled {
-    list-style: none;
-    margin: 0;
-    padding: 0;
   }
 }

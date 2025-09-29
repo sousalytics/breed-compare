@@ -52,10 +52,12 @@
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap"
 />
+
+<script defer src="https://www.guiaracas.com.br/assets/js/details-toggle.js"></script>
 </head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><header class="header">
   <div class="header__inner">
     <a class="logo" href="https://www.guiaracas.com.br/">Guia Raças<span class="visually-hidden"> — Página inicial</span></a>
-    <nav class="nav" aria-label="Navegação principal">
+    <nav class=".nav" aria-label="Navegação principal">
       <ul class="nav__list">
         <li class="nav__item"><a class="nav__link" href="https://www.guiaracas.com.br/racas/" aria-current="page">Raças</a></li>
         <li class="nav__item"><a class="nav__link" href="https://www.guiaracas.com.br/comparar/">Comparar</a></li>
@@ -64,7 +66,7 @@
       </ul>
     </nav>
   </div>
-</header><main id="conteudo" class="page page--breed" tabindex="-1">
+</header><main id="conteudo" class="breed" tabindex="-1">
   <nav class="breadcrumbs" aria-label="Trilha de navegação">
     <ol>
       <li><a href="https://www.guiaracas.com.br/">Home</a></li>
@@ -74,146 +76,142 @@
   </nav>
 
   <header class="breed__header">
-    <div class="breed__intro">
-      <h1 class="breed__title">Bulldog Inglês</h1>
+    <h1 class="breed__title">Bulldog Inglês</h1>
 
-      <p class="breed__lead">Companheiro calmo, de baixa energia; cuidado no calor.</p>
+    <span class="fci-badge fci-badge--solid" title="Grupo FCI">Pinscher, Schnauzer, Molossos e Boiadeiros Suiços</span>
 
-      <p class="breed__group">Pinscher, Schnauzer, Molossos e Boiadeiros Suiços</p>
-
-      <p class="breed__cta">
-        <a class="btn btn--subtle" href="https://www.guiaracas.com.br/comparar/?ids=bulldog-ingles"
-          >Adicionar à comparação</a
-        >
-      </p>
-    </div>
-
-    <aside class="facts-card" aria-labelledby="sec-medidas">
-      <h2 class="visually-hidden" id="sec-medidas">Medidas e padrões</h2>
-      <dl class="facts facts--inline">
-        <div class="fact">
-          <dt>Altura (cm)</dt>
-          <dd><span>♂ 31–36</span> <span>♀ 31–36</span></dd>
-        </div>
-        <div class="fact">
-          <dt>Peso (kg)</dt>
-          <dd><span>♂ 23–25</span> <span>♀ 18–23</span></dd>
-        </div>
-        <div class="fact">
-          <dt>Expectativa</dt>
-          <dd>8–10 anos</dd>
-        </div>
-      </dl>
-    </aside>
+    <p class="breed__lead">Companheiro calmo, de baixa energia; cuidado no calor.</p>
   </header>
 
-  <section aria-labelledby="sec-indicadores" class="section section--indicators">
-    <h2 id="sec-indicadores">Indicadores (0–5)</h2>
-
-    <article class="indicator">
-      <div class="indicator__row">
-        <h3 class="indicator__label" id="lab-af">Atividade física</h3>
-        <output class="indicator__value" aria-labelledby="lab-af">2/5</output>
-      </div>
-      <ol class="pillbar" data-value="2" aria-hidden="true">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ol>
-      <details class="indicator__details">
-        <summary>Ver aspectos</summary>
-        <dl class="aspects">
+  <section class="facts card">
+    <div class="facts__grid">
+      <div class="fact">
+        <h3 class="fact__label">Altura (cm)</h3>
+        <dl class="fact__dl">
           <div>
-            <dt>Intensidade</dt>
-            <dd>1 — muito baixa</dd>
+            <dt>Macho</dt>
+            <dd>31–36</dd>
           </div>
           <div>
-            <dt>Duração diária</dt>
-            <dd>2 — 21–40 min</dd>
-          </div>
-          <div>
-            <dt>Estímulo mental</dt>
-            <dd>2 — baixa</dd>
+            <dt>Fêmea</dt>
+            <dd>31–36</dd>
           </div>
         </dl>
-      </details>
-    </article>
-
-    <article class="indicator">
-      <div class="indicator__row">
-        <h3 class="indicator__label" id="lab-hi">Higiene &amp; Pelagem</h3>
-        <output class="indicator__value" aria-labelledby="lab-hi">1/5</output>
       </div>
-      <ol class="pillbar" data-value="1" aria-hidden="true">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ol>
-      <details class="indicator__details">
-        <summary>Ver aspectos</summary>
-        <dl class="aspects">
+      <div class="fact">
+        <h3 class="fact__label">Peso (kg)</h3>
+        <dl class="fact__dl">
           <div>
-            <dt>Escovação</dt>
-            <dd>1 — nunca/mensalmente</dd>
+            <dt>Macho</dt>
+            <dd>23–25</dd>
           </div>
           <div>
-            <dt>Queda de pelos</dt>
-            <dd>1 — queda muito baixa</dd>
-          </div>
-          <div>
-            <dt>Tosa</dt>
-            <dd>2 — ocasional</dd>
+            <dt>Fêmea</dt>
+            <dd>18–23</dd>
           </div>
         </dl>
-      </details>
-    </article>
-
-    <article class="indicator">
-      <div class="indicator__row">
-        <h3 class="indicator__label" id="lab-cl">Clima &amp; Ambiente</h3>
-        <output class="indicator__value" aria-labelledby="lab-cl">3/5</output>
       </div>
-      <ol class="pillbar" data-value="3" aria-hidden="true">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ol>
-      <details class="indicator__details">
-        <summary>Ver aspectos</summary>
-        <dl class="aspects">
-          <div>
-            <dt>Tolerância ao calor</dt>
-            <dd>2 — tolerância baixa</dd>
-          </div>
-          <div>
-            <dt>Tolerância à umidade</dt>
-            <dd>3 — tolerância moderada</dd>
-          </div>
-          <div>
-            <dt>Espaço</dt>
-            <dd>3 — casa pequena</dd>
-          </div>
-        </dl>
-      </details>
-    </article>
+      <div class="fact">
+        <h3 class="fact__label">Expectativa</h3>
+        <p class="fact__value">8–10 anos</p>
+      </div>
+      <div class="fact fact--pop">
+        <h3 class="fact__label">Popularidade</h3>
+        <div class="fact__viz"></div>
+      </div>
+    </div>
   </section>
 
-  <section aria-labelledby="sec-observacoes" class="section section--notes">
-    <h2 id="sec-observacoes">Observações</h2>
+  <section class="indicators">
+    <h2 class="visually-hidden">Indicadores</h2>
+    <ul class="indicator-list">
+      <!-- AF -->
+      <li class="indicator">
+        <div class="indicator__row">
+          <span class="indicator__label">Atividade física</span>
+          <output class="indicator__value">2/5</output>
+        </div>
+        <meter
+          class="indicator__meter"
+          min="1"
+          max="5"
+          value="2"
+          aria-label="Atividade física 2 de 5"
+        ></meter>
+        <button
+          class="indicator__toggle"
+          aria-expanded="false"
+          aria-controls="det-af"
+          aria-label="Abrir detalhes"
+        >
+          <span aria-hidden="true">+</span> Detalhes
+        </button>
+        <div id="det-af" class="indicator__details" hidden>
+          <p>Os cães da raça Bulldog Inglês pedem atividade física muito baixa (intensidade 1/5), com duração 21–40 min (nível 2/5) e estímulo mental baixa (nível 2/5).</p>
+        </div>
+      </li>
+
+      <!-- HI -->
+      <li class="indicator">
+        <div class="indicator__row">
+          <span class="indicator__label">Higiene &amp; Pelagem</span>
+          <output class="indicator__value">1/5</output>
+        </div>
+        <meter
+          class="indicator__meter"
+          min="1"
+          max="5"
+          value="1"
+          aria-label="Higiene e Pelagem 1 de 5"
+        ></meter>
+        <button class="indicator__toggle" aria-expanded="false" aria-controls="det-hi">
+          <span aria-hidden="true">+</span> Detalhes
+        </button>
+        <div id="det-hi" class="indicator__details" hidden>
+          <p>Em cuidados, a escovação é nunca/mensalmente (nível 1/5), a queda de pelos é queda muito baixa (nível 1/5) e a tosa é ocasional (nível 2/5).</p>
+        </div>
+      </li>
+
+      <!-- CL -->
+      <li class="indicator">
+        <div class="indicator__row">
+          <span class="indicator__label">Clima &amp; Ambiente</span>
+          <output class="indicator__value">3/5</output>
+        </div>
+        <meter
+          class="indicator__meter"
+          min="1"
+          max="5"
+          value="3"
+          aria-label="Clima e Ambiente 3 de 5"
+        ></meter>
+        <button class="indicator__toggle" aria-expanded="false" aria-controls="det-cl">
+          <span aria-hidden="true">+</span> Detalhes
+        </button>
+        <div id="det-cl" class="indicator__details" hidden>
+          <p>Quanto ao ambiente: tolerância baixa ao calor (nível 2/5), tolerância moderada à umidade (nível 3/5) e espaço ideal: casa pequena (nível 3/5).</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- CTA -->
+  <p class="breed__cta">
+    <a class="btn btn--compare" href="https://www.guiaracas.com.br/comparar/?ids=bulldog-ingles"
+      >Adicionar à comparação</a
+    >
+  </p>
+
+  <!-- Observações -->
+  <section class=".section section--notes">
+    <h2>Observações</h2>
     <p>Braquicefálico e com dobras; monitorar respiração e higiene de pele.</p>
   </section>
 
-  <section aria-labelledby="sec-transparencia" class="section section--sources">
+  <!-- Metodologia e Fontes -->
+  <section class="sources section">
     <details>
-      <summary id="sec-transparencia">
-        Transparência: metodologia e fontes (2)
-      </summary>
+      <summary>Metodologia e Fontes (2)</summary>
       <div class="transparencia__conteudo">
         <p>
           Como calculamos os indicadores? Veja a

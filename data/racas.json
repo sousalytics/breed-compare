@@ -9,6 +9,18 @@
       "regras": { "rules_version": "1.0.0" }
     },
 
+    "popularidade": {
+      "series": [
+        { "ano": 2020, "valor": 0 },
+        { "ano": 2021, "valor": 0 },
+        { "ano": 2022, "valor": 0 },
+        { "ano": 2023, "valor": 0 },
+        { "ano": 2024, "valor": 0 }
+      ],
+      "fonte": "Google Trends",
+      "metodo": "Índice 0-100 por ano"
+    },
+
     "fontes": [
       {
         "id": "fci-122",
