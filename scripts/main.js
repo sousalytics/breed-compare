@@ -1,5 +1,7 @@
-document.documentElement.classList.add("js");
-
-document.documentElement.toggleAttribute("data-theme", true);
-
-console.info("main.js carregado - melhorias progressivas ativas");
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".scale").forEach((el) => {
+    const n = Number(el.getAttribute("data-value") || 0);
+    el.innerHTML = "";
+    for (let i = 0; i < n; i++) el.appendChild(document.createElement("i"));
+  });
+});

@@ -10,6 +10,8 @@
     },
 
     "popularidade": {
+      "termo_trends": "Labrador Retriever",
+      "regiao": "BR",
       "series": [
         { "ano": 2020, "valor": 0 },
         { "ano": 2021, "valor": 0 },
@@ -18,7 +20,7 @@
         { "ano": 2024, "valor": 0 }
       ],
       "fonte": "Google Trends",
-      "metodo": "Índice 0-100 por ano"
+      "metodo": "Interest over time (0–100)"
     },
 
     "fontes": [
@@ -65,7 +67,12 @@
       "dobras_cutaneas": false,
       "funcoes": ["retriever", "water"],
       "origem_clima": ["temperado", "frio"]
-    }
+    },
+
+    "foto": "/assets/breeds/labrador.jpg",
+    "foto_w": 1200,
+    "foto_h": 800,
+    "foto_credito": "Foto: Autor / CC"
   },
 
   {
@@ -76,6 +83,20 @@
       "resumo": "Companheiro calmo, de baixa energia; cuidado no calor.",
       "observacoes": "Braquicefálico e com dobras; monitorar respiração e higiene de pele.",
       "regras": { "rules_version": "1.0.0" }
+    },
+
+    "popularidade": {
+      "termo_trends": "Bulldog",
+      "regiao": "BR",
+      "series": [
+        { "ano": 2020, "valor": 0 },
+        { "ano": 2021, "valor": 0 },
+        { "ano": 2022, "valor": 0 },
+        { "ano": 2023, "valor": 0 },
+        { "ano": 2024, "valor": 0 }
+      ],
+      "fonte": "Google Trends",
+      "metodo": "Interest over time (0–100)"
     },
 
     "fontes": [
@@ -110,6 +131,7 @@
       "peso_kg": { "macho": "23–25", "femea": "18–23" },
       "expectativa_anos": "8–10"
     },
+
     "atributos": {
       "fci_grupo": 2,
       "porte": "medio",
@@ -121,7 +143,12 @@
       "dobras_cutaneas": true,
       "funcoes": ["companhia", "guard"],
       "origem_clima": ["temperado"]
-    }
+    },
+
+    "foto": "/assets/breeds/bulldog.jpg",
+    "foto_w": 1200,
+    "foto_h": 800,
+    "foto_credito": "Foto: Autor / CC"
   },
 
   {
@@ -132,6 +159,20 @@
       "resumo": "Perfis diversos e adaptáveis; avalie o indivíduo e a família.",
       "observacoes": "Priorize adoção responsável: histórico de saúde e acompanhamento veterinário.",
       "regras": { "rules_version": "1.0.0" }
+    },
+
+    "popularidade": {
+      "termo_trends": "Vira-lata",
+      "regiao": "BR",
+      "series": [
+        { "ano": 2020, "valor": 0 },
+        { "ano": 2021, "valor": 0 },
+        { "ano": 2022, "valor": 0 },
+        { "ano": 2023, "valor": 0 },
+        { "ano": 2024, "valor": 0 }
+      ],
+      "fonte": "Google Trends",
+      "metodo": "Interest over time (0–100)"
     },
 
     "fontes": [
@@ -167,6 +208,11 @@
       "dobras_cutaneas": false,
       "funcoes": ["companhia"],
       "origem_clima": ["variado", "tropical"]
-    }
+    },
+
+    "foto": "/assets/breeds/srd.jpg",
+    "foto_w": 1200,
+    "foto_h": 800,
+    "foto_credito": "Foto: Autor / CC"
   }
 ]

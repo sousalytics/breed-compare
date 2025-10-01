@@ -98,10 +98,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .table--num td {
   font-variant-numeric: tabular-nums;
 }
-.breed__cta {
-  margin-block: var(--space-3) var(--space-2);
-  text-align: center;
-}
 
 .card {
   background: var(--color-surface);
@@ -177,29 +173,20 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 
 /* ===== Breadcrumbs ===== */
 .breadcrumbs {
-  color: var(--color-muted);
-  font-size: var(--step--1);
-  margin-top: 0.25rem;
-  margin-bottom: 0.75rem;
+  padding-block: var(--space-2);
 }
-.breadcrumbs a {
-  text-decoration: none;
-}
-.breadcrumbs a:hover {
-  text-decoration: underline;
-}
-.breadcrumbs ol {
-  list-style: none;
+.breadcrumbs__list {
+  display: flex;
+  gap: 0.5ch;
+  flex-wrap: wrap;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  list-style: none;
 }
-.breadcrumbs li + li::before {
+.breadcrumbs__list li + li::before {
   content: "›";
   opacity: 0.6;
-  margin-right: 0.5rem;
+  margin-inline: 0.25ch;
 }
 
 /* ===== Sections ===== */
@@ -242,12 +229,12 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 /* ===== Indicadores ===== */
+.breed__indicators {
+  margin-block: var(--space-2);
+}
 .indicators {
   display: grid;
   gap: var(--space-2);
-}
-.indicator + .indicator {
-  margin-top: var(--space-2);
 }
 .indicator__row {
   display: flex;
@@ -264,6 +251,33 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 .indicator__details {
   margin-top: 0.5rem;
+}
+
+.indicators__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.indicators__item {
+  display: grid;
+  gap: 0.5rem;
+}
+.indicators__note {
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+.scale {
+  background: var(--surface-1);
+  border-radius: 999px;
+  padding: var(--space-2);
+}
+.scale > i {
+  background: var(--color-primary);
+  border-radius: 999px;
 }
 
 /* ===== Breed page layout ===== */
@@ -297,6 +311,32 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   .breed__lead {
     grid-column: 1 / -1;
   }
+  .breed__cta {
+    margin-block: var(--space-3) var(--space-2);
+    text-align: center;
+  }
+}
+
+.breed__hero {
+  display: grid;
+  gap: var(--space-3);
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .breed__hero {
+    grid-template-columns: 1fr minmax(220px, 28%);
+  }
+}
+.breed__title {
+  display: grid;
+  gap: 0.25rem;
+}
+.breed__name {
+  margin: 0;
+  line-height: 1.1;
+}
+.breed__lead {
+  opacity: 0.85;
 }
 
 /* Facts (direita) */
@@ -459,15 +499,37 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   content: "–";
 }
 
-.fci-badge {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
+/* Card FCI */
+.fci-card {
+  background: var(--color-surface);
+  border: var(--border-1);
+  border-radius: var(--radius-2);
+  padding: var(--space-3);
 }
-.fci-badge--solid {
+.fci-card .badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
   background: var(--color-primary);
   color: var(--color-primary-contrast);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.fci-card__title {
+  margin: 0 0 var(--space-2);
+}
+.fci-card__group .badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.fci-card__origem,
+.fci-card__codigo {
+  margin: 0.25rem 0;
 }
 
 .refs {
@@ -490,4 +552,49 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 
 .pop-spark {
   min-height: 1.5rem;
+}
+
+/* KPIs */
+.breed__kpis {
+  margin-block: var(--space-2);
+}
+.kpis__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+.kpi {
+  background: var(--color-surface);
+  border: var(--border-1);
+  border-radius: var(--radius-2);
+  padding: var(--space-3);
+}
+.kpi__label {
+  display: inline;
+  opacity: 0.75;
+}
+.kpi__label::after {
+  content: ": ";
+}
+.kpi__value {
+  font-weight: 700;
+}
+
+/* Popularidade */
+.pop-chart {
+  min-height: 160px;
+}
+
+/* Galeria */
+.breed__gallery {
+  display: contents;
+}
+.breed__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-2);
 }

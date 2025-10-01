@@ -1,373 +1,272 @@
 from pathlib import Path
+from string import Template
 import json
-import html
+import unicodedata
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
-def read_text(p:Path) -> str:
-  return p.read_text(encoding="utf-8")
+rng = re.compile(r"(\d+)\D+(\d+)")
 
-def write_text(p:Path, s: str):
-  p.parent.mkdir(parents=True, exist_ok=True)
-  p.write_text(s, encoding="utf-8")
+#-----------Helpers-----------
+def slugify(s):
+  s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
+  return re.sub(r"[^a-zA-Z0-9]+", "-", s).strip("-").lower()
 
-def clamp(v, lo=0, hi=5):
-  return max(lo, min(hi, v))
+def clamp_0_5(x):
+  return max(0, min(5, x))
 
-def roundi(v):
-  return int(round(v))
+def round_int(x):
+  return int(round(x))
 
-def bucket_minutos(m):
-  if m <= 20:
-    return 1
-  if m <= 40:
-    return 2
-  if m <= 60:
+def minutes_to_scale(mins):
+  if mins is None:
     return 3
-  if m <= 90:
+  if mins >= 90:
+    return 5
+  if mins >= 75:
     return 4
-  return 5
+  if mins >= 60:
+    return 3
+  if mins >= 45:
+    return 2
+  return 1
 
-SITE = json.loads(read_text(ROOT / "data" / "site.json"))
-RULES = json.loads(read_text(ROOT / "data" / "rules.json"))
-BREEDS = json.loads(read_text(ROOT / "data" / "racas.json"))
+def nivel_txt(n):
+  m = {1:"muito baixa",2:"baixa",3:"moderada",4:"alta",5:"muito alta"}
+  return m.get(int(clamp_0_5(n)), "moderada")
 
-BASE_URL = SITE.get("base_url","").rstrip("/")
-ROBOTS = SITE.get("robots","noindex, nofollow")
+def duracao_txt(mins):
+  if mins is None:
+    return "moderada"
+  if mins >= 90:
+    return "longa"
+  if mins >= 75:
+    return "moderada a longa"
+  if mins >= 60:
+    return "moderada"
+  if mins >= 45:
+    return "curta a moderada"
+  return "curta"
 
-def render_head(title: str, description: str, canonical: str) -> str:
-  head_tpl = read_text(ROOT / "templates" / "head-base.html")
-  return (head_tpl
-          .replace("{{TITLE}}", html.escape(title))
-          .replace("{{DESCRIPTION}}", html.escape(description))
-          .replace("{{CANONICAL}}", canonical)
-          .replace("{{ROBOTS}}", ROBOTS)
-          .replace("{{BASE_URL}}", BASE_URL))
+def parse_minmax(txt):
+  if not txt or txt == "—":
+      return None, None
+  m = rng.search(txt)
+  if not m:
+    only_num = re.findall(r"\d+", txt)
+    if len(only_num) == 1:
+      v = int(only_num[0])
+      return v, v
+    return None, None
+  return int(m.group(1)), int(m.group(2))
 
-def render_chrome(active: str) -> tuple[str,str]:
-  def arcur(h):
-    return ' aria-current="page"' if h == active else ""
-  def href(path):
-    return f"{BASE_URL}{path}"
-  header = f"""
-<header class="header">
-  <div class="header__inner">
-    <a class="logo" href="{href('/')}">Guia Raças<span class="visually-hidden"> — Página inicial</span></a>
-    <nav class=".nav" aria-label="Navegação principal">
-      <ul class="nav__list">
-        <li class="nav__item"><a class="nav__link" href="{href('/racas/')}"{arcur('/racas/')}>Raças</a></li>
-        <li class="nav__item"><a class="nav__link" href="{href('/comparar/')}">Comparar</a></li>
-        <li class="nav__item"><a class="nav__link" href="{href('/guia-responsavel/')}">Guia responsável</a></li>
-        <li class="nav__item"><a class="nav__link" href="{href('/sobre/')}">Sobre</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>""".strip()
+def jsonld_breadcrumb(nome, url):
+  return json.dumps({
+    "@context":"https://schema.org","@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Início","item":f"{BASE}/"},
+      {"@type":"ListItem","position":2,"name":"Raças","item":f"{BASE}/racas/"},
+      {"@type":"ListItem","position":3,"name":nome,"item":url}
+    ]
+  }, ensure_ascii=False)
 
-  footer = f"""
-<footer class="footer" role="contentinfo">
-  <nav class="footer__nav" aria-label="Links institucionais">
-    <a class="footer__link" href="{href('/sitemap.html')}">Mapa do site</a>
-    <a class="footer__link" href="{href('/acessibilidade/')}">Acessibilidade</a>
-    <a class="footer__link" href="{href('/privacidade/')}">Privacidade</a>
-  </nav>
-  <p>&copy; 2025 Guia Raças</p>
-</footer>""".strip()
-  return header, footer
+def jsonld_breed(d, url):
+  desc = d.get("lead") or d.get("notas", {}).get("resumo", "")
+  alt_macho = d["medidas"]["altura_cm"].get("macho", "—")
+  alt_fem   = d["medidas"]["altura_cm"].get("femea", "—")
+  peso_m    = d["medidas"]["peso_kg"].get("macho", "—")
+  peso_f    = d["medidas"]["peso_kg"].get("femea", "—")
+  vida_txt  = d["medidas"].get("expectativa_anos", "—")
+
+  a_min, a_max = parse_minmax(alt_macho)
+  if a_min is None: a_min, a_max = parse_minmax(alt_fem)
+  p_min, p_max = parse_minmax(peso_m)
+  if p_min is None: p_min, p_max = parse_minmax(peso_f)
+  v_min, v_max = parse_minmax(vida_txt)
+
+  def qv(min_, max_, unit):
+    if min_ is None or max_ is None: return None
+    return {"@type":"QuantitativeValue","minValue":min_,"maxValue":max_,"unitCode":unit}
+
+  props = []
+  q_alt = qv(a_min, a_max, "CMT")
+  q_pes = qv(p_min, p_max, "KGM")
+  q_vid = qv(v_min, v_max, "ANN")
+  if q_alt: props.append({"@type":"PropertyValue","name":"Altura","value":q_alt})
+  if q_pes: props.append({"@type":"PropertyValue","name":"Peso","value":q_pes})
+  if q_vid: props.append({"@type":"PropertyValue","name":"Expectativa de vida","value":q_vid})
+
+  return json.dumps({
+    "@context":"https://schema.org",
+    "@type":"Thing",
+    "additionalType":"http://www.productontology.org/id/Dog_breed",
+    "name": d["nome"],
+    "description": desc,
+    "image": d.get("foto", ""),
+    "mainEntityOfPage": url,
+    "additionalProperty": props
+  }, ensure_ascii=False)
+
+#-----------Scores-----------
+def score_atividade(r, rules):
+  at = r["atributos"]; grupo = str(at.get("fci_grupo") or "")
+  fci_int = rules["fci_base_intensidade"].get(grupo, 3)
+  fci_min = rules["fci_base_minutos"].get(grupo, 60)
+  intensidade = clamp_0_5(fci_int)
+  duracao = clamp_0_5(minutes_to_scale(fci_min))
+
+  mental_map = rules["mental_funcoes"]
+  funcoes = at.get("funcoes", []) or []
+  estimulo = max((mental_map.get(f, 2) for f in funcoes), default=2)
+  estimulo = clamp_0_5(estimulo)
+
+  w = rules["pesos"]["atividade_fisica"]
+  val = round_int(clamp_0_5(
+    intensidade*w["intensidade"] + duracao*w["duracao"] + estimulo*w["estimulo_mental"]
+  ))
+
+  texto = (
+    f"Os cães da raça {r['nome']} tendem a exigir <strong>atividade física {nivel_txt(intensidade)}</strong> "
+    f"de <strong>duração {duracao_txt(fci_min)}</strong> (≈{fci_min} min/dia), "
+    f"com <strong>estímulos mentais {nivel_txt(estimulo)}</strong> (funções: {', '.join(funcoes) or '—'})."
+  )
+  return val, texto
+
+PELAGEM_TXT = {
+  "sem_pelo": "sem pelo",
+  "curta": "curta",
+  "media": "média",
+  "longa": "longa",
+  "encaracolada": "encaracolada",
+  "dupla_curta": "dupla curta",
+  "dupla_longa": "dupla longa",
+}
+
+SUBPELO_TXT = {
+  "nenhum": "sem subpelo",
+  "leve": "subpelo leve",
+  "denso": "subpelo denso",
+}
+
+TOSA_TXT = {
+  "nao": "não requer tosa",
+  "ocasional": "tosa ocasional",
+  "regular_8_10": "tosa regular (a cada 8–10 semanas)",
+  "regular_4_6": "tosa frequente (a cada 4–6 semanas)",
+}
+
+def score_grooming(r, rules):
+  at = r["atributos"]
+  esc = rules["escovacao_pelo"].get(at.get("pelagem_tipo","curta"), 1)
+  shed = rules["shedding_subpelo"].get(at.get("subpelo","nenhum"), 1)
+  if at.get("shedding_estacao") in {"moderado","alto"}:
+    shed = clamp_0_5(shed + 1)
+  tosa = rules["tosa_necessidade"].get(at.get("necessita_tosa","nao"), 1)
+
+  w = rules["pesos"]["higiene_pelagem"]
+  val = round_int(clamp_0_5(esc*w["escovacao"] + shed*w["shedding"] + tosa*w["tosa"]))
+
+  pt_pelagem = PELAGEM_TXT.get(at.get("pelagem_tipo","curta"), at.get("pelagem_tipo","curta"))
+  pt_subpelo = SUBPELO_TXT.get(at.get("subpelo","nenhum"), at.get("subpelo","nenhum"))
+  pt_tosa   = TOSA_TXT.get(at.get("necessita_tosa","nao"), at.get("necessita_tosa","nao"))
+
+  texto = (
+    f"Para {r['nome']}, a rotina de higiene envolve <strong>escovação {nivel_txt(esc)}</strong> "
+    f"(pelagem {pt_pelagem}), <strong>queda de pelos {nivel_txt(shed)}</strong> ({pt_subpelo}) "
+    f"e <strong>{pt_tosa}</strong>."
+  )
+  return val, texto
 
 
-def wrap_html(head: str, body: str, active: str) -> str:
-  header, footer = render_chrome(active)
-  skip = '<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>'
-  return f"<!doctype html><html lang='pt-BR'><head>{head}</head><body>{skip}{header}{body}{footer}</body></html>"
+def calor_score(at):
+  s = 3
+  if at.get("braquicefalico"): s -= 2
+  if at.get("dobras_cutaneas"): s -= 1
+  if at.get("pelagem_tipo") in {"longa","encaracolada","dupla_longa"}: s -= 1
+  if at.get("subpelo") == "denso": s -= 1
+  climas = set(at.get("origem_clima",[]))
+  if "tropical" in climas: s += 1
+  if "frio" in climas: s -= 1
+  return clamp_0_5(s)
 
-def calc_subescalas(a: dict, r: dict) -> dict:
-  fci = a.get("fci_grupo")
-  porte = a.get("porte")
-  braq = bool(a.get("braquicefalico"))
-  pelo = a.get("pelagem_tipo")
-  subp = a.get("subpelo")
-  shed = a.get("shedding_estacao")
-  tosa = a.get("necessita_tosa")
-  dobras = bool(a.get("dobras_cutaneas"))
-  fun = a.get("funcoes",[]) or []
-  origem = a.get("origem_clima",[]) or []
+def umidade_score(at):
+  s = 3
+  if at.get("dobras_cutaneas"): s -= 1
+  if at.get("subpelo") == "denso": s -= 1
+  if at.get("pelagem_tipo") in {"dupla_longa","longa"}: s -= 1
+  return clamp_0_5(s)
 
-  base_int   = r["fci_base_intensidade"]
-  base_min   = r["fci_base_minutos"]
-  mental_map = r["mental_funcoes"]
-  escov_map  = r["escovacao_pelo"]
-  shed_map   = r["shedding_subpelo"]
-  tosa_map   = r["tosa_necessidade"]
+def espaco_need(porte, atividade_val):
+  base = {"pequeno":1.5, "medio":3, "grande":4}.get(porte, 3)
+  return clamp_0_5(base + (atividade_val-3)*0.5)
 
-  intensidade = int(base_int.get(str(fci),3))
-  if braq:
-    intensidade -= 2
-  if any(x in {"resgate","assistencia","trabalho_forca"} for x in fun):
-    intensidade += 1
-  if porte == "gigante":
-    intensidade -= 1
-  intensidade = clamp(intensidade)
+def score_clima(r, rules, atividade_val):
+  at = r["atributos"]; perfil = rules["perfil_ambiente"]
+  w = rules["pesos"]["clima_ambiente"][perfil]
+  s_calor = calor_score(at)
+  s_umid  = umidade_score(at)
+  need = espaco_need(at.get("porte","medio"), atividade_val)
+  s_espaco = 5 - need
 
-  mins = int(base_min.get(str(fci),60))
-  if braq:
-    mins -= 20
-  if porte == "gigante":
-    mins -= 15
-  if any(x in {"resgate","trabalho_forca"} for x in fun):
-    mins += 15
-  mins = max(15, min(120, mins))
-  duracao = bucket_minutos(mins)
+  val = round_int(clamp_0_5(s_calor*w["calor"] + s_umid*w["umidade"] + s_espaco*w["espaco"]))
+  texto = (
+      f"No perfil <strong>{perfil.replace('-', ' ')}</strong>, {r['nome']} apresenta <strong>tolerância ao calor {nivel_txt(s_calor)}</strong>, "
+      f"<strong>tolerância à umidade {nivel_txt(s_umid)}</strong> e <strong>compatibilidade de espaço {nivel_txt(s_espaco)}</strong>."
+  )
+  return val, texto
 
-  base_mental = max([mental_map.get(x,0) for x in fun] + [0])
-  mental = base_mental + (1 if any(x in {"resgate","assistencia"} for x in fun) else 0) - (1 if braq else 0)
-  mental = clamp(mental)
+#-----------Loads-----------
+site = json.loads((ROOT/"data/site.json").read_text(encoding="utf-8"))
+BASE = site.get("base_url", "https://www.guiaracas.com.br")
+rules = json.loads((ROOT/"data/rules.json").read_text(encoding="utf-8"))
 
-  escov = int(escov_map.get(pelo,2))
-  if subp == "denso":
-    escov += 1
-  if pelo in {"encaracolada","dupla_longa"}:
-    escov += 1
-  escov = clamp(escov,1,5)
+tpl = Template((ROOT/"templates/detalhe-raca.html").read_text(encoding="utf-8"))
+head_base = Template((ROOT/"templates/head-base.html").read_text(encoding="utf-8")).safe_substitute(baseUrl=BASE)
 
-  shedding = int(shed_map.get(subp,3))
-  if shed in {"alto","explosivo"}:
-    shedding += 1
-  if pelo == "sem_pelo":
-    shedding -= 1
-  shedding = clamp(shedding)
+racas = json.loads((ROOT/"data/racas.json").read_text(encoding="utf-8"))
+out_dir = ROOT/"racas"; out_dir.mkdir(exist_ok=True)
 
-  tosa_n = int(tosa_map.get(tosa,2)) + (1 if dobras else 0)
-  tosa_n = clamp(tosa_n,1,5)
+#-----------Gerador-----------
+for r in racas:
+  slug = slugify(r["nome"])
+  url = f"{BASE}/racas/{slug}.html"
 
-  calor = 3
-  if braq:
-    calor -= 2
-  if subp == "denso":
-    calor -= 1
-  if pelo in {"sem_pelo","curta"}:
-    calor += 1
-  if porte == "gigante":
-    calor -= 1
-  if any(x in {"tropical","deserto"} for x in origem):
-    calor += 1
-  calor = clamp(calor)
+  lead = r.get("lead") or r.get("notas", {}).get("resumo", "")
 
-  umidade = 3
-  if subp == "denso":
-    umidade -= 1
-  if dobras:
-    umidade -= 1
-  if pelo in {"sem_pelo","curta"}:
-    umidade += 1
-  if "tropical" in origem:
-    umidade += 1
-  umidade = clamp(umidade)
+  alt = r["medidas"]["altura_cm"]
+  altura_texto = f"{alt.get('macho','—')} ♂ / {alt.get('femea','—')} ♀ cm"
 
-  demanda = (intensidade + duracao) / 2.0
-  base = 6 - roundi(demanda)
-  pen = {"mini":0,"pequeno":0,"medio":1,"grande":2,"gigante":3}.get(porte,1)
-  espaco = clamp(base - pen, 1, 5)
+  pes = r["medidas"]["peso_kg"]
+  peso_texto = f"{pes.get('macho','—')} ♂ / {pes.get('femea','—')} ♀ kg"
 
-  return {
-      "atividade_fisica": {"intensidade":intensidade, "duracao":duracao, "estimulo_mental":mental},
-      "higiene_pelagem": {"escovacao":escov, "shedding":shedding, "tosa":tosa_n},
-      "clima_ambiente": {"calor":calor, "umidade":umidade, "espaco":espaco}
-    }
+  vida_texto = f"{r['medidas'].get('expectativa_anos','—')} anos"
 
-def media_ponderada(sub: dict, pesos: dict) -> int:
-  s = w = 0.0
-  for k, p in pesos.items():
-    v = sub.get(k)
-    if v is not None:
-      s += float(v) * float(p)
-      w += float(p)
-  return clamp(roundi(s / (w or 1.0)), 1, 5)
+  atividade, detA = score_atividade(r, rules)
+  grooming, detG  = score_grooming(r, rules)
+  clima, detC     = score_clima(r, rules, atividade)
 
-def build_citation_index(fontes, citacoes):
-  by_id = {f["id"]: f for f in (fontes or []) if "id" in f}
-  ordered_ids, id_to_num = [], {}
-  for _, ids in (citacoes or {}).items():
-      for fid in ids:
-          if fid in by_id and fid not in id_to_num:
-              id_to_num[fid] = len(ordered_ids) + 1
-              ordered_ids.append(fid)
-  return id_to_num, ordered_ids, by_id
+  grupo = r["atributos"].get("fci_grupo")
+  fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
+  fci_desc = rules["fci_grupos"].get(str(grupo), "—")
 
-def render_references_list(ordered_ids, by_id):
-  items = []
-  for n, fid in enumerate(ordered_ids, start=1):
-      f = by_id.get(fid, {})
-      nome = html.escape(f.get("nome",""))
-      tipo = html.escape(f.get("tipo",""))
-      url  = html.escape(f.get("url",""))
-      lic  = html.escape(f.get("licenca","—"))
-      acc  = html.escape(f.get("acessado_em",""))
-      a = f'<a href="{url}" target="_blank" rel="noopener noreferrer">{nome}</a>' if url else nome
-      small = f' <small>({lic}; acessado em {acc})</small>' if (lic or acc) else ""
-      items.append(f'<li id="ref-{n}"><span class="ref-tipo">{tipo}</span>: {a}{small}</li>')
-  return "\n      ".join(items)
-
-def nivel_15(n):
-  return {1:"muito baixa", 2:"baixa", 3:"moderada", 4:"alta", 5:"muito alta"}[clamp(int(n),1,5)]
-
-def label_duracao_bucket(n):
-  n = clamp(int(n),1,5)
-  return ["até 20 min", "21–40 min", "41–60 min", "61–90 min", "90+ min"][n-1]
-
-def label_escovacao(n):
-  return {1:"nunca/mensalmente", 2:"quinzenal", 3:"semanal", 4:"2–3×/sem", 5:"diária"}[clamp(int(n),1,5)]
-
-def label_shedding(n):
-  return f"queda {nivel_15(n)}"
-
-def label_tosa(n):
-  return {1:"nunca", 2:"ocasional", 3:"regular", 4:"frequente", 5:"muito frequente"}[clamp(int(n),1,5)]
-
-def label_tolerancia(n):
-  return f"tolerância {nivel_15(n)}"
-
-def label_espaco(n):
-  return {1:"apto pequeno", 2:"apto OK", 3:"casa pequena", 4:"casa com quintal", 5:"área ampla/sítio"}[clamp(int(n),1,5)]
-
-def fci_nome(grupo, rules):
-  if grupo is None:
-    return "—"
-  return rules.get("fci_grupos", {}).get(str(grupo), f"Grupo {grupo}")
-
-def compor_texto_indicadores(nome, labels, nums):
-  af = f"Os cães da raça {nome} pedem atividade física {labels['AF_INT_TX']} (intensidade {nums['AF_INT']}/5), " \
-       f"com duração {labels['AF_DUR_TX']} (nível {nums['AF_DUR']}/5) e " \
-       f"estímulo mental {labels['AF_MEN_TX']} (nível {nums['AF_MEN']}/5)."
-
-  hi = f"Em cuidados, a escovação é {labels['HI_ESC_TX']} (nível {nums['HI_ESC']}/5), " \
-       f"a queda de pelos é {labels['HI_SHD_TX']} (nível {nums['HI_SHD']}/5) e " \
-       f"a tosa é {labels['HI_TOS_TX']} (nível {nums['HI_TOS']}/5)."
-
-  cl = f"Quanto ao ambiente: {labels['CL_CAL_TX']} ao calor (nível {nums['CL_CAL']}/5), " \
-       f"{labels['CL_UMI_TX']} à umidade (nível {nums['CL_UMI']}/5) e " \
-       f"espaço ideal: {labels['CL_ESP_TX']} (nível {nums['CL_ESP']}/5)."
-  return af, hi, cl
-
-def sparkline_svg(data):
-  if not data:
-    return ""
-  w, h, pad = 120, 32, 4
-  vs = [max(0, min(100, float(d.get("valor", 0)))) for d in data]
-  mx = max(vs) or 1.0
-  pts = []
-  for i, v in enumerate(vs):
-      x = pad + (w - 2*pad) * (i / max(1, (len(vs) - 1)))
-      y = h - pad - (h - 2*pad) * (v / mx)
-      pts.append(f"{x:.1f},{y:.1f}")
-  anos = ", ".join(str(d["ano"]) for d in data)
-  return f'''<svg class="pop-spark" viewBox="0 0 {w} {h}" role="img" aria-label="Popularidade por ano">
-  <title>Popularidade por ano</title>
-  <desc>Anos: {anos}. Valores relativos 0–100.</desc>
-  <polyline fill="none" stroke="currentColor" stroke-width="2" points="{' '.join(pts)}" />
-</svg>'''
-
-def render_detalhe(b: dict):
-  nome = b["nome"]
-  slug = b["slug"]
-  notas = b.get("notas", {})
-  m = b.get("medidas", {})
-  attrs = b.get("atributos", {})
-  fontes = b.get("fontes", [])
-  citacoes = b.get("citacoes", {})
-  fci_nome_txt = fci_nome(attrs.get("fci_grupo"), RULES)
-
-  sub = calc_subescalas(attrs, RULES)
-  AF = media_ponderada(sub["atividade_fisica"], RULES["pesos"]["atividade_fisica"])
-  HI = media_ponderada(sub["higiene_pelagem"], RULES["pesos"]["higiene_pelagem"])
-  perfil = RULES["perfil_ambiente"]
-  CL = media_ponderada(sub["clima_ambiente"], RULES["pesos"]["clima_ambiente"][perfil])
-
-  af_i, af_d, af_m = sub["atividade_fisica"]["intensidade"], sub["atividade_fisica"]["duracao"], sub["atividade_fisica"]["estimulo_mental"]
-  hi_e, hi_s, hi_t = sub["higiene_pelagem"]["escovacao"], sub["higiene_pelagem"]["shedding"], sub["higiene_pelagem"]["tosa"]
-  cl_c, cl_u, cl_e = sub["clima_ambiente"]["calor"], sub["clima_ambiente"]["umidade"], sub["clima_ambiente"]["espaco"]
-  labels = {
-    "AF_INT_TX": nivel_15(af_i), "AF_DUR_TX": label_duracao_bucket(af_d), "AF_MEN_TX": nivel_15(af_m),
-    "HI_ESC_TX": label_escovacao(hi_e), "HI_SHD_TX": label_shedding(hi_s), "HI_TOS_TX": label_tosa(hi_t),
-    "CL_CAL_TX": label_tolerancia(cl_c), "CL_UMI_TX": label_tolerancia(cl_u), "CL_ESP_TX": label_espaco(cl_e),
-  }
-
-  nums = {"AF_INT":af_i,"AF_DUR":af_d,"AF_MEN":af_m,"HI_ESC":hi_e,"HI_SHD":hi_s,"HI_TOS":hi_t,"CL_CAL":cl_c,"CL_UMI":cl_u,"CL_ESP":cl_e}
-
-  txt_af, txt_hi, txt_cl = compor_texto_indicadores(nome, labels, nums)
-
-  pop_svg = ""
-  pop = b.get("popularidade", {})
-  series = pop.get("series", [])
-  if series:
-    pop_svg = sparkline_svg(series)
-
-  id_to_num, ordered_ids, by_id = build_citation_index(fontes, citacoes)
-  refs_ol  = render_references_list(ordered_ids, by_id)
-  fontes_count = len(ordered_ids)
-  metodo_url = f"{BASE_URL}/sobre/#metodologia"
-
-  title = f"{nome} — características, medidas e ambiente | Guia Raças"
-  desc  = f"{nome}: resumo, medidas e notas (atividade física, higiene/pelagem, clima/ambiente)."
-  canonical = f"{BASE_URL}/racas/{slug}/"
-  head = render_head(title, desc, canonical)
-
-  tpl = read_text(ROOT / "templates" / "detalhe-raca.html")
-  main = (tpl
-    .replace("{{HOME_URL}}", f"{BASE_URL}/")
-    .replace("{{RACAS_URL}}", f"{BASE_URL}/racas/")
-    .replace("{{SLUG}}", slug)
-    .replace("{{BASE_URL}}", BASE_URL)
-    .replace("{{NOME}}", html.escape(nome))
-    .replace("{{RESUMO}}", html.escape(notas.get("resumo","")))
-    .replace("{{FCI_NOME}}", html.escape(fci_nome_txt))
-    .replace("{{POP_SVG}}", pop_svg)
-    .replace("{{DET_TXT_AF}}", html.escape(txt_af))
-    .replace("{{DET_TXT_HI}}", html.escape(txt_hi))
-    .replace("{{DET_TXT_CL}}", html.escape(txt_cl))
-    .replace("{{OBSERVACOES}}", html.escape(notas.get("observacoes","")))
-    .replace("{{ALTURA_M}}", html.escape(m.get("altura_cm",{}).get("macho","—")))
-    .replace("{{ALTURA_F}}", html.escape(m.get("altura_cm",{}).get("femea","—")))
-    .replace("{{PESO_M}}", html.escape(m.get("peso_kg",{}).get("macho","—")))
-    .replace("{{PESO_F}}", html.escape(m.get("peso_kg",{}).get("femea","—")))
-    .replace("{{EXPECTATIVA}}", html.escape(m.get("expectativa_anos","—")))
-
-    .replace("{{AF_TOTAL}}", str(AF)).replace("{{HI_TOTAL}}", str(HI)).replace("{{CL_TOTAL}}", str(CL))
-
-    .replace("{{AF_INTENSIDADE}}", str(sub["atividade_fisica"]["intensidade"]))
-    .replace("{{AF_DURACAO}}", str(sub["atividade_fisica"]["duracao"]))
-    .replace("{{AF_MENTAL}}", str(sub["atividade_fisica"]["estimulo_mental"]))
-    .replace("{{HI_ESCOVACAO}}", str(sub["higiene_pelagem"]["escovacao"]))
-    .replace("{{HI_SHEDDING}}", str(sub["higiene_pelagem"]["shedding"]))
-    .replace("{{HI_TOSA}}", str(sub["higiene_pelagem"]["tosa"]))
-    .replace("{{CL_CALOR}}", str(sub["clima_ambiente"]["calor"]))
-    .replace("{{CL_UMIDADE}}", str(sub["clima_ambiente"]["umidade"]))
-    .replace("{{CL_ESPACO}}", str(sub["clima_ambiente"]["espaco"]))
-
-    .replace("{{AF_INTENSIDADE_TX}}", labels["AF_INT_TX"])
-    .replace("{{AF_DURACAO_TX}}", labels["AF_DUR_TX"])
-    .replace("{{AF_MENTAL_TX}}", labels["AF_MEN_TX"])
-    .replace("{{HI_ESCOVACAO_TX}}", labels["HI_ESC_TX"])
-    .replace("{{HI_SHEDDING_TX}}", labels["HI_SHD_TX"])
-    .replace("{{HI_TOSA_TX}}", labels["HI_TOS_TX"])
-    .replace("{{CL_CALOR_TX}}", labels["CL_CAL_TX"])
-    .replace("{{CL_UMIDADE_TX}}", labels["CL_UMI_TX"])
-    .replace("{{CL_ESPACO_TX}}", labels["CL_ESP_TX"])
-
-    .replace("{{SOBRE_METODO_URL}}", metodo_url)
-    .replace("{{FONTES_COUNT}}", str(fontes_count))
-    .replace("{{REFERENCIAS}}", refs_ol or "<li>Sem fontes cadastradas para esta página.</li>")
+  html = tpl.safe_substitute(
+    HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
+    SITE_HEADER="", SITE_FOOTER="",
+    nome=r["nome"], lead=lead,
+    origem=r.get("origem","—"),
+    fci_grupo=fci_grupo_txt, fci_descricao=fci_desc,
+    fci_codigo=r.get("fci_codigo","—"),
+    altura_texto=altura_texto, peso_texto=peso_texto, vida_texto=vida_texto,
+    atividade=atividade, grooming=grooming, clima=clima,
+    detalhe_atividade_html=detA, detalhe_grooming_html=detG, detalhe_clima_html=detC,
+    foto=r.get("foto",""), foto_w=r.get("foto_w",""), foto_h=r.get("foto_h",""),
+    foto_credito=r.get("foto_credito",""),
+    jsonld_breadcrumb=jsonld_breadcrumb(r["nome"], url),
+    jsonld_breed=jsonld_breed(r, url),
   )
 
-  page = wrap_html(head, main, active="/racas/")
-  out = ROOT / "racas" / slug / "index.html"
-  write_text(out, page)
+  if "${" in html:
+    print(f"[WARN] Placeholders não resolvidos em {slug}.html")
 
-def main():
-  ordered = sorted(BREEDS, key=lambda b: b["slug"])
-  for b in ordered:
-      render_detalhe(b)
-  print(f"Gerei {len(ordered)} páginas de raça em /racas/{{slug}}/")
-
-if __name__ == "__main__":
-  main()
+  (out_dir/f"{slug}.html").write_text(html, encoding="utf-8")

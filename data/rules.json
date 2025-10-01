@@ -1,4 +1,8 @@
 {
+  "atividade": { "min": 0, "max": 5, "round": "nearest" },
+  "grooming": { "min": 0, "max": 5, "round": "nearest" },
+  "clima": { "min": 0, "max": 5, "round": "nearest" },
+
   "rules_version": "1.0.0",
   "pesos": {
     "atividade_fisica": { "intensidade": 0.4, "duracao": 0.4, "estimulo_mental": 0.2 },

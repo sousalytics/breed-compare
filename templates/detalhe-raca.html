@@ -1,159 +1,141 @@
-<main id="conteudo" class="breed" tabindex="-1">
-  <nav class="breadcrumbs" aria-label="Trilha de navegação">
-    <ol>
-      <li><a href="{{HOME_URL}}">Home</a></li>
-      <li><a href="{{RACAS_URL}}">Raças</a></li>
-      <li aria-current="page">{{NOME}}</li>
-    </ol>
-  </nav>
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    ${HEAD_BASE}
+    <title>${nome} — Guia Raças</title>
+    <meta name="description" content="${lead}" />
+    <link rel="canonical" href="${url}" />
+    <script type="application/ld+json">
+      ${jsonld_breadcrumb}
+    </script>
+    <script type="application/ld+json">
+      ${jsonld_breed}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link visually-hidden" href="#conteudo">Pular para o conteúdo</a>
 
-  <header class="breed__header">
-    <h1 class="breed__title">{{NOME}}</h1>
+    <header class="header" role="banner">${SITE_HEADER}</header>
 
-    <span class="fci-badge fci-badge--solid" title="Grupo FCI">{{FCI_NOME}}</span>
+    <nav class="breadcrumbs" aria-label="Você está em">
+      <ol class="breadcrumbs__list">
+        <li><a href="${baseUrl}/">Início</a></li>
+        <li><a href="${baseUrl}/racas/">Raças</a></li>
+        <li aria-current="page">${nome}</li>
+      </ol>
+    </nav>
 
-    <p class="breed__lead">{{RESUMO}}</p>
-  </header>
-
-  <section class="facts card">
-    <div class="facts__grid">
-      <div class="fact">
-        <h3 class="fact__label">Altura (cm)</h3>
-        <dl class="fact__dl">
-          <div>
-            <dt>Macho</dt>
-            <dd>{{ALTURA_M}}</dd>
-          </div>
-          <div>
-            <dt>Fêmea</dt>
-            <dd>{{ALTURA_F}}</dd>
-          </div>
-        </dl>
-      </div>
-      <div class="fact">
-        <h3 class="fact__label">Peso (kg)</h3>
-        <dl class="fact__dl">
-          <div>
-            <dt>Macho</dt>
-            <dd>{{PESO_M}}</dd>
-          </div>
-          <div>
-            <dt>Fêmea</dt>
-            <dd>{{PESO_F}}</dd>
-          </div>
-        </dl>
-      </div>
-      <div class="fact">
-        <h3 class="fact__label">Expectativa</h3>
-        <p class="fact__value">{{EXPECTATIVA}} anos</p>
-      </div>
-      <div class="fact fact--pop">
-        <h3 class="fact__label">Popularidade</h3>
-        <div class="fact__viz">{{POP_SVG}}</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="indicators">
-    <h2 class="visually-hidden">Indicadores</h2>
-    <ul class="indicator-list">
-      <!-- AF -->
-      <li class="indicator">
-        <div class="indicator__row">
-          <span class="indicator__label">Atividade física</span>
-          <output class="indicator__value">{{AF_TOTAL}}/5</output>
+    <main id="conteudo" class="breed" role="main">
+      <header class="breed__hero">
+        <div class="breed__title">
+          <h1 class="breed__name">${nome}</h1>
+          <p class="breed__lead">${lead}</p>
         </div>
-        <meter
-          class="indicator__meter"
-          min="1"
-          max="5"
-          value="{{AF_TOTAL}}"
-          aria-label="Atividade física {{AF_TOTAL}} de 5"
-        ></meter>
-        <button
-          class="indicator__toggle"
-          aria-expanded="false"
-          aria-controls="det-af"
-          aria-label="Abrir detalhes"
-        >
-          <span aria-hidden="true">+</span> Detalhes
-        </button>
-        <div id="det-af" class="indicator__details" hidden>
-          <p>{{DET_TXT_AF}}</p>
-        </div>
-      </li>
 
-      <!-- HI -->
-      <li class="indicator">
-        <div class="indicator__row">
-          <span class="indicator__label">Higiene &amp; Pelagem</span>
-          <output class="indicator__value">{{HI_TOTAL}}/5</output>
-        </div>
-        <meter
-          class="indicator__meter"
-          min="1"
-          max="5"
-          value="{{HI_TOTAL}}"
-          aria-label="Higiene e Pelagem {{HI_TOTAL}} de 5"
-        ></meter>
-        <button class="indicator__toggle" aria-expanded="false" aria-controls="det-hi">
-          <span aria-hidden="true">+</span> Detalhes
-        </button>
-        <div id="det-hi" class="indicator__details" hidden>
-          <p>{{DET_TXT_HI}}</p>
-        </div>
-      </li>
+        <aside class="fci-card" aria-labelledby="fci-title">
+          <h2 id="fci-title" class="visually-hidden">Grupo FCI</h2>
+          <p class="fci-card__group"><span class="badge">${fci_grupo}</span> ${fci_descricao}</p>
+          <p class="fci-card__origem"><strong>Origem:</strong> ${origem}</p>
+          <p class="fci-card__codigo"><strong>Código FCI:</strong> ${fci_codigo}</p>
+        </aside>
+      </header>
 
-      <!-- CL -->
-      <li class="indicator">
-        <div class="indicator__row">
-          <span class="indicator__label">Clima &amp; Ambiente</span>
-          <output class="indicator__value">{{CL_TOTAL}}/5</output>
-        </div>
-        <meter
-          class="indicator__meter"
-          min="1"
-          max="5"
-          value="{{CL_TOTAL}}"
-          aria-label="Clima e Ambiente {{CL_TOTAL}} de 5"
-        ></meter>
-        <button class="indicator__toggle" aria-expanded="false" aria-controls="det-cl">
-          <span aria-hidden="true">+</span> Detalhes
-        </button>
-        <div id="det-cl" class="indicator__details" hidden>
-          <p>{{DET_TXT_CL}}</p>
-        </div>
-      </li>
-    </ul>
-  </section>
+      <section class="breed__kpis" aria-labelledby="kpis-title">
+        <h2 id="kpis-title" class="visually-hidden">Medidas principais</h2>
+        <ul class="kpis__grid">
+          <li class="kpi">
+            <span class="kpi__label">Altura</span><span class="kpi__value">${altura_texto}</span>
+          </li>
+          <li class="kpi">
+            <span class="kpi__label">Peso</span><span class="kpi__value">${peso_texto}</span>
+          </li>
+          <li class="kpi">
+            <span class="kpi__label">Expectativa de vida</span
+            ><span class="kpi__value">${vida_texto}</span>
+          </li>
+        </ul>
+      </section>
 
-  <!-- CTA -->
-  <p class="breed__cta">
-    <a class="btn btn--compare" href="{{BASE_URL}}/comparar/?ids={{SLUG}}"
-      >Adicionar à comparação</a
-    >
-  </p>
+      <section class="breed__indicators" aria-labelledby="indicators-title">
+        <h2 id="indicators-title">Indicadores</h2>
+        <ul class="indicators__list">
+          <li class="indicators__item">
+            <span class="indicator__label">Atividade física</span>
+            <div
+              class="scale"
+              role="img"
+              aria-label="Atividade física: ${atividade} de 5"
+              data-value="${atividade}"
+            ></div>
+            <details>
+              <summary>Detalhes</summary>
+              <p>${detalhe_atividade_html}</p>
+            </details>
+          </li>
 
-  <!-- Observações -->
-  <section class=".section section--notes">
-    <h2>Observações</h2>
-    <p>{{OBSERVACOES}}</p>
-  </section>
+          <li class="indicators__item">
+            <span class="indicator__label">Grooming &amp; Pelagem</span>
+            <div
+              class="scale"
+              role="img"
+              aria-label="Grooming: ${grooming} de 5"
+              data-value="${grooming}"
+            ></div>
+            <details>
+              <summary>Detalhes</summary>
+              <p>${detalhe_grooming_html}</p>
+            </details>
+          </li>
 
-  <!-- Metodologia e Fontes -->
-  <section class="sources section">
-    <details>
-      <summary>Metodologia e Fontes ({{FONTES_COUNT}})</summary>
-      <div class="transparencia__conteudo">
-        <p>
-          Como calculamos os indicadores? Veja a
-          <a href="{{SOBRE_METODO_URL}}">metodologia completa</a>.
+          <li class="indicators__item">
+            <span class="indicator__label">Clima &amp; Ambiente</span>
+            <div
+              class="scale"
+              role="img"
+              aria-label="Clima &amp; Ambiente: ${clima} de 5"
+              data-value="${clima}"
+            ></div>
+            <details>
+              <summary>Detalhes</summary>
+              <p>${detalhe_clima_html}</p>
+            </details>
+          </li>
+        </ul>
+        <p class="indicators__note">
+          Metodologia e fontes: veja
+          <a href="${baseUrl}/sobre/#metodologia">/metodologia</a>.
         </p>
-        <h3 id="sec-fontes">Fontes</h3>
-        <ol class="refs">
-          {{REFERENCIAS}}
-        </ol>
-      </div>
-    </details>
-  </section>
-</main>
+      </section>
+
+      <section class="breed__pop" aria-labelledby="pop-title">
+        <h2 id="pop-title">Popularidade</h2>
+        <div id="pop-chart" class="pop-chart" data-slug="${slug}">
+          <noscript>Popularidade por ano (gráfico requer JavaScript).</noscript>
+        </div>
+      </section>
+
+      <section class="breed__gallery" aria-labelledby="galeria-title">
+        <h2 id="galeria-title" class="visually-hidden">Galeria</h2>
+        <figure class="breed__photo">
+          <img
+            src="${foto}"
+            alt="Foto de um ${nome}"
+            width="${foto_w}"
+            height="${foto_h}"
+            loading="lazy"
+          />
+          <figcaption>${foto_credito}</figcaption>
+        </figure>
+      </section>
+
+      <footer class="breed__cta">
+        <a class="btn btn--primary" href="${baseUrl}/guia-responsavel/"
+          >Guia de guarda responsável</a
+        >
+      </footer>
+    </main>
+
+    <footer class="site-footer">${SITE_FOOTER}</footer>
+    <script src="${baseUrl}/scripts/main.js" defer></script>
+  </body>
+</html>
