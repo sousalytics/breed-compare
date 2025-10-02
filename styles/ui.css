@@ -230,9 +230,9 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 
 /* ===== Indicadores ===== */
 .breed__indicators {
-  margin-block: var(--space-6) var(--space-3);
-  padding-top: var(--space-2);
-  border-top: var(--border-1);
+  margin-block: var(--space-7) var(--space-4);
+  padding-top: 0;
+  border-top: 0;
 }
 .indicators {
   display: grid;
@@ -383,6 +383,8 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-size: var(--step-2);
   line-height: 1.2;
   margin-bottom: 0.25rem;
+  position: relative;
+  z-index: 0;
 }
 
 .breed__lead {
@@ -391,6 +393,32 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   opacity: 0.85;
   margin-bottom: 0.5rem;
   margin-top: 0.25rem;
+}
+@media (min-width: 64rem) {
+  .breed__hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "title fci"
+      "thumb fci";
+    align-items: start;
+    gap: var(--space-3);
+  }
+  .breed__title {
+    grid-area: title;
+  }
+  .breed__thumb {
+    grid-area: thumb;
+  }
+  .fci-card {
+    grid-area: fci;
+  }
+  .breed__thumb img {
+    width: 220px;
+    height: auto;
+    border-radius: var(--radius-2);
+    display: block;
+  }
 }
 @media (min-width: 48rem) {
   .breed__header {
@@ -412,21 +440,15 @@ html[data-theme="alt"] .header .logo .logo__glyph {
     flex-wrap: wrap;
     margin-block: var(--space-4) var(--space-2);
   }
-}
 
-.breed__hero {
-  display: grid;
-  gap: var(--space-3);
-  align-items: start;
-}
-@media (min-width: 64rem) {
   .breed__hero {
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "title fci"
-      "thumb fci";
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-start;
   }
 }
+
 .breed__title {
   grid-area: title;
 }
@@ -447,6 +469,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
     width: 100%;
     height: auto;
     border-radius: var(--radius-2);
+    display: block;
   }
 }
 
@@ -454,17 +477,14 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   margin: 0;
   line-height: 1.1;
 }
-.breed__lead {
-  opacity: 0.85;
-}
 .breed__main {
   display: grid;
   gap: var(--space-2);
 }
 .breed__pop {
-  margin-block: var(--space-6) var(--space-3);
-  padding-top: var(--space-2);
-  border-top: var(--border-1);
+  margin-block: var(--space-7) var(--space-4);
+  padding-top: 0;
+  border-top: 0;
 }
 
 /* Facts (direita) */
