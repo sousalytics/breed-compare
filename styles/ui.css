@@ -46,6 +46,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .nav__link:focus-visible {
   background: var(--surface-1);
   outline: none;
+  text-decoration: underline;
 }
 .nav__link[aria-current="page"] {
   color: var(--color-primary);

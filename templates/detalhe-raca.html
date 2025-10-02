@@ -14,19 +14,7 @@
   </head>
   <body>
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-
-    <header class="header" role="banner">
-      <div class="header__inner">
-        <a href="${baseUrl}/" class="logo">Guia Raças</a>
-        <nav class="nav" aria-label="Principal">
-          <ul class="nav__list">
-            <li><a class="nav__link" href="${baseUrl}/racas/">Raças</a></li>
-            <li><a class="nav__link" href="${baseUrl}/comparar/">Comparar</a></li>
-            <li><a class="nav__link" href="${baseUrl}/sobre/">Sobre</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    ${SITE_HEADER}
 
     <nav class="breadcrumbs" aria-label="Você está em">
       <ol class="breadcrumbs__list">
@@ -202,16 +190,8 @@
         <a class="btn btn--primary btn--sm" href="${baseUrl}/guia-responsavel/">Guia Responsável</a>
       </footer>
     </main>
-    <footer class="footer" role="contentinfo">
-      <nav class="footer__nav" aria-label="Links institucionais">
-        <a class="footer__link" href="{href('/sitemap.html')}">Mapa do site</a>
-        <a class="footer__link" href="{href('/acessibilidade/')}">Acessibilidade</a>
-        <a class="footer__link" href="{href('/privacidade/')}">Privacidade</a>
-      </nav>
-      <p>
-        &copy; 2025 Guia Raças — Conteúdo educativo. Consulte um veterinário para decisões de saúde.
-      </p>
-    </footer>
+
+    ${SITE_FOOTER}
     <script src="${baseUrl}/scripts/main.js" defer></script>
   </body>
 </html>

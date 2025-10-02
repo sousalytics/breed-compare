@@ -388,6 +388,10 @@ rules = json.loads((ROOT/"data/rules.json").read_text(encoding="utf-8"))
 
 tpl = Template((ROOT/"templates/detalhe-raca.html").read_text(encoding="utf-8"))
 head_base = Template((ROOT/"templates/head-base.html").read_text(encoding="utf-8")).safe_substitute(baseUrl=BASE)
+header_tpl = Template((ROOT/"templates/header.html").read_text(encoding="utf-8"))
+footer_tpl = Template((ROOT/"templates/footer.html").read_text(encoding="utf-8"))
+site_header = header_tpl.safe_substitute(baseUrl=BASE)
+site_footer = footer_tpl.safe_substitute(baseUrl=BASE)
 
 racas = json.loads((ROOT/"data/racas.json").read_text(encoding="utf-8"))
 out_dir = ROOT/"racas"; out_dir.mkdir(exist_ok=True)
@@ -434,7 +438,7 @@ for r in racas:
 
   html = tpl.safe_substitute(
     HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
-    SITE_HEADER="", SITE_FOOTER="",
+    SITE_HEADER=site_header, SITE_FOOTER=site_footer,
     nome=r["nome"], lead=lead,
     origem=r.get("origem","—"),
     fci_grupo=fci_grupo_txt, fci_descricao=fci_desc,
