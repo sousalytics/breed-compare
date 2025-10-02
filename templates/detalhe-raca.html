@@ -13,7 +13,7 @@
     </script>
   </head>
   <body>
-    <a class="skip-link visually-hidden" href="#conteudo">Pular para o conteúdo</a>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
     <header class="header" role="banner">
       <div class="header__inner">
@@ -36,22 +36,23 @@
       </ol>
     </nav>
 
-    <main id="conteudo" class="breed" role="main">
+    <main id="conteudo" tabindex="-1" class="breed" role="main">
       <header class="breed__hero">
-        <div class="breed__title">
-          <h1 class="breed__name">${nome}</h1>
-          <p class="breed__lead">${lead}</p>
-        </div>
-
-        <figure class="breed__thumb">
-          <img
-            src="${foto}"
-            alt="Foto ilustrativa de ${nome}"
-            loading="lazy"
-            width="220"
-            height="147"
-          />
-        </figure>
+        <aside class="breed__summary" aria-labelledby="breed-name">
+          <figure class="breed__thumb">
+            <img
+              src="${foto}"
+              alt="Foto ilustrativa de ${nome}"
+              loading="lazy"
+              width="220"
+              height="147"
+            />
+          </figure>
+          <div class="breed__heading">
+            <h1 id="breed-name" class="breed__name">${nome}</h1>
+            <p class="breed__lead">${lead}</p>
+          </div>
+        </aside>
 
         <aside class="fci-card" aria-labelledby="fci-title">
           <h2 id="fci-title" class="visually-hidden">Grupo FCI</h2>

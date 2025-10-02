@@ -40,9 +40,13 @@
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2rem;
+  --space-5: 2.5rem;
+  --space-6: 3rem;
+  --space-7: 4rem;
+  --space-8: clamp(4rem, 6vw, 6rem);
 
   --container-max: 72rem;
-  --sticky-offset: 6rem;
+  --sticky-offset: 3.25rem;
 
   /* Sombras/Bordas/Superfícies */
   --shadow-rgb: 0 0 0;
