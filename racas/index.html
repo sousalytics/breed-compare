@@ -90,22 +90,59 @@
 
       <h1>Raças</h1>
 
-      <form role="search" aria-label="Buscar raças">
-        <label for="q">Buscar raça</label>
-        <input id="q" name="q" type="search" placeholder="Ex.: Labrador, Bulldog…" />
-        <button type="submit">Buscar</button>
+      <form id="breed-filters" role="search" method="get" aria-label="Filtrar raças">
+        <div class="field">
+          <label for="q">Buscar raça</label>
+          <input id="q" name="q" type="search" placeholder="Ex.: Labrador" autocomplete="off" />
+        </div>
+
+        <fieldset>
+          <legend>Filtros</legend>
+
+          <label for="porte">Porte</label>
+          <select id="porte" name="porte">
+            <option value="">Todos</option>
+            <option value="mini">Mini</option>
+            <option value="pequeno">Pequeno</option>
+            <option value="medio">Médio</option>
+            <option value="grande">Grande</option>
+            <option value="gigante">Gigante</option>
+          </select>
+
+          <label for="grupo">Grupo FCI</label>
+          <select id="grupo" name="grupo">
+            <option value="">Todos</option>
+            <option value="1">Grupo 1 — Pastores e Boiadeiros</option>
+            <option value="2">Grupo 2 — Pinscher, Schnauzer, Molossos…</option>
+            <option value="3">Grupo 3 — Terriers</option>
+            <option value="4">Grupo 4 — Dachshunds</option>
+            <option value="5">Grupo 5 — Spitz e Primitivos</option>
+            <option value="6">Grupo 6 — Farejadores</option>
+            <option value="7">Grupo 7 — Apontadores</option>
+            <option value="8">Grupo 8 — Retrievers, Levantadores, D’água</option>
+            <option value="9">Grupo 9 — Cães de Companhia</option>
+            <option value="10">Grupo 10 — Galgos</option>
+          </select>
+        </fieldset>
+
+        <noscript>
+          <p>
+            Ative o JavaScript para filtrar a lista. Sem JS, veja todas as raças em ordem
+            alfabética.
+          </p>
+        </noscript>
       </form>
 
-      <section aria-labelledby="sec-lista">
-        <h2 id="sec-lista">Todas as raças</h2>
-        <ul class="lista-racas">
-          <li>
-            <a href="https://www.guiaracas.com.br/racas/labrador-retriever/">Labrador Retriever</a>
-          </li>
-          <li><a href="https://www.guiaracas.com.br/racas/bulldog-ingles/">Bulldog Inglês</a></li>
-          <li><a href="https://www.guiaracas.com.br/racas/vira-lata-srd/">Vira-lata (SRD)</a></li>
-        </ul>
-      </section>
+      <ul class="breed-list" aria-live="polite">
+        <!-- Cada item com data-atributos para progressive enhancement -->
+        <li class="breed-card" data-porte="medio" data-grupo="8">
+          <article>
+            <h3><a href="/raca/labrador-retriever/">Labrador Retriever</a></h3>
+            <!-- outras infos do card… -->
+          </article>
+        </li>
+        <!-- TODO: demais raças -->
+      </ul>
     </main>
     <footer class="footer" role="contentinfo">
       <nav class="footer__nav" aria-label="Links institucionais">

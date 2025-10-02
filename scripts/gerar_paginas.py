@@ -371,6 +371,16 @@ def score_clima(r, rules, atividade_val):
   )
   return val, texto
 
+def human_porte(p):
+  m = {
+    "mini": "Mini",
+    "pequeno": "Pequeno",
+    "medio": "Médio",
+    "grande": "Grande",
+    "gigante": "Gigante",
+  }
+  return m.get((p or "").lower(), "—")
+
 #-----------Loads-----------
 site = json.loads((ROOT/"data/site.json").read_text(encoding="utf-8"))
 BASE = site.get("base_url", "https://www.guiaracas.com.br")
@@ -413,6 +423,8 @@ for r in racas:
   grupo = r["atributos"].get("fci_grupo")
   fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
   fci_desc = rules["fci_grupos"].get(str(grupo), "—")
+  porte_slug = (r["atributos"].get("porte") or "").lower()
+  porte_label = human_porte(porte_slug)
 
   foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
   if foto_src.startswith("/"):
@@ -426,6 +438,8 @@ for r in racas:
     origem=r.get("origem","—"),
     fci_grupo=fci_grupo_txt, fci_descricao=fci_desc,
     fci_codigo=r.get("fci_codigo","—"),
+    porte_label=porte_label,
+    porte_slug=porte_slug,
     altura_texto_html=altura_texto_html, peso_texto_html=peso_texto_html, vida_texto=vida_texto,
     atividade=atividade, grooming=grooming, clima=clima,
     detalhe_atividade_html=detA, detalhe_grooming_html=detG, detalhe_clima_html=detC,
