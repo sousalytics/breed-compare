@@ -401,7 +401,6 @@ PAIS_PT_TO_ISO = {
 }
 
 def origem_to_html(origem_str):
-  """Gera HTML com bandeiras + nomes. Aceita 'Canadá / Reino Unido'."""
   if not origem_str or origem_str.strip() in {"—", "-"}:
     return "—"
   partes = [p.strip() for p in origem_str.split("/") if p.strip()]
