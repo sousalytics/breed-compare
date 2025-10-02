@@ -160,7 +160,7 @@ def score_atividade(r, rules):
 
   texto = (
     f"Os cães da raça {r['nome']} costumam apresentar <strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
-    f"necessitando de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) e de "
+    f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) e de "
     f"<strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>. "
     f"Perfil/funções típicas: {', '.join(funcoes_pt) or '—'}.{dicas}"
   )
@@ -283,9 +283,7 @@ for r in racas:
   fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
   fci_desc = rules["fci_grupos"].get(str(grupo), "—")
 
-  foto_src = r.get("foto","")
-  if not foto_src:
-    foto_src = "/assets/breeds/_placeholder.png"
+  foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
   if foto_src.startswith("/"):
     foto_src = f"{BASE}{foto_src}"
 

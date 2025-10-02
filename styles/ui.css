@@ -269,6 +269,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 .indicator__details {
   margin-top: 0.5rem;
+  color: var(--color-text);
 }
 .indicator__details[open] .indicator__toggle::before {
   content: "–";
@@ -312,6 +313,27 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   text-align: center;
 }
 
+.indicator__togglebtn {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  border: var(--border-1);
+  background: transparent;
+  padding: 0;
+  text-decoration: none;
+}
+.indicator__togglebtn .icon-minus {
+  display: none;
+}
+.indicator__togglebtn[aria-expanded="true"] .icon-plus {
+  display: none;
+}
+.indicator__togglebtn[aria-expanded="true"] .icon-minus {
+  display: inline;
+}
+
 .indicators__list {
   list-style: none;
   padding: 0;
@@ -343,7 +365,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   padding: 0.35rem;
 }
 .scale > i {
-  display: block;
   height: 0.7rem;
   border-radius: 999px;
   background: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 20%);
@@ -546,10 +567,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   border: 0;
   padding: 0.25rem 0;
   text-decoration: underline;
-}
-.indicator__details {
-  margin-top: 0.5rem;
-  color: var(--color-text);
 }
 
 /* Card FCI */
