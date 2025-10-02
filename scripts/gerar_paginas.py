@@ -49,19 +49,6 @@ def duracao_txt(mins):
     return "curta a moderada"
   return "curta"
 
-def duracao_frase(mins):
-  if mins is None:
-    return "duração moderada"
-  if mins >= 90:
-    return "longa duração"
-  if mins >= 75:
-    return "duração moderada a longa"
-  if mins >= 60:
-    return "duração moderada"
-  if mins >= 45:
-    return "duração curta a moderada"
-  return "curta duração"
-
 def human_pelo(p):
   return {
     "sem_pelo": "sem pelo",
@@ -101,6 +88,17 @@ def tosa_text(need):
     "regular_8_10": "requer tosa regular (a cada 8–10 semanas)",
     "regular_4_6": "requer tosa frequente (a cada 4–6 semanas)"
   }.get(need, "não requer tosa")
+
+def ambiente_label(s_espaco):
+  if s_espaco >= 4.5:
+    return "apartamento pequeno (≤ 50 m²), com passeios diários e enriquecimento"
+  if s_espaco >= 3.6:
+    return "apartamento médio (50–80 m²)"
+  if s_espaco >= 2.6:
+    return "apartamento amplo ou casa pequena"
+  if s_espaco >= 1.6:
+    return "casa com quintal"
+  return "área ampla (quintal grande/chácara)"
 
 def parse_minmax(txt):
   if not txt or txt == "—":
@@ -183,38 +181,99 @@ def score_atividade(r, rules):
   at = r["atributos"]; grupo = str(at.get("fci_grupo") or "")
   fci_int = rules["fci_base_intensidade"].get(grupo, 3)
   fci_min = rules["fci_base_minutos"].get(grupo, 60)
-  intensidade = clamp_0_5(fci_int)
-  duracao = clamp_0_5(minutes_to_scale(fci_min))
 
-  mental_map = rules["mental_funcoes"]
+  intensidade = clamp_0_5(fci_int)
+  estimulo_map = rules["mental_funcoes"]
+
   funcoes = at.get("funcoes", []) or []
-  estimulo = max((mental_map.get(f, 2) for f in funcoes), default=2)
-  estimulo = clamp_0_5(estimulo)
+  funcao_pref = at.get("funcao_principal")
+
+  main_func = funcao_pref if (funcao_pref and funcao_pref in funcoes) else (funcoes[0] if funcoes else None)
+
+  ALLOW_TWO = True
+  funcoes_escolhidas = [f for f in [main_func] if f]
+  if ALLOW_TWO and funcoes:
+    for f in funcoes:
+      if f and f != main_func:
+        funcoes_escolhidas.append(f)
+        break
+
+  estimulo_vals = [estimulo_map.get(f, 2) for f in funcoes] or [2]
+  estimulo = clamp_0_5(max(estimulo_vals))
 
   w = rules["pesos"]["atividade_fisica"]
-  val = round_int(clamp_0_5(intensidade*w["intensidade"] + duracao*w["duracao"] + estimulo*w["estimulo_mental"]))
+  val = round_int(clamp_0_5(
+    intensidade*w["intensidade"] + minutes_to_scale(fci_min)*w["duracao"] + estimulo*w["estimulo_mental"]
+  ))
 
-  funcoes_pt = [FUNCOES_TXT.get(f, f) for f in funcoes]
-  sugestoes  = [SUGESTOES.get(f) for f in funcoes if SUGESTOES.get(f)]
-  dicas = f" para o qual recomenda-se atividades de <strong>{', '.join(sugestoes)}</strong>." if sugestoes else ""
-
-  funcoes = at.get("funcoes", []) or []
-  main_func = funcoes[0] if funcoes else None
-  func_txt = FUNCOES_TXT.get(main_func) if main_func else None
-  ativ_txt = SUGESTOES.get(main_func) if main_func else None
-  perfil_str = ""
-  if func_txt and ativ_txt:
-    perfil_str = f" Seu perfil/função típica é <strong>{func_txt}</strong>,{dicas}"
-  elif func_txt:
-    perfil_str = f" Seu perfil/função típica é <strong>{func_txt}</strong>."
+  def duracao_frase(mins):
+    if mins is None:
+      return "duração moderada"
+    if mins >= 90:
+      return "longa duração"
+    if mins >= 75:
+      return "duração moderada a longa"
+    if mins >= 60:
+      return "duração moderada"
+    if mins >= 45:
+      return "duração curta a moderada"
+    return "curta duração"
 
   texto = (
-    f"Os cães da raça {r['nome']} costumam apresentar <strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
-    f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) e de "
-    f"<strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>. "
-    f"{perfil_str}"
+    f"Os cães da raça {r['nome']} costumam apresentar "
+    f"<strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
+    f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) "
+    f"e de <strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>."
   )
-  return val, texto
+
+  def fun_pt(f):
+    return FUNCOES_TXT.get(f, f)
+  def sug(f):
+    return SUGESTOES.get(f)
+
+  def tokenizar(s):
+    s = s.lower().replace("com supervisão", "").strip()
+    s = s.replace(" e ", ", ")
+    parts = [p.strip() for p in s.split(",") if p.strip()]
+    tokens = []
+    for p in parts:
+      if "natação" in p or "água" in p:
+        tokens.append("atividades aquáticas supervisionadas")
+      elif "aportes" in p or "apporte" in p or "buscar e trazer" in p:
+        tokens.append("aportes (buscar e trazer)")
+      else:
+        tokens.append(p)
+    return tokens
+
+  if not funcoes_escolhidas:
+    perfil_label = "Perfil/função não informada"
+    funcao_txt = "—"
+    ativ_trailer = "."
+  else:
+    funcs_txt = [fun_pt(f) for f in funcoes_escolhidas]
+    funcao_txt = " e ".join(funcs_txt)
+    todos_tokens = []
+    for f in funcoes_escolhidas:
+      s = sug(f)
+      if s:
+        todos_tokens += tokenizar(s)
+    uniq, seen = [], set()
+    for t in todos_tokens:
+      if t not in seen:
+        seen.add(t)
+        uniq.append(t)
+    atividades_final = ", ".join(uniq)
+    plural = (len(funcs_txt) > 1)
+    perfil_label = "Seus perfis/funções típicas são" if plural else "Seu perfil/função típica é"
+    if atividades_final:
+      ativ_trailer = (", para as quais recomendam-se <strong>" if plural
+                      else ", para o qual recomendam-se <strong>")
+      ativ_trailer += f"{atividades_final}</strong>."
+    else:
+      ativ_trailer = "."
+
+  return val, texto, perfil_label, funcao_txt, ativ_trailer
+
 
 def score_grooming(r, rules):
   at = r["atributos"]
@@ -248,7 +307,6 @@ def score_grooming(r, rules):
 
   return val, texto
 
-
 def calor_score(at):
   s = 3
   if at.get("braquicefalico"): s -= 2
@@ -274,15 +332,22 @@ def espaco_need(porte, atividade_val):
 def score_clima(r, rules, atividade_val):
   at = r["atributos"]; perfil = rules["perfil_ambiente"]
   w = rules["pesos"]["clima_ambiente"][perfil]
+
   s_calor = calor_score(at)
   s_umid  = umidade_score(at)
   need = espaco_need(at.get("porte","medio"), atividade_val)
-  s_espaco = 5 - need
+  s_espaco = clamp_0_5(5 - need)  # maior = adapta melhor a espaços menores
 
   val = round_int(clamp_0_5(s_calor*w["calor"] + s_umid*w["umidade"] + s_espaco*w["espaco"]))
+
+  perfil_hum = perfil.replace("-", " ")
+  ambiente = ambiente_label(s_espaco)
+
   texto = (
-      f"No perfil <strong>{perfil.replace('-', ' ')}</strong>, {r['nome']} apresenta <strong>tolerância ao calor {nivel_txt(s_calor)}</strong>, "
-      f"<strong>tolerância à umidade {nivel_txt(s_umid)}</strong> e <strong>compatibilidade de espaço {nivel_txt(s_espaco)}</strong>."
+    f"No clima <strong>{perfil_hum}</strong>, os cães da raça {r['nome']} apresentam "
+    f"<strong>tolerância ao calor {nivel_txt(s_calor)}</strong>, "
+    f"<strong>tolerância à umidade {nivel_txt(s_umid)}</strong> e "
+    f"<strong>adaptam-se melhor a {ambiente}</strong>."
   )
   return val, texto
 
@@ -312,7 +377,7 @@ for r in racas:
 
   vida_texto = f"{r['medidas'].get('expectativa_anos','—')} anos"
 
-  atividade, detA = score_atividade(r, rules)
+  atividade, detA, perfil_label, funcao_txt, ativ_trailer = score_atividade(r, rules)
   grooming, detG  = score_grooming(r, rules)
   clima, detC     = score_clima(r, rules, atividade)
 
@@ -335,7 +400,10 @@ for r in racas:
     altura_texto=altura_texto, peso_texto=peso_texto, vida_texto=vida_texto,
     atividade=atividade, grooming=grooming, clima=clima,
     detalhe_atividade_html=detA, detalhe_grooming_html=detG, detalhe_clima_html=detC,
-    foto=r.get("foto",""), foto_w=r.get("foto_w",""), foto_h=r.get("foto_h",""),
+    perfil_label=perfil_label,
+    funcao_txt=funcao_txt,
+    ativ_txt_trailer=ativ_trailer,
+    foto=foto_src, foto_w=r.get("foto_w",""), foto_h=r.get("foto_h",""),
     foto_credito=r.get("foto_credito",""),
     jsonld_breadcrumb=jsonld_breadcrumb(r["nome"], url),
     jsonld_breed=jsonld_breed(r, url),

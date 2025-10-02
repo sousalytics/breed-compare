@@ -513,6 +513,9 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .indicator__text {
   margin-top: 0.5rem;
 }
+.indicator__perfil {
+  margin-top: 0.35rem;
+}
 .indicator__label {
   display: inline-flex;
   align-items: center;
