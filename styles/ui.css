@@ -543,8 +543,14 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 .breed__aka .aka__label {
   margin-right: 0.35ch;
-  font-weight: 500;
+  font-weight: var(--weight-semibold);
   color: var(--color-text);
+}
+
+@media (min-width: 64rem) {
+  .breed__summary {
+    grid-template-rows: 1fr auto;
+  }
 }
 
 /* Facts (direita) */
