@@ -158,11 +158,21 @@ def score_atividade(r, rules):
   sugestoes  = [SUGESTOES.get(f) for f in funcoes if SUGESTOES.get(f)]
   dicas = f" Atividades sugeridas: {', '.join(sugestoes)}." if sugestoes else ""
 
+  funcoes = at.get("funcoes", []) or []
+  main_func = funcoes[0] if funcoes else None
+  func_txt = FUNCOES_TXT.get(main_func) if main_func else None
+  ativ_txt = SUGESTOES.get(main_func) if main_func else None
+  perfil_str = ""
+  if func_txt and ativ_txt:
+    perfil_str = f" {func_txt}", "{ativ_txt}"
+  elif func_txt:
+    perfil_str = f" {func_txt}"
+
   texto = (
     f"Os cães da raça {r['nome']} costumam apresentar <strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
     f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) e de "
     f"<strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>. "
-    f"Perfil/funções típicas: {', '.join(funcoes_pt) or '—'}.{dicas}"
+    f"Seu perfil/função típica é <strong>{perfil_str}</strong>, para o qual recomenda-se <strong>{dicas}</strong>."
   )
   return val, texto
 

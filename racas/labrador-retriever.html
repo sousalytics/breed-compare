@@ -94,7 +94,7 @@
           <li class="indicators__item">
             <div class="indicator__row">
               <span class="indicator__label">Energia Física &amp; Mental</span>
-              <span class="indicator__value" aria-hidden="true">5/5</span>
+              <span class="indicator__badge" aria-hidden="true">5/5</span>
 
               <button
                 class="indicator__togglebtn"
@@ -117,7 +117,7 @@
 
             <details id="det-energia-labrador-retriever" class="indicator__details">
               <summary class="visually-hidden">Detalhes de Energia Física &amp; Mental</summary>
-              <div class="indicator__text"><p>Os cães da raça Labrador Retriever costumam apresentar <strong>nível de energia física muito alta (5/5)</strong>, necessitando de atividades de <strong>longa duração</strong> (≈90 min/dia) e de <strong>exigência cognitiva alta (4/5)</strong>. Perfil/funções típicas: recolhedor de caça, cão d'água. Atividades sugeridas: aportes (buscar e trazer) e natação, natação e brincadeiras com água com supervisão.</p></div>
+              <div class="indicator__text"><p>Os cães da raça Labrador Retriever costumam apresentar <strong>nível de energia física muito alta (5/5)</strong>, necessitando de atividades de <strong>longa duração</strong> (≈90 min/dia) e de <strong>exigência cognitiva alta (4/5)</strong>. Seu perfil/função típica é <strong>(' recolhedor de caça', '{ativ_txt}')</strong>, para o qual recomenda-se <strong> Atividades sugeridas: aportes (buscar e trazer) e natação, natação e brincadeiras com água com supervisão.</strong>.</p></div>
             </details>
           </li>
 
@@ -125,7 +125,7 @@
           <li class="indicators__item">
             <div class="indicator__row">
               <span class="indicator__label">Cuidados &amp; Pelagem</span>
-              <span class="indicator__value" aria-hidden="true">3/5</span>
+              <span class="indicator__badge" aria-hidden="true">3/5</span>
 
               <button
                 class="indicator__togglebtn"
@@ -156,7 +156,7 @@
           <li class="indicators__item">
             <div class="indicator__row">
               <span class="indicator__label">Clima &amp; Ambiente</span>
-              <span class="indicator__value" aria-hidden="true">1/5</span>
+              <span class="indicator__badge" aria-hidden="true">1/5</span>
 
               <button
                 class="indicator__togglebtn"
@@ -218,7 +218,16 @@
       </footer>
     </main>
 
-    <footer class="footer"></footer>
+    <footer class="footer" role="contentinfo">
+      <nav class="footer__nav" aria-label="Links institucionais">
+        <a class="footer__link" href="{href('/sitemap.html')}">Mapa do site</a>
+        <a class="footer__link" href="{href('/acessibilidade/')}">Acessibilidade</a>
+        <a class="footer__link" href="{href('/privacidade/')}">Privacidade</a>
+      </nav>
+      <p>
+        &copy; 2025 Guia Raças — Conteúdo educativo. Consulte um veterinário para decisões de saúde.
+      </p>
+    </footer>
     <script src="https://www.guiaracas.com.br/scripts/main.js" defer></script>
   </body>
 </html>

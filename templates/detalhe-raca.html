@@ -74,7 +74,7 @@
           <li class="indicators__item">
             <div class="indicator__row">
               <span class="indicator__label">Energia Física &amp; Mental</span>
-              <span class="indicator__value" aria-hidden="true">${atividade}/5</span>
+              <span class="indicator__badge" aria-hidden="true">${atividade}/5</span>
 
               <button
                 class="indicator__togglebtn"
@@ -105,7 +105,7 @@
           <li class="indicators__item">
             <div class="indicator__row">
               <span class="indicator__label">Cuidados &amp; Pelagem</span>
-              <span class="indicator__value" aria-hidden="true">${grooming}/5</span>
+              <span class="indicator__badge" aria-hidden="true">${grooming}/5</span>
 
               <button
                 class="indicator__togglebtn"
@@ -136,7 +136,7 @@
           <li class="indicators__item">
             <div class="indicator__row">
               <span class="indicator__label">Clima &amp; Ambiente</span>
-              <span class="indicator__value" aria-hidden="true">${clima}/5</span>
+              <span class="indicator__badge" aria-hidden="true">${clima}/5</span>
 
               <button
                 class="indicator__togglebtn"
@@ -198,7 +198,16 @@
       </footer>
     </main>
 
-    <footer class="footer">${SITE_FOOTER}</footer>
+    <footer class="footer" role="contentinfo">
+      <nav class="footer__nav" aria-label="Links institucionais">
+        <a class="footer__link" href="{href('/sitemap.html')}">Mapa do site</a>
+        <a class="footer__link" href="{href('/acessibilidade/')}">Acessibilidade</a>
+        <a class="footer__link" href="{href('/privacidade/')}">Privacidade</a>
+      </nav>
+      <p>
+        &copy; 2025 Guia Raças — Conteúdo educativo. Consulte um veterinário para decisões de saúde.
+      </p>
+    </footer>
     <script src="${baseUrl}/scripts/main.js" defer></script>
   </body>
 </html>
