@@ -699,6 +699,12 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   margin: 0.25rem 0;
 }
 
+.fci-card__origem .flag {
+  display: inline-block;
+  margin-right: 0.25rem;
+  line-height: 1;
+}
+
 .refs {
   padding-left: 1.25rem;
 }
