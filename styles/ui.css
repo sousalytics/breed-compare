@@ -395,7 +395,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: var(--space-2);
-  align-items: center;
+  align-items: stretch;
   background: var(--color-surface);
   border: var(--border-1);
   border-radius: var(--radius-2);
@@ -439,6 +439,9 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   line-height: 1.1;
 }
 .breed__heading {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
   min-width: 0;
 }
 .breed__main {
@@ -531,13 +534,16 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 .breed__aka {
-  margin-top: 0.35rem;
-  font-size: 0.95rem;
+  margin-top: auto;
+  margin-bottom: 0;
+  padding-top: 0.35rem;
+  font-size: 0.925rem;
+  line-height: 1.35;
   color: var(--color-muted);
 }
 .breed__aka .aka__label {
-  margin-right: 0.25ch;
-  font-weight: var(--weight-semibold);
+  margin-right: 0.35ch;
+  font-weight: 500;
   color: var(--color-text);
 }
 
