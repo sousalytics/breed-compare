@@ -1,8 +1,10 @@
 from pathlib import Path
 from string import Template
+import html as htmllib
 import json
 import unicodedata
 import re
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -178,6 +180,9 @@ def jsonld_breed(d, url):
     "mainEntityOfPage": url,
     "additionalProperty": props
   }, ensure_ascii=False)
+
+def attr(s: str) -> str:
+  return htmllib.escape(s or "", quote=True)
 
 #-----------Scores-----------
 FUNCOES_TXT = {
@@ -407,17 +412,23 @@ out_dir = ROOT/"racas"; out_dir.mkdir(exist_ok=True)
 
 tpl_list = Template((ROOT/"templates/lista-racas.html").read_text(encoding="utf-8"))
 
+ALIASES_PATH = ROOT / "data" / "aliases_oficiais.json"
+ALIASES = {}
+if ALIASES_PATH.exists():
+  ALIASES = json.loads(ALIASES_PATH.read_text(encoding="utf-8"))
+
 
 #-----------Geradores-----------
 def render_card(r):
-  slug = slugify(r["nome"])
+  slug = r.get("slug") or slugify(r["nome"])
   grupo = r["atributos"].get("fci_grupo")
   fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
   fci_desc = rules["fci_grupos"].get(str(grupo), "—")
+
   porte = (r["atributos"].get("porte") or "").lower()
   porte_label = human_porte(porte)
 
-  foto_src = r.get("foto","") or "/assets/breeds/_placeholder.jpg"
+  foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
   if foto_src.startswith("/"):
     foto_src = f"{BASE}{foto_src}"
 
@@ -427,13 +438,25 @@ def render_card(r):
     f"</figure>"
   )
 
+  aliases = ALIASES.get(slug, []) or []
+  alias_attr = " | ".join(a for a in aliases if a and a.strip())
+
+  title_html = attr(r["nome"])
+  fci_desc_html = attr(fci_desc)
+
   return (
-    f"<li class='breed-card' data-name='{r['nome'].lower()}' data-porte='{porte}' data-grupo='{grupo or ''}'>"
+    f"<li class='breed-card' "
+    f" data-name='{attr(r['nome'].lower())}'"
+    f" data-porte='{attr(porte)}'"
+    f" data-grupo='{attr(str(grupo or ''))}'"
+    f" data-alias='{attr(alias_attr)}'>"
     f"  <article class='breed-card__inner'>"
-    f"    {thumb}"
+    f"    <figure class='breed-card__thumb'>"
+    f"      <img src='{foto_src}' alt='' width='120' height='80' loading='lazy' decoding='async' />"
+    f"    </figure>"
     f"    <div class='breed-card__body'>"
-    f"      <h3 class='breed-card__title'><a href='{BASE}/racas/{slug}.html'>{r['nome']}</a></h3>"
-    f"      <p class='breed-card__meta'><span class='badge'>{fci_grupo_txt}</span> {fci_desc}"
+    f"      <h3 class='breed-card__title'><a href='{BASE}/racas/{slug}.html'>{title_html}</a></h3>"
+    f"      <p class='breed-card__meta'><span class='badge'>{fci_grupo_txt}</span> {fci_desc_html}"
     f"      <span class='dot'>•</span> Porte: {porte_label}</p>"
     f"    </div>"
     f"  </article>"
@@ -478,7 +501,7 @@ for r in racas:
   if foto_src.startswith("/"):
     foto_src = f"{BASE}{foto_src}"
 
-  html = tpl.safe_substitute(
+  page_html = tpl.safe_substitute(
     HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
     SITE_HEADER=site_header, SITE_FOOTER=site_footer,
     nome=r["nome"], lead=lead,
@@ -499,7 +522,7 @@ for r in racas:
     jsonld_breed=jsonld_breed(r, url),
   )
 
-  (out_dir/f"{slug}.html").write_text(html, encoding="utf-8")
+  (out_dir/f"{slug}.html").write_text(page_html, encoding="utf-8")
 
 # ----------- Listagem /racas/index.html -----------
 options = []

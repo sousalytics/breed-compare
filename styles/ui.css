@@ -975,8 +975,18 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   opacity: 0.6;
 }
 
-/* Prepara futuro full-bleed controlado */
 .full-bleed {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
+}
+
+.filters .actions .btn--clear {
+  display: none;
+}
+
+.js .filters .actions .btn--apply {
+  display: none;
+}
+.js .filters .actions .btn--clear {
+  display: inline-flex;
 }

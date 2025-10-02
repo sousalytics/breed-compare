@@ -6,6 +6,10 @@
 <meta name="theme-color" content="#0033a0" />
 <meta name="robots" content="noindex, nofollow" />
 
+<script>
+  document.documentElement.classList.add("js");
+</script>
+
 <link rel="icon" href="https://www.guiaracas.com.br/public/favicon.svg" />
 <link rel="apple-touch-icon" href="https://www.guiaracas.com.br/public/apple-touch-180.png" />
 
@@ -109,7 +113,8 @@
           </div>
 
           <div class="actions">
-            <button class="btn btn--sm" type="submit">Aplicar</button>
+            <button class="btn btn--sm btn--apply" type="submit">Aplicar</button>
+            <button class="btn btn--sm btn--clear" type="button" id="limpar">Limpar</button>
           </div>
         </div>
         <noscript><p>Sem JavaScript, a busca filtra por query string (GET).</p></noscript>
@@ -118,9 +123,9 @@
       <section aria-labelledby="lista-title" class="breed-listing">
         <h2 id="lista-title" class="visually-hidden">Lista de raças</h2>
         <ul class="breed-list" aria-live="polite">
-          <li class='breed-card' data-name='bulldog inglês' data-porte='medio' data-grupo='2'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>  <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' /></figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/bulldog-ingles.html'>Bulldog Inglês</a></h3>      <p class='breed-card__meta'><span class='badge'>Grupo 2</span> Pinscher, Schnauzer, Molossos e Boiadeiros Suiços      <span class='dot'>•</span> Porte: Médio</p>    </div>  </article></li>
-<li class='breed-card' data-name='labrador retriever' data-porte='grande' data-grupo='8'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>  <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' /></figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/labrador-retriever.html'>Labrador Retriever</a></h3>      <p class='breed-card__meta'><span class='badge'>Grupo 8</span> Retrievers, Levantadores e Cães d'Água      <span class='dot'>•</span> Porte: Grande</p>    </div>  </article></li>
-<li class='breed-card' data-name='vira-lata (srd)' data-porte='medio' data-grupo=''>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>  <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' /></figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/vira-lata-srd.html'>Vira-lata (SRD)</a></h3>      <p class='breed-card__meta'><span class='badge'>—</span> —      <span class='dot'>•</span> Porte: Médio</p>    </div>  </article></li>
+          <li class='breed-card'  data-name='bulldog inglês' data-porte='medio' data-grupo='2' data-alias='Bulldog'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>      <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' />    </figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/bulldog-ingles.html'>Bulldog Inglês</a></h3>      <p class='breed-card__meta'><span class='badge'>Grupo 2</span> Pinscher, Schnauzer, Molossos e Boiadeiros Suiços      <span class='dot'>•</span> Porte: Médio</p>    </div>  </article></li>
+<li class='breed-card'  data-name='labrador retriever' data-porte='grande' data-grupo='8' data-alias='Labrador Retriever | Retriever du Labrador'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>      <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' />    </figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/labrador-retriever.html'>Labrador Retriever</a></h3>      <p class='breed-card__meta'><span class='badge'>Grupo 8</span> Retrievers, Levantadores e Cães d&#x27;Água      <span class='dot'>•</span> Porte: Grande</p>    </div>  </article></li>
+<li class='breed-card'  data-name='vira-lata (srd)' data-porte='medio' data-grupo='' data-alias='Sem Raça Definida | SRD'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>      <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' />    </figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/vira-lata-srd.html'>Vira-lata (SRD)</a></h3>      <p class='breed-card__meta'><span class='badge'>—</span> —      <span class='dot'>•</span> Porte: Médio</p>    </div>  </article></li>
         </ul>
       </section>
     </main>
