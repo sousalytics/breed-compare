@@ -375,6 +375,9 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 /* ===== Breed page layout ===== */
+:root {
+  --hero-minh: clamp(12rem, 24vh, 18rem);
+}
 .breed {
   --meter-max: 56rem;
 }
@@ -392,7 +395,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  align-items: flex-start;
+  align-items: stretch;
 }
 .breed__summary {
   display: grid;
@@ -403,6 +406,20 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   border: var(--border-1);
   border-radius: var(--radius-2);
   padding: var(--space-2);
+}
+
+.breed__summary,
+.fci-card {
+  min-height: var(--hero-minh);
+  height: 100%;
+  align-content: start;
+}
+@media (max-width: 768px) {
+  .breed__summary,
+  .fci-card {
+    min-height: auto;
+    height: auto;
+  }
 }
 
 .breed__lead {
