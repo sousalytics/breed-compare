@@ -440,29 +440,47 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 @media (min-width: 64rem) {
   .breed__hero {
     display: grid;
-    grid-template-columns: minmax(320px, 440px) 1fr;
+    grid-template-columns: 3fr 2fr;
     grid-template-areas: "summary fci";
     align-items: start;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
   .breed__title {
     grid-area: title;
   }
   .breed__thumb {
     grid-area: thumb;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start;
+    justify-self: end;
+    margin: 0;
   }
   .breed__summary {
     grid-area: summary;
     position: sticky;
-    top: calc(var(--sticky-offset) + var(--space-2));
+    top: var(--sticky-offset);
     z-index: 45;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
   }
   .fci-card {
     grid-area: fci;
+    align-self: start;
+    max-width: 560px;
+    width: 100%;
   }
   .breed__thumb img {
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+  }
+  .breed__heading {
+    grid-column: 1;
+  }
+  .breed__kpis {
+    margin-top: var(--space-3);
   }
 }
 @media (min-width: 48rem) {
