@@ -127,20 +127,20 @@ def jsonld_breed(d, url):
 
 #-----------Scores-----------
 FUNCOES_TXT = {
-    "herding":"pastoreio", "retriever":"busca/aporte", "pointer":"aponte",
-    "terrier":"controle de pragas", "scent":"faro", "guard":"guarda",
-    "water":"trabalho na água", "sight":"caça à vista", "companhia":"companhia"
+    "herding":"pastoreio", "retriever":"recolhedor de caça", "pointer":"cão de aponte",
+    "terrier":"controle de pragas", "scent":"farejador", "guard":"guarda",
+    "water":"cão d'água", "sight":"caçador", "companhia":"companhia"
 }
 SUGESTOES = {
-    "herding":"pastoreio simulado e obediência",
-    "retriever":"aporte (buscar e trazer objetos)",
-    "pointer":"rastros e jogos de aponte",
-    "terrier":"brincadeiras de escavação controladas",
-    "scent":"jogos de faro/caça ao tesouro",
-    "guard":"treinos de obediência e guarda responsável",
-    "water":"natação e brincadeiras com água",
-    "sight":"corridas controladas",
-    "companhia":"passeios leves e interação social"
+  "herding": "pastoreio simulado, obediência e truques",
+  "retriever": "aportes (buscar e trazer) e natação",
+  "pointer": "jogos de aponte e rastros curtos",
+  "terrier": "brincadeiras de escavação controladas e caça ao brinquedo",
+  "scent": "jogos de faro/caça ao tesouro em casa ou quintal",
+  "guard": "obediência, autocontrole e socialização orientada",
+  "water": "natação e brincadeiras com água com supervisão",
+  "sight": "corridas controladas (lure) e busca visual por alvos",
+  "companhia": "passeios leves e interação social diária"
 }
 
 def score_atividade(r, rules):
@@ -163,10 +163,9 @@ def score_atividade(r, rules):
   dicas = f" Atividades sugeridas: {', '.join(sugestoes)}." if sugestoes else ""
 
   texto = (
-    f"Os cães da raça {r['nome']} tendem a exigir <strong>atividade física {nivel_txt(intensidade)}</strong> "
-    f"de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia), "
-    f"com <strong>estímulos mentais {nivel_txt_masc_pl(estimulo)}</strong>. "
-    f"Perfis/funções típicas: {', '.join(funcoes_pt) or '—'}." + dicas
+    f"Os cães da raça {r['nome']} costumam apresentar um <strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
+    f"com <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) e <strong>estímulos mentais {nivel_txt_masc_pl(estimulo)} ({estimulo}/5)</strong>. "
+    f"Perfis/funções típicas: {', '.join(funcoes_pt) or '—'}.{dicas}"
   )
   return val, texto
 

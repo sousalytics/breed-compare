@@ -245,7 +245,27 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-variant-numeric: tabular-nums;
 }
 .indicator__meter {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
+  height: 12px;
+  display: block;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(20% - 2px),
+    color-mix(in srgb, var(--color-bg), var(--mix-contrast) 25%) calc(20% - 2px),
+    color-mix(in srgb, var(--color-bg), var(--mix-contrast) 25%) 20%
+  );
+  border-radius: 999px;
+  overflow: hidden;
+  accent-color: var(--color-primary);
+}
+.indicator__meter::-webkit-meter-bar {
+  background: transparent;
+  border-radius: 999px;
+}
+.indicator__meter::-webkit-meter-optimum-value {
+  background: var(--color-primary);
+  border-radius: 999px;
 }
 .indicator__details {
   margin-top: 0.5rem;
@@ -352,7 +372,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 @media (min-width: 768px) {
   .breed__hero {
-    grid-template-columns: 1fr minmax(220px, 28%);
+    grid-template-columns: 1fr minmax(260px, 28%);
   }
 }
 .breed__title {
@@ -365,6 +385,10 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 .breed__lead {
   opacity: 0.85;
+}
+.breed__main {
+  display: grid;
+  gap: var(--space-2);
 }
 
 /* Facts (direita) */
@@ -572,7 +596,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   justify-content: space-between;
   gap: 0.5rem;
   background: var(--color-surface);
-  padding: var(--space-3);
+  padding: var(--space-2);
 }
 .kpi__label {
   display: inline;

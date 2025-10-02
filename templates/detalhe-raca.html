@@ -15,7 +15,18 @@
   <body>
     <a class="skip-link visually-hidden" href="#conteudo">Pular para o conteúdo</a>
 
-    <header class="header" role="banner">${SITE_HEADER}</header>
+    <header class="header" role="banner">
+      <div class="header__inner">
+        <a href="${baseUrl}/" class="logo">Guia Raças</a>
+        <nav class="nav" aria-label="Principal">
+          <ul class="nav__list">
+            <li><a class="nav__link" href="${baseUrl}/racas/">Raças</a></li>
+            <li><a class="nav__link" href="${baseUrl}/comparar/">Comparar</a></li>
+            <li><a class="nav__link" href="${baseUrl}/sobre/">Sobre</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
     <nav class="breadcrumbs" aria-label="Você está em">
       <ol class="breadcrumbs__list">
