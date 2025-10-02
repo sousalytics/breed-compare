@@ -29,7 +29,7 @@
       {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Início", "item": "https://www.guiaracas.com.br/"}, {"@type": "ListItem", "position": 2, "name": "Raças", "item": "https://www.guiaracas.com.br/racas/"}, {"@type": "ListItem", "position": 3, "name": "Labrador Retriever", "item": "https://www.guiaracas.com.br/racas/labrador-retriever.html"}]}
     </script>
     <script type="application/ld+json">
-      {"@context": "https://schema.org", "@type": "Thing", "additionalType": "http://www.productontology.org/id/Dog_breed", "name": "Labrador Retriever", "description": "Cão sociável e ativo; pede exercícios diários e estímulo mental.", "image": "/assets/breeds/labrador.jpg", "mainEntityOfPage": "https://www.guiaracas.com.br/racas/labrador-retriever.html", "additionalProperty": [{"@type": "PropertyValue", "name": "Altura", "value": {"@type": "QuantitativeValue", "minValue": 54, "maxValue": 57, "unitCode": "CMT"}}, {"@type": "PropertyValue", "name": "Peso", "value": {"@type": "QuantitativeValue", "minValue": 29, "maxValue": 36, "unitCode": "KGM"}}, {"@type": "PropertyValue", "name": "Expectativa de vida", "value": {"@type": "QuantitativeValue", "minValue": 10, "maxValue": 12, "unitCode": "ANN"}}]}
+      {"@context": "https://schema.org", "@type": "Thing", "additionalType": "http://www.productontology.org/id/Dog_breed", "name": "Labrador Retriever", "description": "Cão sociável e ativo; pede exercícios diários e estímulo mental.", "image": "/assets/breeds/_placeholder.jpg", "mainEntityOfPage": "https://www.guiaracas.com.br/racas/labrador-retriever.html", "additionalProperty": [{"@type": "PropertyValue", "name": "Altura", "value": {"@type": "QuantitativeValue", "minValue": 54, "maxValue": 57, "unitCode": "CMT"}}, {"@type": "PropertyValue", "name": "Peso", "value": {"@type": "QuantitativeValue", "minValue": 29, "maxValue": 36, "unitCode": "KGM"}}, {"@type": "PropertyValue", "name": "Expectativa de vida", "value": {"@type": "QuantitativeValue", "minValue": 10, "maxValue": 12, "unitCode": "ANN"}}]}
     </script>
   </head>
   <body>
@@ -66,21 +66,21 @@
         <aside class="fci-card" aria-labelledby="fci-title">
           <h2 id="fci-title" class="visually-hidden">Grupo FCI</h2>
           <p class="fci-card__group"><span class="badge">Grupo 8</span> Retrievers, Levantadores e Cães d'Água</p>
-          <p class="fci-card__origem"><strong>Origem:</strong> —</p>
-          <p class="fci-card__codigo"><strong>Código FCI:</strong> —</p>
+          <p class="fci-card__origem"><strong>Origem:</strong> Canadá / Reino Unido</p>
+          <p class="fci-card__codigo"><strong>Código FCI:</strong> 122</p>
         </aside>
       </header>
 
       <section class="breed__kpis" aria-labelledby="kpis-title">
         <h2 id="kpis-title" class="visually-hidden">Medidas principais</h2>
         <ul class="kpis__grid">
-          <li class="kpi">
+          <li class="kpi kpi--altura">
             <span class="kpi__label">Altura</span><span class="kpi__value">54–57 ♂ / 52–55 ♀ cm</span>
           </li>
-          <li class="kpi">
+          <li class="kpi kpi--peso">
             <span class="kpi__label">Peso</span><span class="kpi__value">29–36 ♂ / 25–32 ♀ kg</span>
           </li>
-          <li class="kpi">
+          <li class="kpi kpi--vida">
             <span class="kpi__label">Expectativa de vida</span
             ><span class="kpi__value">10–12 anos</span>
           </li>
@@ -99,17 +99,19 @@
                 <summary
                   class="indicator__toggle"
                   aria-label="Ver detalhes de Energia Física e Mental"
-                ></summary>
-                <div class="indicator__text"><p>Os cães da raça Labrador Retriever costumam apresentar um <strong>nível de energia física muito alta (5/5)</strong>, com <strong>longa duração</strong> (≈90 min/dia) e <strong>estímulos mentais altos (4/5)</strong>. Perfis/funções típicas: recolhedor de caça, cão d'água. Atividades sugeridas: aportes (buscar e trazer) e natação, natação e brincadeiras com água com supervisão.</p></div>
+                >
+                  <span class="icon-plus" aria-hidden="true">+</span
+                  ><span class="icon-minus" aria-hidden="true">–</span>
+                </summary>
+                <div class="indicator__text"><p>Os cães da raça Labrador Retriever costumam apresentar <strong>nível de energia física muito alta (5/5)</strong>, necessitando de <strong>longa duração</strong> (≈90 min/dia) e de <strong>exigência cognitiva alta (4/5)</strong>. Perfil/funções típicas: recolhedor de caça, cão d'água. Atividades sugeridas: aportes (buscar e trazer) e natação, natação e brincadeiras com água com supervisão.</p></div>
               </details>
             </div>
-            <meter
-              class="indicator__meter"
-              min="0"
-              max="5"
-              value="5"
-              aria-label="Energia Física e Mental: 5 de 5"
-            ></meter>
+            <div
+              class="scale"
+              role="img"
+              aria-label="Energia Física & Mental: 5 de 5"
+              data-value="5"
+            ></div>
           </li>
 
           <!-- Grooming & Pelagem -->
@@ -118,20 +120,19 @@
               <span class="indicator__label">Grooming &amp; Pelagem</span>
               <span class="indicator__value" aria-hidden="true">3/5</span>
               <details class="indicator__details">
-                <summary
-                  class="indicator__toggle"
-                  aria-label="Ver detalhes de Grooming e Pelagem"
-                ></summary>
+                <summary class="indicator__toggle" aria-label="Ver detalhes de Grooming e Pelagem">
+                  <span class="icon-plus" aria-hidden="true">+</span
+                  ><span class="icon-minus" aria-hidden="true">–</span>
+                </summary>
                 <div class="indicator__text"><p>Para Labrador Retriever, a rotina de higiene envolve <strong>escovação baixa</strong> (pelagem dupla curta), <strong>queda de pelos muito alta</strong> (subpelo denso) e <strong>não requer tosa</strong>.</p></div>
               </details>
             </div>
-            <meter
-              class="indicator__meter"
-              min="0"
-              max="5"
-              value="3"
-              aria-label="Grooming e Pelagem: 3 de 5"
-            ></meter>
+            <div
+              class="scale"
+              role="img"
+              aria-label="Grooming & Pelagem: 3 de 5"
+              data-value="3"
+            ></div>
           </li>
 
           <!-- Clima & Ambiente -->
@@ -140,20 +141,19 @@
               <span class="indicator__label">Clima &amp; Ambiente</span>
               <span class="indicator__value" aria-hidden="true">1/5</span>
               <details class="indicator__details">
-                <summary
-                  class="indicator__toggle"
-                  aria-label="Ver detalhes de Clima e Ambiente"
-                ></summary>
+                <summary class="indicator__toggle" aria-label="Ver detalhes de Clima e Ambiente">
+                  <span class="icon-plus" aria-hidden="true">+</span
+                  ><span class="icon-minus" aria-hidden="true">–</span>
+                </summary>
                 <div class="indicator__text"><p>No perfil <strong>tropical umido</strong>, Labrador Retriever apresenta <strong>tolerância ao calor muito baixa</strong>, <strong>tolerância à umidade baixa</strong> e <strong>compatibilidade de espaço moderada</strong>.</p></div>
               </details>
             </div>
-            <meter
-              class="indicator__meter"
-              min="0"
-              max="5"
-              value="1"
-              aria-label="Clima e Ambiente: 1 de 5"
-            ></meter>
+            <div
+              class="scale"
+              role="img"
+              aria-label="Clima & Ambiente: 1 de 5"
+              data-value="1"
+            ></div>
           </li>
         </ul>
 
@@ -174,13 +174,13 @@
         <h2 id="galeria-title" class="visually-hidden">Galeria</h2>
         <figure class="breed__photo">
           <img
-            src="/assets/breeds/labrador.jpg"
+            src="/assets/breeds/_placeholder.jpg"
             alt="Foto de um Labrador Retriever"
             width="1200"
             height="800"
             loading="lazy"
           />
-          <figcaption>Foto: Autor / CC</figcaption>
+          <figcaption>—</figcaption>
         </figure>
       </section>
 

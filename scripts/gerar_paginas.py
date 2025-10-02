@@ -36,10 +36,6 @@ def nivel_txt(n):
   m = {1:"muito baixa",2:"baixa",3:"moderada",4:"alta",5:"muito alta"}
   return m.get(int(clamp_0_5(n)), "moderada")
 
-def nivel_txt_masc_pl(n):
-  m = {1:"muito baixos",2:"baixos",3:"moderados",4:"altos",5:"muito altos"}
-  return m.get(int(clamp_0_5(n)), "moderados")
-
 def duracao_txt(mins):
   if mins is None:
     return "moderada"
@@ -163,9 +159,10 @@ def score_atividade(r, rules):
   dicas = f" Atividades sugeridas: {', '.join(sugestoes)}." if sugestoes else ""
 
   texto = (
-    f"Os cães da raça {r['nome']} costumam apresentar um <strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
-    f"com <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) e <strong>estímulos mentais {nivel_txt_masc_pl(estimulo)} ({estimulo}/5)</strong>. "
-    f"Perfis/funções típicas: {', '.join(funcoes_pt) or '—'}.{dicas}"
+    f"Os cães da raça {r['nome']} costumam apresentar <strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
+    f"necessitando de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) e de "
+    f"<strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>. "
+    f"Perfil/funções típicas: {', '.join(funcoes_pt) or '—'}.{dicas}"
   )
   return val, texto
 
@@ -285,6 +282,13 @@ for r in racas:
   grupo = r["atributos"].get("fci_grupo")
   fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
   fci_desc = rules["fci_grupos"].get(str(grupo), "—")
+
+  foto_src = r.get("foto","")
+  if not foto_src:
+    foto_src = "/assets/breeds/_placeholder.png"
+  if foto_src.startswith("/"):
+    foto_src = f"{BASE}{foto_src}"
+
 
   html = tpl.safe_substitute(
     HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,

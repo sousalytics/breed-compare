@@ -273,6 +273,18 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .indicator__details[open] .indicator__toggle::before {
   content: "–";
 }
+.indicator__details[open] .icon-plus {
+  display: none;
+}
+.indicator__details[open] .icon-minus {
+  display: inline;
+}
+.indicator__details > summary::-webkit-details-marker {
+  display: none;
+}
+.indicator__details > summary::marker {
+  content: "";
+}
 
 .indicator__row {
   display: grid;
@@ -282,13 +294,16 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 .indicator__toggle {
-  cursor: pointer;
-  background: none;
-  border: 0;
-  padding: 0.25rem 0.5rem;
-  line-height: 1;
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 999px;
   border: var(--border-1);
+  text-decoration: none;
+}
+.indicator__toggle .icon-minus {
+  display: none;
 }
 .indicator__toggle::before {
   content: "+";
@@ -310,6 +325,8 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   border: var(--border-1);
   border-radius: var(--radius-2);
   padding: var(--space-2);
+  display: grid;
+  gap: 0.5rem;
 }
 .indicators__note {
   font-size: 0.95rem;
@@ -317,13 +334,22 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 .scale {
+  margin-top: 0.25rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.35rem;
   background: var(--surface-1);
   border-radius: 999px;
-  padding: var(--space-2);
+  padding: 0.35rem;
 }
 .scale > i {
-  background: var(--color-primary);
+  display: block;
+  height: 0.7rem;
   border-radius: 999px;
+  background: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 20%);
+}
+.scale > i.is-on {
+  background: var(--color-primary);
 }
 
 /* ===== Breed page layout ===== */
@@ -466,6 +492,9 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   gap: 0.5rem;
   margin-bottom: 0.25rem;
 }
+.indicator__text {
+  margin-top: 0.5rem;
+}
 .indicator__label {
   font-weight: var(--weight-semibold);
 }
@@ -606,6 +635,15 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 .kpi__value {
   font-weight: 700;
+}
+.kpi--altura .kpi__label::before {
+  content: "📏 ";
+}
+.kpi--peso .kpi__label::before {
+  content: "⚖️ ";
+}
+.kpi--vida .kpi__label::before {
+  content: "❤️ ";
 }
 
 /* Popularidade */
