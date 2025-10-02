@@ -66,6 +66,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 
 /* Rodapé */
 .footer {
+  text-align: left;
   border-top: var(--border-1);
   margin-top: var(--space-4);
   padding-block: var(--space-2);
@@ -438,23 +439,10 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   padding-top: 0;
   border-top: 0;
 }
-
-.breed__cta {
-  display: flex;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  margin-block: var(--space-3) var(--space-4);
-}
 .btn--sm {
   padding: 0.5rem 0.9rem;
   font-size: 0.95rem;
   border-radius: var(--radius-2);
-}
-.breed__cta .btn {
-  width: auto;
-  flex: 0 0 auto;
 }
 
 @media (min-width: 64rem) {
@@ -516,13 +504,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
   .breed__lead {
     grid-column: 1 / -1;
-  }
-  .breed__cta {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .breed__cta .btn {
-    width: 100%;
   }
 }
 
@@ -814,4 +795,35 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   border-radius: var(--radius-2);
   aspect-ratio: 3 / 2;
   object-fit: cover;
+}
+
+/* === CTAs da página de raça === */
+.breed__cta {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  margin-block: var(--space-3) var(--space-4);
+}
+
+.breed__cta .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.95rem;
+  border-radius: var(--radius-2);
+}
+
+@media (max-width: 48rem) {
+  .breed__cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .breed__cta .btn {
+    width: 100%;
+  }
 }
