@@ -670,11 +670,16 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   grid-area: fci;
   margin: 0;
   line-height: 1.45;
+  height: auto;
   background: var(--color-surface);
   border: var(--border-1);
   border-radius: var(--radius-2);
   padding: var(--space-2);
   align-self: start;
+}
+.fci-card p {
+  margin: 0;
+  line-height: 1.45;
 }
 .fci-card p + p {
   margin-top: var(--space-2, 0.625rem);
@@ -708,26 +713,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .fci-card__origem,
 .fci-card__codigo {
   margin: 0.25rem 0;
-}
-
-.flag {
-  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla",
-    "EmojiOne Color", system-ui, sans-serif;
-  font-variant: normal;
-  text-transform: none;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 0.95em;
-}
-.fci-card__origem .flag {
-  display: inline-block;
-  margin-right: 0.25rem;
-  line-height: 1;
-}
-
-.flag img,
-.flag svg {
-  display: inline;
 }
 
 .refs {

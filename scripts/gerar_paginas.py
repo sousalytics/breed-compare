@@ -381,39 +381,6 @@ def human_porte(p):
   }
   return m.get((p or "").lower(), "—")
 
-def flag_emoji(iso2):
-  if not iso2 or len(iso2) != 2:
-    return None
-  base = 127397
-  a, b = iso2.upper()
-  return chr(base + ord(a)) + chr(base + ord(b))
-
-PAIS_PT_TO_ISO = {
-  "Brasil": "BR", "Canadá": "CA", "Reino Unido": "GB", "Inglaterra": "GB",
-  "Escócia": "GB", "País de Gales": "GB", "Irlanda": "IE", "Irlanda do Norte": "GB",
-  "Estados Unidos": "US", "EUA": "US", "Alemanha": "DE", "França": "FR",
-  "Itália": "IT", "Espanha": "ES", "Portugal": "PT", "Países Baixos": "NL",
-  "Holanda": "NL", "Bélgica": "BE", "Suíça": "CH", "Áustria": "AT",
-  "Suécia": "SE", "Noruega": "NO", "Dinamarca": "DK", "Finlândia": "FI",
-  "Rússia": "RU", "Polônia": "PL", "República Tcheca": "CZ", "Tchéquia": "CZ",
-  "Hungria": "HU", "Japão": "JP", "China": "CN", "Austrália": "AU",
-  "Nova Zelândia": "NZ", "México": "MX", "Argentina": "AR",
-}
-
-def origem_to_html(origem_str):
-  if not origem_str or origem_str.strip() in {"—", "-"}:
-    return "—"
-  partes = [p.strip() for p in origem_str.split("/") if p.strip()]
-  tokens = []
-  for nome in partes:
-    iso = PAIS_PT_TO_ISO.get(nome)
-    flag = flag_emoji(iso) if iso else None
-    if flag:
-      tokens.append(f"<span class='flag' aria-hidden='true'>{flag}</span> {nome}")
-    else:
-      tokens.append(nome)
-  return " / ".join(tokens) if tokens else "—"
-
 #-----------Loads-----------
 site = json.loads((ROOT/"data/site.json").read_text(encoding="utf-8"))
 BASE = site.get("base_url", "https://www.guiaracas.com.br")
@@ -459,7 +426,6 @@ for r in racas:
   fci_desc = rules["fci_grupos"].get(str(grupo), "—")
   porte_slug = (r["atributos"].get("porte") or "").lower()
   porte_label = human_porte(porte_slug)
-  origem_html = origem_to_html(r.get("origem", "—"))
 
   foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
   if foto_src.startswith("/"):
@@ -470,7 +436,7 @@ for r in racas:
     HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
     SITE_HEADER="", SITE_FOOTER="",
     nome=r["nome"], lead=lead,
-    origem=r.get("origem","—"), origem_html=origem_html,
+    origem=r.get("origem","—"),
     fci_grupo=fci_grupo_txt, fci_descricao=fci_desc,
     fci_codigo=r.get("fci_codigo","—"),
     porte_label=porte_label,
