@@ -125,7 +125,7 @@ def jsonld_breed(d, url):
 FUNCOES_TXT = {
     "herding":"pastoreio", "retriever":"recolhedor de caça", "pointer":"cão de aponte",
     "terrier":"controle de pragas", "scent":"farejador", "guard":"guarda",
-    "water":"cão d'água", "sight":"caçador", "companhia":"companhia"
+    "water":"cão d'água", "sight":"cão de caça à vista", "companhia":"companhia"
 }
 SUGESTOES = {
   "herding": "pastoreio simulado, obediência e truques",
@@ -164,15 +164,15 @@ def score_atividade(r, rules):
   ativ_txt = SUGESTOES.get(main_func) if main_func else None
   perfil_str = ""
   if func_txt and ativ_txt:
-    perfil_str = f" {func_txt}", "{ativ_txt}"
+    perfil_str = f" Seu perfil/função típica é <strong>{func_txt}</strong>, para o qual recomendam-se <strong>{ativ_txt}</strong>."
   elif func_txt:
-    perfil_str = f" {func_txt}"
+    perfil_str = f" Seu perfil/função típica é <strong>{func_txt}</strong>."
 
   texto = (
     f"Os cães da raça {r['nome']} costumam apresentar <strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
     f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) e de "
     f"<strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>. "
-    f"Seu perfil/função típica é <strong>{perfil_str}</strong>, para o qual recomenda-se <strong>{dicas}</strong>."
+    f"{perfil_str}{dicas}"
   )
   return val, texto
 
@@ -313,8 +313,5 @@ for r in racas:
     jsonld_breadcrumb=jsonld_breadcrumb(r["nome"], url),
     jsonld_breed=jsonld_breed(r, url),
   )
-
-  if "${" in html:
-    print(f"[WARN] Placeholders não resolvidos em {slug}.html")
 
   (out_dir/f"{slug}.html").write_text(html, encoding="utf-8")
