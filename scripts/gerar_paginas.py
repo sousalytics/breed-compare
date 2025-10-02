@@ -49,6 +49,16 @@ def duracao_txt(mins):
     return "curta a moderada"
   return "curta"
 
+def join_pt(itens):
+  itens = [i for i in itens if i]
+  if not itens:
+    return ""
+  if len(itens) == 1:
+    return itens[0]
+  if len(itens) == 2:
+    return f"{itens[0]} e {itens[1]}"
+  return ", ".join(itens[:-1]) + " e " + itens[-1]
+
 def human_pelo(p):
   return {
     "sem_pelo": "sem pelo",
@@ -232,12 +242,22 @@ def score_atividade(r, rules):
     return SUGESTOES.get(f)
 
   def tokenizar(s):
-    s = s.lower().replace("com supervisão", "").strip()
-    s = s.replace(" e ", ", ")
-    parts = [p.strip() for p in s.split(",") if p.strip()]
+    s = s.lower()
+    s = s.replace("com supervisão", "").strip()
+    s = re.sub(r"\s+", " ", s)
+
+    SENT = "__APORTE__"
+    s = s.replace("aportes (buscar e trazer)", SENT)
+
+    parts = re.split(r"\s*,\s*|\s+e\s+", s)
+
     tokens = []
     for p in parts:
-      if "natação" in p or "água" in p:
+      if not p:
+        continue
+      if p == SENT:
+        tokens.append("aportes (buscar e trazer)")
+      elif "natação" in p or "água" in p:
         tokens.append("atividades aquáticas supervisionadas")
       elif "aportes" in p or "apporte" in p or "buscar e trazer" in p:
         tokens.append("aportes (buscar e trazer)")
@@ -262,12 +282,12 @@ def score_atividade(r, rules):
       if t not in seen:
         seen.add(t)
         uniq.append(t)
-    atividades_final = ", ".join(uniq)
+    atividades_final = join_pt(uniq)
     plural = (len(funcs_txt) > 1)
     perfil_label = "Seus perfis/funções típicas são" if plural else "Seu perfil/função típica é"
     if atividades_final:
-      ativ_trailer = (", para as quais recomendam-se <strong>" if plural
-                      else ", para o qual recomendam-se <strong>")
+      ativ_trailer = (", com sugestão de exercícios que envolvam <strong>" if plural
+                      else ", com sugestões de exercícios que envolvam <strong>")
       ativ_trailer += f"{atividades_final}</strong>."
     else:
       ativ_trailer = "."
@@ -370,11 +390,20 @@ for r in racas:
   lead = r.get("lead") or r.get("notas", {}).get("resumo", "")
 
   alt = r["medidas"]["altura_cm"]
-  altura_texto = f"{alt.get('macho','—')} ♂ / {alt.get('femea','—')} ♀ cm"
+  altura_texto_html = (
+    f"{alt.get('macho','—')} "
+    f"<span class='sex sex--m' aria-label='macho' title='macho'>♂</span> / "
+    f"{alt.get('femea','—')} "
+    f"<span class='sex sex--f' aria-label='fêmea' title='fêmea'>♀</span> cm"
+  )
 
   pes = r["medidas"]["peso_kg"]
-  peso_texto = f"{pes.get('macho','—')} ♂ / {pes.get('femea','—')} ♀ kg"
-
+  peso_texto_html = (
+    f"{pes.get('macho','—')} "
+    f"<span class='sex sex--m' aria-label='macho' title='macho'>♂</span> / "
+    f"{pes.get('femea','—')} "
+    f"<span class='sex sex--f' aria-label='fêmea' title='fêmea'>♀</span> kg"
+  )
   vida_texto = f"{r['medidas'].get('expectativa_anos','—')} anos"
 
   atividade, detA, perfil_label, funcao_txt, ativ_trailer = score_atividade(r, rules)
@@ -397,7 +426,7 @@ for r in racas:
     origem=r.get("origem","—"),
     fci_grupo=fci_grupo_txt, fci_descricao=fci_desc,
     fci_codigo=r.get("fci_codigo","—"),
-    altura_texto=altura_texto, peso_texto=peso_texto, vida_texto=vida_texto,
+    altura_texto_html=altura_texto_html, peso_texto_html=peso_texto_html, vida_texto=vida_texto,
     atividade=atividade, grooming=grooming, clima=clima,
     detalhe_atividade_html=detA, detalhe_grooming_html=detG, detalhe_clima_html=detC,
     perfil_label=perfil_label,

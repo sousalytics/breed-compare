@@ -55,10 +55,11 @@
         <h2 id="kpis-title" class="visually-hidden">Medidas principais</h2>
         <ul class="kpis__grid">
           <li class="kpi kpi--altura">
-            <span class="kpi__label">Altura</span><span class="kpi__value">${altura_texto}</span>
+            <span class="kpi__label">Altura</span
+            ><span class="kpi__value">${altura_texto_html}</span>
           </li>
           <li class="kpi kpi--peso">
-            <span class="kpi__label">Peso</span><span class="kpi__value">${peso_texto}</span>
+            <span class="kpi__label">Peso</span><span class="kpi__value">${peso_texto_html}</span>
           </li>
           <li class="kpi kpi--vida">
             <span class="kpi__label">Expectativa de vida</span
@@ -197,6 +198,7 @@
       </section>
 
       <footer class="breed__cta">
+        <a class="btn btn--compare" href="${baseUrl}/comparar/?add=${slug}">Comparar raças</a>
         <a class="btn btn--primary" href="${baseUrl}/guia-responsavel/"
           >Guia de guarda responsável</a
         >
