@@ -230,7 +230,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 
 /* ===== Indicadores ===== */
 .breed__indicators {
-  margin-block: var(--space-5) var(--space-2);
+  margin-block: var(--space-6) var(--space-3);
   padding-top: var(--space-2);
   border-top: var(--border-1);
 }
@@ -416,18 +416,40 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 
 .breed__hero {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
   align-items: start;
 }
-@media (min-width: 768px) {
+@media (min-width: 64rem) {
   .breed__hero {
-    grid-template-columns: 1fr minmax(260px, 28%);
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "title fci"
+      "thumb fci";
   }
 }
 .breed__title {
-  display: grid;
-  gap: 0.25rem;
+  grid-area: title;
 }
+.breed__thumb {
+  grid-area: thumb;
+}
+.breed__thumb img {
+  width: 220px;
+  height: auto;
+  border-radius: var(--radius-2);
+  display: block;
+}
+@media (max-width: 63.999rem) {
+  .breed__thumb {
+    max-width: 320px;
+  }
+  .breed__thumb img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-2);
+  }
+}
+
 .breed__name {
   margin: 0;
   line-height: 1.1;
@@ -438,6 +460,11 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .breed__main {
   display: grid;
   gap: var(--space-2);
+}
+.breed__pop {
+  margin-block: var(--space-6) var(--space-3);
+  padding-top: var(--space-2);
+  border-top: var(--border-1);
 }
 
 /* Facts (direita) */
@@ -588,6 +615,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 
 /* Card FCI */
 .fci-card {
+  grid-area: fci;
   background: var(--color-surface);
   border: var(--border-1);
   border-radius: var(--radius-2);
@@ -683,15 +711,14 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .sex {
   display: inline-grid;
   place-items: center;
-  inline-size: 1.25em;
-  block-size: 1.25em;
+  inline-size: 1.4em;
+  block-size: 1.4em;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
-  margin-inline: 0.25ch;
-  background: var(--surface-1);
-  box-shadow: var(--shadow-1-inset);
-  font-variant-numeric: normal;
+  margin-inline: 0.35ch;
+  border: 2px solid currentColor;
+  background: color-mix(in srgb, currentColor, transparent 85%);
 }
 .sex--m {
   color: var(--color-primary);
@@ -703,11 +730,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 /* Popularidade */
 .pop-chart {
   min-height: 160px;
-}
-.popularidade {
-  margin-block: var(--space-5) var(--space-2);
-  padding-top: var(--space-2);
-  border-top: var(--border-1);
 }
 
 /* Galeria */

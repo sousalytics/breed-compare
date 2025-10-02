@@ -43,6 +43,16 @@
           <p class="breed__lead">${lead}</p>
         </div>
 
+        <figure class="breed__thumb">
+          <img
+            src="${foto}"
+            alt="Foto ilustrativa de ${nome}"
+            loading="lazy"
+            width="220"
+            height="147"
+          />
+        </figure>
+
         <aside class="fci-card" aria-labelledby="fci-title">
           <h2 id="fci-title" class="visually-hidden">Grupo FCI</h2>
           <p class="fci-card__group"><span class="badge">${fci_grupo}</span> ${fci_descricao}</p>
@@ -69,7 +79,7 @@
       </section>
 
       <section class="breed__indicators" aria-labelledby="indicators-title">
-        <h2 id="indicators-title">Indicadores</h2>
+        <h2 id="indicators-title">Características &amp; Cuidados</h2>
         <ul class="indicators__list">
           <!-- Energia Física & Mental -->
           <li class="indicators__item">
@@ -182,6 +192,13 @@
           <noscript>Popularidade por ano (gráfico requer JavaScript).</noscript>
         </div>
       </section>
+
+      <footer class="breed__cta">
+        <a class="btn btn--compare" href="${baseUrl}/comparar/?add=${slug}">Comparar raças</a>
+        <a class="btn btn--primary" href="${baseUrl}/guia-responsavel/"
+          >Guia de guarda responsável</a
+        >
+      </footer>
 
       <section class="breed__gallery" aria-labelledby="galeria-title">
         <h2 id="galeria-title" class="visually-hidden">Galeria</h2>
