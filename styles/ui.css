@@ -102,13 +102,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-variant-numeric: tabular-nums;
 }
 
-.card {
-  background: var(--color-surface);
-  border: var(--border-1);
-  border-radius: var(--radius-2);
-  padding: var(--space-3);
-}
-
 .input {
   width: 100%;
   padding: 0.55rem 0.75rem;
@@ -746,11 +739,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   padding-left: 1.25rem;
 }
 
-.lista-racas {
-  display: grid;
-  gap: var(--space-2);
-}
-
 .pop-spark {
   min-height: 1.5rem;
 }
@@ -860,4 +848,80 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   .breed__cta .btn {
     width: 100%;
   }
+}
+
+/* ===== Listagem de Raças ===== */
+.page-breeds {
+  width: min(100% - clamp(1rem, 4vw, 2rem), var(--container-max));
+  margin-inline: auto;
+}
+
+.page-header {
+  margin-block: var(--space-4, 1.5rem) var(--space-2, 0.75rem);
+}
+
+.filters {
+  background: var(--color-surface);
+  border: var(--border-1);
+  border-radius: var(--radius-2);
+  padding: var(--space-2);
+}
+.filters__row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 12rem 14rem auto;
+  align-items: end;
+}
+@media (max-width: 800px) {
+  .filters__row {
+    grid-template-columns: 1fr;
+  }
+  .filters .actions {
+    justify-self: start;
+  }
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+.field > label {
+  font-weight: var(--weight-semibold);
+}
+.field > .input {
+  width: 100%;
+}
+
+.breed-listing {
+  margin-block: var(--space-3, 1rem) var(--space-4, 1.5rem);
+}
+
+.breed-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.breed-card {
+  border: var(--border-1);
+  border-radius: var(--radius-2);
+  background: var(--color-surface);
+  padding: 0.875rem;
+  display: grid;
+  gap: 0.25rem;
+}
+.breed-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+.breed-card__meta {
+  font-size: 0.9rem;
+  color: var(--color-text-2, #444);
+}
+.breed-card__meta .dot {
+  margin-inline: 0.5ch;
+  opacity: 0.6;
 }

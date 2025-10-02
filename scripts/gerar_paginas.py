@@ -132,6 +132,16 @@ def jsonld_breadcrumb(nome, url):
     ]
   }, ensure_ascii=False)
 
+def jsonld_breadcrumb_list():
+  return json.dumps({
+    "@context":"https://schema.org","@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Início","item":f"{BASE}/"},
+      {"@type":"ListItem","position":2,"name":"Raças","item":f"{BASE}/racas/"},
+    ]
+  }, ensure_ascii=False)
+
+
 def jsonld_breed(d, url):
   desc = d.get("lead") or d.get("notas", {}).get("resumo", "")
   alt_macho = d["medidas"]["altura_cm"].get("macho", "—")
@@ -294,7 +304,6 @@ def score_atividade(r, rules):
 
   return val, texto, perfil_label, funcao_txt, ativ_trailer
 
-
 def score_grooming(r, rules):
   at = r["atributos"]
   pelo = at.get("pelagem_tipo", "curta")
@@ -396,7 +405,30 @@ site_footer = footer_tpl.safe_substitute(baseUrl=BASE)
 racas = json.loads((ROOT/"data/racas.json").read_text(encoding="utf-8"))
 out_dir = ROOT/"racas"; out_dir.mkdir(exist_ok=True)
 
-#-----------Gerador-----------
+tpl_list = Template((ROOT/"templates/lista-racas.html").read_text(encoding="utf-8"))
+
+
+#-----------Geradores-----------
+def render_card(r):
+  slug = slugify(r["nome"])
+  grupo = r["atributos"].get("fci_grupo")
+  fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
+  fci_desc = rules["fci_grupos"].get(str(grupo), "—")
+  porte = (r["atributos"].get("porte") or "").lower()
+  porte_label = human_porte(porte)
+
+  return (
+    f"<li class='breed-card' data-porte='{porte}' data-grupo='{grupo}'>"
+    f"  <article>"
+    f"    <h3><a href='{BASE}/racas/{slug}.html'>{r['nome']}</a></h3>"
+    f"    <p class='breed-card__meta'>"
+    f"      <span class='badge'>{fci_grupo_txt}</span> {fci_desc}"
+    f"      <span class='dot'>•</span> Porte: {porte_label}"
+    f"    </p>"
+    f"  </article>"
+    f"</li>"
+  )
+
 for r in racas:
   slug = slugify(r["nome"])
   url = f"{BASE}/racas/{slug}.html"
@@ -435,7 +467,6 @@ for r in racas:
   if foto_src.startswith("/"):
     foto_src = f"{BASE}{foto_src}"
 
-
   html = tpl.safe_substitute(
     HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
     SITE_HEADER=site_header, SITE_FOOTER=site_footer,
@@ -458,3 +489,27 @@ for r in racas:
   )
 
   (out_dir/f"{slug}.html").write_text(html, encoding="utf-8")
+
+# ----------- Listagem /racas/index.html -----------
+options = []
+for k in sorted(rules["fci_grupos"].keys(), key=lambda x: int(x)):
+  label = rules["fci_grupos"][k]
+  options.append(f"<option value='{k}'>Grupo {k} — {label}</option>")
+options_grupo_html = "\n".join(options)
+
+cards_html = "\n".join(render_card(r) for r in sorted(racas, key=lambda x: x["nome"]))
+datalist = "\n".join(
+  f"<option value=\"{r['nome']}\">"
+  for r in sorted(racas, key=lambda x: x["nome"])
+)
+
+html_list = tpl_list.safe_substitute(
+  HEAD_BASE=head_base, baseUrl=BASE,
+  SITE_HEADER=site_header, SITE_FOOTER=site_footer,
+  OPTIONS_GRUPO=options_grupo_html,
+  LISTA_RACAS_ITEMS=cards_html,
+  DATALIST_BREEDS=datalist,
+  jsonld_breadcrumb_list=jsonld_breadcrumb_list()
+)
+
+(out_dir/"index.html").write_text(html_list, encoding="utf-8")

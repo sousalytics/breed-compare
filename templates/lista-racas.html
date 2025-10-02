@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    ${HEAD_BASE}
+    <title>Raças — Guia Raças</title>
+    <meta name="description" content="Encontre raças de cães por nome, porte e grupo FCI." />
+    <link rel="canonical" href="${baseUrl}/racas/" />
+    <script type="application/ld+json">
+      ${jsonld_breadcrumb_list}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    ${SITE_HEADER}
+
+    <main id="conteudo" class="page-breeds" role="main">
+      <header class="page-header">
+        <h1>Raças</h1>
+        <p class="breed__lead">Busque por nome, filtre por porte e por grupo da FCI.</p>
+      </header>
+
+      <form
+        id="breed-filters"
+        role="search"
+        method="get"
+        class="filters"
+        aria-label="Filtrar raças"
+      >
+        <div class="filters__row">
+          <div class="field">
+            <label for="q">Buscar</label>
+            <input
+              id="q"
+              name="q"
+              type="search"
+              class="input"
+              list="breed-nomes"
+              placeholder="Ex.: Labrador"
+              autocomplete="on"
+            />
+          </div>
+
+          <div class="field">
+            <label for="porte">Porte</label>
+            <select id="porte" name="porte" class="input">
+              <option value="">Todos</option>
+              <option value="mini">Mini</option>
+              <option value="pequeno">Pequeno</option>
+              <option value="medio">Médio</option>
+              <option value="grande">Grande</option>
+              <option value="gigante">Gigante</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="grupo">Grupo FCI</label>
+            <select id="grupo" name="grupo" class="input">
+              <option value="">Todos</option>
+              ${OPTIONS_GRUPO}
+            </select>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn--sm" type="submit">Aplicar</button>
+          </div>
+        </div>
+        <noscript><p>Sem JavaScript, a busca filtra por query string (GET).</p></noscript>
+      </form>
+
+      <section aria-labelledby="lista-title" class="breed-listing">
+        <h2 id="lista-title" class="visually-hidden">Lista de raças</h2>
+        <ul class="breed-list" aria-live="polite">
+          ${LISTA_RACAS_ITEMS}
+        </ul>
+      </section>
+    </main>
+
+    ${SITE_FOOTER}
+    <script src="${baseUrl}/scripts/main.js" defer></script>
+  </body>
+</html>
