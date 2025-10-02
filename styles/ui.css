@@ -437,10 +437,11 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   padding-top: 0;
   border-top: 0;
 }
+
 @media (min-width: 64rem) {
   .breed__hero {
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: minmax(520px, 1fr) 1fr;
     grid-template-areas: "summary fci";
     align-items: start;
     gap: var(--space-4);
@@ -458,19 +459,31 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
   .breed__summary {
     grid-area: summary;
-    position: sticky;
-    top: var(--sticky-offset);
-    z-index: 45;
+    position: static;
+    top: auto;
+    z-index: auto;
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: start;
   }
   .fci-card {
     grid-area: fci;
-    align-self: start;
-    max-width: 560px;
-    width: 100%;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
   }
+  .fci-card__body {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .fci-card__actions {
+    margin-top: auto;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
   .breed__thumb img {
     width: 140px;
     height: 140px;
@@ -481,6 +494,19 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
   .breed__kpis {
     margin-top: var(--space-3);
+  }
+}
+
+.fci-card__actions {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .fci-card__actions {
+    display: flex;
+  }
+  .breed__cta {
+    display: none;
   }
 }
 @media (min-width: 48rem) {
