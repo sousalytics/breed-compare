@@ -79,6 +79,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   width: min(calc(100% - clamp(1rem, 4vw, 2rem)), var(--container-max));
   margin-inline: auto;
   margin-bottom: 0.5rem;
+  justify-content: flex-start;
 }
 .footer__link {
   text-decoration: underline;
@@ -438,6 +439,14 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   border-top: 0;
 }
 
+.breed__cta {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-block: var(--space-3) var(--space-4);
+}
+
 @media (min-width: 64rem) {
   .breed__hero {
     display: grid;
@@ -459,7 +468,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
   .breed__summary {
     grid-area: summary;
-    position: static;
     top: auto;
     z-index: auto;
     display: grid;
@@ -471,17 +479,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
     align-self: stretch;
     display: flex;
     flex-direction: column;
-  }
-  .fci-card__body {
-    display: grid;
-    gap: 0.5rem;
-  }
-
-  .fci-card__actions {
-    margin-top: auto;
-    display: flex;
-    gap: var(--space-2);
-    flex-wrap: wrap;
   }
 
   .breed__thumb img {
@@ -497,18 +494,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 }
 
-.fci-card__actions {
-  display: none;
-}
-
-@media (min-width: 64rem) {
-  .fci-card__actions {
-    display: flex;
-  }
-  .breed__cta {
-    display: none;
-  }
-}
 @media (min-width: 48rem) {
   .breed__header {
     display: grid;
@@ -523,11 +508,11 @@ html[data-theme="alt"] .header .logo .logo__glyph {
     grid-column: 1 / -1;
   }
   .breed__cta {
-    display: flex;
-    gap: var(--space-2);
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-block: var(--space-4) var(--space-2);
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .breed__cta .btn {
+    width: 100%;
   }
 }
 
