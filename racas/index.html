@@ -2,66 +2,57 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0033a0" />
-    <meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0033a0" />
+<meta name="robots" content="noindex, nofollow" />
 
-    <link rel="icon" href="https://www.guiaracas.com.br/public/favicon.svg" />
-    <link rel="apple-touch-icon" href="https://www.guiaracas.com.br/public/apple-touch-180.png" />
+<link rel="icon" href="https://www.guiaracas.com.br/public/favicon.svg" />
+<link rel="apple-touch-icon" href="https://www.guiaracas.com.br/public/apple-touch-180.png" />
 
-    <link rel="stylesheet" href="https://www.guiaracas.com.br/styles/tokens.css" />
-    <link rel="stylesheet" href="https://www.guiaracas.com.br/styles/base.css" />
-    <link rel="stylesheet" href="https://www.guiaracas.com.br/styles/ui.css" />
+<link rel="stylesheet" href="https://www.guiaracas.com.br/styles/tokens.css" />
+<link rel="stylesheet" href="https://www.guiaracas.com.br/styles/base.css" />
+<link rel="stylesheet" href="https://www.guiaracas.com.br/styles/ui.css" />
 
-    <link rel="preload" as="image" href="https://www.guiaracas.com.br/assets/icons/sprite.svg" />
+<link rel="preload" as="image" href="https://www.guiaracas.com.br/assets/icons/sprite.svg" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap"
-    />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap"
+/>
 
     <title>Raças — Guia Raças</title>
     <meta name="description" content="Encontre raças de cães por nome, porte e grupo FCI." />
     <link rel="canonical" href="https://www.guiaracas.com.br/racas/" />
     <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Início",
-            "item": "https://www.guiaracas.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Raças",
-            "item": "https://www.guiaracas.com.br/racas/"
-          }
-        ]
-      }
+      {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Início", "item": "https://www.guiaracas.com.br/"}, {"@type": "ListItem", "position": 2, "name": "Raças", "item": "https://www.guiaracas.com.br/racas/"}]}
     </script>
   </head>
   <body>
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
     <header class="header" role="banner">
-      <div class="header__inner">
-        <a href="https://www.guiaracas.com.br/" class="logo">Guia Raças</a>
-        <nav class="nav" aria-label="Principal">
-          <ul class="nav__list">
-            <li><a class="nav__link" href="https://www.guiaracas.com.br/racas/">Raças</a></li>
-            <li><a class="nav__link" href="https://www.guiaracas.com.br/comparar/">Comparar</a></li>
-            <li><a class="nav__link" href="https://www.guiaracas.com.br/sobre/">Sobre</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+  <div class="header__inner">
+    <a href="https://www.guiaracas.com.br/" class="logo">Guia Raças</a>
+    <nav class="nav" aria-label="Principal">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="https://www.guiaracas.com.br/racas/">Raças</a></li>
+        <li><a class="nav__link" href="https://www.guiaracas.com.br/comparar/">Comparar</a></li>
+        <li><a class="nav__link" href="https://www.guiaracas.com.br/sobre/">Sobre</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
 
     <main id="conteudo" class="page-breeds" role="main">
+      <nav class="breadcrumbs" aria-label="Você está em">
+        <ol class="breadcrumbs__list">
+          <li><a href="https://www.guiaracas.com.br/">Início</a></li>
+          <li aria-current="page">Raças</li>
+        </ol>
+      </nav>
+
       <header class="page-header">
         <h1>Raças</h1>
         <p class="breed__lead">Busque por nome, filtre por porte e por grupo da FCI.</p>
@@ -104,16 +95,16 @@
             <label for="grupo">Grupo FCI</label>
             <select id="grupo" name="grupo" class="input">
               <option value="">Todos</option>
-              <option value="1">Grupo 1 — Cães Pastores e Boiadeiros (exceto suícos)</option>
-              <option value="2">Grupo 2 — Pinscher, Schnauzer, Molossos e Boiadeiros Suiços</option>
-              <option value="3">Grupo 3 — Terriers</option>
-              <option value="4">Grupo 4 — Dachshunds</option>
-              <option value="5">Grupo 5 — Spitz e Tipos Primitivos</option>
-              <option value="6">Grupo 6 — Sabujos e Rastreadores</option>
-              <option value="7">Grupo 7 — Cães de Aponte</option>
-              <option value="8">Grupo 8 — Retrievers, Levantadores e Cães d'Água</option>
-              <option value="9">Grupo 9 — Cães de Companhia</option>
-              <option value="10">Grupo 10 — Galgos e Lebreiros</option>
+              <option value='1'>Grupo 1 — Cães Pastores e Boiadeiros (exceto suícos)</option>
+<option value='2'>Grupo 2 — Pinscher, Schnauzer, Molossos e Boiadeiros Suiços</option>
+<option value='3'>Grupo 3 — Terriers</option>
+<option value='4'>Grupo 4 — Dachshunds</option>
+<option value='5'>Grupo 5 — Spitz e Tipos Primitivos</option>
+<option value='6'>Grupo 6 — Sabujos e Rastreadores</option>
+<option value='7'>Grupo 7 — Cães de Aponte</option>
+<option value='8'>Grupo 8 — Retrievers, Levantadores e Cães d'Água</option>
+<option value='9'>Grupo 9 — Cães de Companhia</option>
+<option value='10'>Grupo 10 — Galgos e Lebreiros</option>
             </select>
           </div>
 
@@ -127,56 +118,23 @@
       <section aria-labelledby="lista-title" class="breed-listing">
         <h2 id="lista-title" class="visually-hidden">Lista de raças</h2>
         <ul class="breed-list" aria-live="polite">
-          <li class="breed-card" data-porte="medio" data-grupo="2">
-            <article>
-              <h3>
-                <a href="https://www.guiaracas.com.br/racas/bulldog-ingles.html">Bulldog Inglês</a>
-              </h3>
-              <p class="breed-card__meta">
-                <span class="badge">Grupo 2</span> Pinscher, Schnauzer, Molossos e Boiadeiros Suiços
-                <span class="dot">•</span> Porte: Médio
-              </p>
-            </article>
-          </li>
-          <li class="breed-card" data-porte="grande" data-grupo="8">
-            <article>
-              <h3>
-                <a href="https://www.guiaracas.com.br/racas/labrador-retriever.html"
-                  >Labrador Retriever</a
-                >
-              </h3>
-              <p class="breed-card__meta">
-                <span class="badge">Grupo 8</span> Retrievers, Levantadores e Cães d'Água
-                <span class="dot">•</span> Porte: Grande
-              </p>
-            </article>
-          </li>
-          <li class="breed-card" data-porte="medio" data-grupo="None">
-            <article>
-              <h3>
-                <a href="https://www.guiaracas.com.br/racas/vira-lata-srd.html">Vira-lata (SRD)</a>
-              </h3>
-              <p class="breed-card__meta">
-                <span class="badge">—</span> — <span class="dot">•</span> Porte: Médio
-              </p>
-            </article>
-          </li>
+          <li class='breed-card' data-name='bulldog inglês' data-porte='medio' data-grupo='2'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>  <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' /></figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/bulldog-ingles.html'>Bulldog Inglês</a></h3>      <p class='breed-card__meta'><span class='badge'>Grupo 2</span> Pinscher, Schnauzer, Molossos e Boiadeiros Suiços      <span class='dot'>•</span> Porte: Médio</p>    </div>  </article></li>
+<li class='breed-card' data-name='labrador retriever' data-porte='grande' data-grupo='8'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>  <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' /></figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/labrador-retriever.html'>Labrador Retriever</a></h3>      <p class='breed-card__meta'><span class='badge'>Grupo 8</span> Retrievers, Levantadores e Cães d'Água      <span class='dot'>•</span> Porte: Grande</p>    </div>  </article></li>
+<li class='breed-card' data-name='vira-lata (srd)' data-porte='medio' data-grupo=''>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>  <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' /></figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/vira-lata-srd.html'>Vira-lata (SRD)</a></h3>      <p class='breed-card__meta'><span class='badge'>—</span> —      <span class='dot'>•</span> Porte: Médio</p>    </div>  </article></li>
         </ul>
       </section>
     </main>
 
     <footer class="footer" role="contentinfo">
-      <nav class="footer__nav" aria-label="Links institucionais">
-        <a class="footer__link" href="https://www.guiaracas.com.br/sitemap.html">Mapa do site</a>
-        <a class="footer__link" href="https://www.guiaracas.com.br/acessibilidade/"
-          >Acessibilidade</a
-        >
-        <a class="footer__link" href="https://www.guiaracas.com.br/privacidade/">Privacidade</a>
-      </nav>
-      <p>
-        &copy; 2025 Guia Raças — Conteúdo educativo. Consulte um veterinário para decisões de saúde.
-      </p>
-    </footer>
+  <nav class="footer__nav" aria-label="Links institucionais">
+    <a class="footer__link" href="https://www.guiaracas.com.br/sitemap.html">Mapa do site</a>
+    <a class="footer__link" href="https://www.guiaracas.com.br/acessibilidade/">Acessibilidade</a>
+    <a class="footer__link" href="https://www.guiaracas.com.br/privacidade/">Privacidade</a>
+  </nav>
+  <p>
+    &copy; 2025 Guia Raças — Conteúdo educativo. Consulte um veterinário para decisões de saúde.
+  </p>
+</footer>
 
     <script src="https://www.guiaracas.com.br/scripts/main.js" defer></script>
   </body>

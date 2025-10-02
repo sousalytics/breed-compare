@@ -417,14 +417,25 @@ def render_card(r):
   porte = (r["atributos"].get("porte") or "").lower()
   porte_label = human_porte(porte)
 
+  foto_src = r.get("foto","") or "/assets/breeds/_placeholder.jpg"
+  if foto_src.startswith("/"):
+    foto_src = f"{BASE}{foto_src}"
+
+  thumb = (
+    f"<figure class='breed-card__thumb'>"
+    f"  <img src='{foto_src}' alt='' width='120' height='80' loading='lazy' decoding='async' />"
+    f"</figure>"
+  )
+
   return (
-    f"<li class='breed-card' data-porte='{porte}' data-grupo='{grupo}'>"
-    f"  <article>"
-    f"    <h3><a href='{BASE}/racas/{slug}.html'>{r['nome']}</a></h3>"
-    f"    <p class='breed-card__meta'>"
-    f"      <span class='badge'>{fci_grupo_txt}</span> {fci_desc}"
-    f"      <span class='dot'>•</span> Porte: {porte_label}"
-    f"    </p>"
+    f"<li class='breed-card' data-name='{r['nome'].lower()}' data-porte='{porte}' data-grupo='{grupo or ''}'>"
+    f"  <article class='breed-card__inner'>"
+    f"    {thumb}"
+    f"    <div class='breed-card__body'>"
+    f"      <h3 class='breed-card__title'><a href='{BASE}/racas/{slug}.html'>{r['nome']}</a></h3>"
+    f"      <p class='breed-card__meta'><span class='badge'>{fci_grupo_txt}</span> {fci_desc}"
+    f"      <span class='dot'>•</span> Porte: {porte_label}</p>"
+    f"    </div>"
     f"  </article>"
     f"</li>"
   )
