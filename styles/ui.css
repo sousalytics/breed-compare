@@ -173,7 +173,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 
 /* ===== Breadcrumbs ===== */
 .breadcrumbs {
-  padding-block: var(--space-2);
+  padding-block: var(--space-1) var(--space-2);
 }
 .breadcrumbs__list {
   display: flex;
@@ -236,21 +236,45 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   display: grid;
   gap: var(--space-2);
 }
-.indicator__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
+
 .indicator__label {
-  font-size: 1rem;
+  font-weight: var(--weight-semibold);
 }
 .indicator__value {
   color: var(--color-muted);
   font-variant-numeric: tabular-nums;
 }
+.indicator__meter {
+  margin-top: 0.5rem;
+}
 .indicator__details {
   margin-top: 0.5rem;
+}
+.indicator__details[open] .indicator__toggle::before {
+  content: "–";
+}
+
+.indicator__row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.indicator__toggle {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  border-radius: 999px;
+  border: var(--border-1);
+}
+.indicator__toggle::before {
+  content: "+";
+  display: inline-block;
+  width: 1.2rem;
+  text-align: center;
 }
 
 .indicators__list {
@@ -258,12 +282,14 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 
 .indicators__item {
-  display: grid;
-  gap: 0.5rem;
+  background: var(--color-surface);
+  border: var(--border-1);
+  border-radius: var(--radius-2);
+  padding: var(--space-2);
 }
 .indicators__note {
   font-size: 0.95rem;
@@ -296,7 +322,9 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .breed__lead {
   font-size: var(--step--1);
   color: var(--color-muted);
+  opacity: 0.85;
   margin-bottom: 0.5rem;
+  margin-top: 0.25rem;
 }
 @media (min-width: 48rem) {
   .breed__header {
@@ -319,7 +347,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 
 .breed__hero {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
   align-items: start;
 }
 @media (min-width: 768px) {
@@ -389,7 +417,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 }
 
-/* Section spacing */
 .section {
   margin-block: var(--space-3);
 }
@@ -472,39 +499,12 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   color: var(--color-text);
 }
 
-/* Accordion de aspectos com “+” */
-.indicator__details {
-  grid-column: 1 / -1;
-}
-.indicator__details > summary {
-  cursor: pointer;
-  list-style: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.35rem;
-  color: var(--color-primary);
-}
-.indicator__details > summary::before {
-  content: "+";
-  inline-size: 1.2rem;
-  block-size: 1.2rem;
-  display: inline-grid;
-  place-items: center;
-  border: var(--border-1);
-  border-radius: 999px;
-  font-weight: var(--weight-semibold);
-}
-.indicator__details[open] > summary::before {
-  content: "–";
-}
-
 /* Card FCI */
 .fci-card {
   background: var(--color-surface);
   border: var(--border-1);
   border-radius: var(--radius-2);
-  padding: var(--space-3);
+  padding: var(--space-2);
 }
 .fci-card .badge {
   display: inline-block;
@@ -563,18 +563,19 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--space-3);
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-2);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 .kpi {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
   background: var(--color-surface);
-  border: var(--border-1);
-  border-radius: var(--radius-2);
   padding: var(--space-3);
 }
 .kpi__label {
   display: inline;
-  opacity: 0.75;
 }
 .kpi__label::after {
   content: ": ";

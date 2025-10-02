@@ -36,6 +36,10 @@ def nivel_txt(n):
   m = {1:"muito baixa",2:"baixa",3:"moderada",4:"alta",5:"muito alta"}
   return m.get(int(clamp_0_5(n)), "moderada")
 
+def nivel_txt_masc_pl(n):
+  m = {1:"muito baixos",2:"baixos",3:"moderados",4:"altos",5:"muito altos"}
+  return m.get(int(clamp_0_5(n)), "moderados")
+
 def duracao_txt(mins):
   if mins is None:
     return "moderada"
@@ -48,6 +52,19 @@ def duracao_txt(mins):
   if mins >= 45:
     return "curta a moderada"
   return "curta"
+
+def duracao_frase(mins):
+  if mins is None:
+    return "duração moderada"
+  if mins >= 90:
+    return "longa duração"
+  if mins >= 75:
+    return "duração moderada a longa"
+  if mins >= 60:
+    return "duração moderada"
+  if mins >= 45:
+    return "duração curta a moderada"
+  return "curta duração"
 
 def parse_minmax(txt):
   if not txt or txt == "—":
@@ -109,6 +126,23 @@ def jsonld_breed(d, url):
   }, ensure_ascii=False)
 
 #-----------Scores-----------
+FUNCOES_TXT = {
+    "herding":"pastoreio", "retriever":"busca/aporte", "pointer":"aponte",
+    "terrier":"controle de pragas", "scent":"faro", "guard":"guarda",
+    "water":"trabalho na água", "sight":"caça à vista", "companhia":"companhia"
+}
+SUGESTOES = {
+    "herding":"pastoreio simulado e obediência",
+    "retriever":"aporte (buscar e trazer objetos)",
+    "pointer":"rastros e jogos de aponte",
+    "terrier":"brincadeiras de escavação controladas",
+    "scent":"jogos de faro/caça ao tesouro",
+    "guard":"treinos de obediência e guarda responsável",
+    "water":"natação e brincadeiras com água",
+    "sight":"corridas controladas",
+    "companhia":"passeios leves e interação social"
+}
+
 def score_atividade(r, rules):
   at = r["atributos"]; grupo = str(at.get("fci_grupo") or "")
   fci_int = rules["fci_base_intensidade"].get(grupo, 3)
@@ -122,14 +156,17 @@ def score_atividade(r, rules):
   estimulo = clamp_0_5(estimulo)
 
   w = rules["pesos"]["atividade_fisica"]
-  val = round_int(clamp_0_5(
-    intensidade*w["intensidade"] + duracao*w["duracao"] + estimulo*w["estimulo_mental"]
-  ))
+  val = round_int(clamp_0_5(intensidade*w["intensidade"] + duracao*w["duracao"] + estimulo*w["estimulo_mental"]))
+
+  funcoes_pt = [FUNCOES_TXT.get(f, f) for f in funcoes]
+  sugestoes  = [SUGESTOES.get(f) for f in funcoes if SUGESTOES.get(f)]
+  dicas = f" Atividades sugeridas: {', '.join(sugestoes)}." if sugestoes else ""
 
   texto = (
     f"Os cães da raça {r['nome']} tendem a exigir <strong>atividade física {nivel_txt(intensidade)}</strong> "
-    f"de <strong>duração {duracao_txt(fci_min)}</strong> (≈{fci_min} min/dia), "
-    f"com <strong>estímulos mentais {nivel_txt(estimulo)}</strong> (funções: {', '.join(funcoes) or '—'})."
+    f"de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia), "
+    f"com <strong>estímulos mentais {nivel_txt_masc_pl(estimulo)}</strong>. "
+    f"Perfis/funções típicas: {', '.join(funcoes_pt) or '—'}." + dicas
   )
   return val, texto
 

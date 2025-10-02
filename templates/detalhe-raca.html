@@ -59,51 +59,76 @@
       <section class="breed__indicators" aria-labelledby="indicators-title">
         <h2 id="indicators-title">Indicadores</h2>
         <ul class="indicators__list">
+          <!-- Energia Física & Mental -->
           <li class="indicators__item">
-            <span class="indicator__label">Atividade física</span>
-            <div
-              class="scale"
-              role="img"
-              aria-label="Atividade física: ${atividade} de 5"
-              data-value="${atividade}"
-            ></div>
-            <details>
-              <summary>Detalhes</summary>
-              <p>${detalhe_atividade_html}</p>
-            </details>
+            <div class="indicator__row">
+              <span class="indicator__label">Energia Física &amp; Mental</span>
+              <span class="indicator__value" aria-hidden="true">${atividade}/5</span>
+              <details class="indicator__details">
+                <summary
+                  class="indicator__toggle"
+                  aria-label="Ver detalhes de Energia Física e Mental"
+                ></summary>
+                <div class="indicator__text"><p>${detalhe_atividade_html}</p></div>
+              </details>
+            </div>
+            <meter
+              class="indicator__meter"
+              min="0"
+              max="5"
+              value="${atividade}"
+              aria-label="Energia Física e Mental: ${atividade} de 5"
+            ></meter>
           </li>
 
+          <!-- Grooming & Pelagem -->
           <li class="indicators__item">
-            <span class="indicator__label">Grooming &amp; Pelagem</span>
-            <div
-              class="scale"
-              role="img"
-              aria-label="Grooming: ${grooming} de 5"
-              data-value="${grooming}"
-            ></div>
-            <details>
-              <summary>Detalhes</summary>
-              <p>${detalhe_grooming_html}</p>
-            </details>
+            <div class="indicator__row">
+              <span class="indicator__label">Grooming &amp; Pelagem</span>
+              <span class="indicator__value" aria-hidden="true">${grooming}/5</span>
+              <details class="indicator__details">
+                <summary
+                  class="indicator__toggle"
+                  aria-label="Ver detalhes de Grooming e Pelagem"
+                ></summary>
+                <div class="indicator__text"><p>${detalhe_grooming_html}</p></div>
+              </details>
+            </div>
+            <meter
+              class="indicator__meter"
+              min="0"
+              max="5"
+              value="${grooming}"
+              aria-label="Grooming e Pelagem: ${grooming} de 5"
+            ></meter>
           </li>
 
+          <!-- Clima & Ambiente -->
           <li class="indicators__item">
-            <span class="indicator__label">Clima &amp; Ambiente</span>
-            <div
-              class="scale"
-              role="img"
-              aria-label="Clima &amp; Ambiente: ${clima} de 5"
-              data-value="${clima}"
-            ></div>
-            <details>
-              <summary>Detalhes</summary>
-              <p>${detalhe_clima_html}</p>
-            </details>
+            <div class="indicator__row">
+              <span class="indicator__label">Clima &amp; Ambiente</span>
+              <span class="indicator__value" aria-hidden="true">${clima}/5</span>
+              <details class="indicator__details">
+                <summary
+                  class="indicator__toggle"
+                  aria-label="Ver detalhes de Clima e Ambiente"
+                ></summary>
+                <div class="indicator__text"><p>${detalhe_clima_html}</p></div>
+              </details>
+            </div>
+            <meter
+              class="indicator__meter"
+              min="0"
+              max="5"
+              value="${clima}"
+              aria-label="Clima e Ambiente: ${clima} de 5"
+            ></meter>
           </li>
         </ul>
+
         <p class="indicators__note">
           Metodologia e fontes: veja
-          <a href="${baseUrl}/sobre/#metodologia">/metodologia</a>.
+          <a href="${baseUrl}/sobre/#metodologia">Sobre → Metodologia</a>.
         </p>
       </section>
 
@@ -135,7 +160,7 @@
       </footer>
     </main>
 
-    <footer class="site-footer">${SITE_FOOTER}</footer>
+    <footer class="footer">${SITE_FOOTER}</footer>
     <script src="${baseUrl}/scripts/main.js" defer></script>
   </body>
 </html>

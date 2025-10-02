@@ -79,51 +79,76 @@
       <section class="breed__indicators" aria-labelledby="indicators-title">
         <h2 id="indicators-title">Indicadores</h2>
         <ul class="indicators__list">
+          <!-- Energia Física & Mental -->
           <li class="indicators__item">
-            <span class="indicator__label">Atividade física</span>
-            <div
-              class="scale"
-              role="img"
-              aria-label="Atividade física: 5 de 5"
-              data-value="5"
-            ></div>
-            <details>
-              <summary>Detalhes</summary>
-              <p>Os cães da raça Labrador Retriever tendem a exigir <strong>atividade física muito alta</strong> de <strong>duração longa</strong> (≈90 min/dia), com <strong>estímulos mentais alta</strong> (funções: retriever, water).</p>
-            </details>
+            <div class="indicator__row">
+              <span class="indicator__label">Energia Física &amp; Mental</span>
+              <span class="indicator__value" aria-hidden="true">5/5</span>
+              <details class="indicator__details">
+                <summary
+                  class="indicator__toggle"
+                  aria-label="Ver detalhes de Energia Física e Mental"
+                ></summary>
+                <div class="indicator__text"><p>Os cães da raça Labrador Retriever tendem a exigir <strong>atividade física muito alta</strong> de <strong>duração longa</strong> (≈90 min/dia), com <strong>estímulos mentais alta</strong> (funções: retriever, water).</p></div>
+              </details>
+            </div>
+            <meter
+              class="indicator__meter"
+              min="0"
+              max="5"
+              value="5"
+              aria-label="Energia Física e Mental: 5 de 5"
+            ></meter>
           </li>
 
+          <!-- Grooming & Pelagem -->
           <li class="indicators__item">
-            <span class="indicator__label">Grooming &amp; Pelagem</span>
-            <div
-              class="scale"
-              role="img"
-              aria-label="Grooming: 3 de 5"
-              data-value="3"
-            ></div>
-            <details>
-              <summary>Detalhes</summary>
-              <p>Para Labrador Retriever, a rotina de higiene envolve <strong>escovação baixa</strong> (pelagem dupla curta), <strong>queda de pelos muito alta</strong> (subpelo denso) e <strong>não requer tosa</strong>.</p>
-            </details>
+            <div class="indicator__row">
+              <span class="indicator__label">Grooming &amp; Pelagem</span>
+              <span class="indicator__value" aria-hidden="true">3/5</span>
+              <details class="indicator__details">
+                <summary
+                  class="indicator__toggle"
+                  aria-label="Ver detalhes de Grooming e Pelagem"
+                ></summary>
+                <div class="indicator__text"><p>Para Labrador Retriever, a rotina de higiene envolve <strong>escovação baixa</strong> (pelagem dupla curta), <strong>queda de pelos muito alta</strong> (subpelo denso) e <strong>não requer tosa</strong>.</p></div>
+              </details>
+            </div>
+            <meter
+              class="indicator__meter"
+              min="0"
+              max="5"
+              value="3"
+              aria-label="Grooming e Pelagem: 3 de 5"
+            ></meter>
           </li>
 
+          <!-- Clima & Ambiente -->
           <li class="indicators__item">
-            <span class="indicator__label">Clima &amp; Ambiente</span>
-            <div
-              class="scale"
-              role="img"
-              aria-label="Clima &amp; Ambiente: 1 de 5"
-              data-value="1"
-            ></div>
-            <details>
-              <summary>Detalhes</summary>
-              <p>No perfil <strong>tropical umido</strong>, Labrador Retriever apresenta <strong>tolerância ao calor muito baixa</strong>, <strong>tolerância à umidade baixa</strong> e <strong>compatibilidade de espaço moderada</strong>.</p>
-            </details>
+            <div class="indicator__row">
+              <span class="indicator__label">Clima &amp; Ambiente</span>
+              <span class="indicator__value" aria-hidden="true">1/5</span>
+              <details class="indicator__details">
+                <summary
+                  class="indicator__toggle"
+                  aria-label="Ver detalhes de Clima e Ambiente"
+                ></summary>
+                <div class="indicator__text"><p>No perfil <strong>tropical umido</strong>, Labrador Retriever apresenta <strong>tolerância ao calor muito baixa</strong>, <strong>tolerância à umidade baixa</strong> e <strong>compatibilidade de espaço moderada</strong>.</p></div>
+              </details>
+            </div>
+            <meter
+              class="indicator__meter"
+              min="0"
+              max="5"
+              value="1"
+              aria-label="Clima e Ambiente: 1 de 5"
+            ></meter>
           </li>
         </ul>
+
         <p class="indicators__note">
           Metodologia e fontes: veja
-          <a href="https://www.guiaracas.com.br/sobre/#metodologia">/metodologia</a>.
+          <a href="https://www.guiaracas.com.br/sobre/#metodologia">Sobre → Metodologia</a>.
         </p>
       </section>
 
@@ -155,7 +180,7 @@
       </footer>
     </main>
 
-    <footer class="site-footer"></footer>
+    <footer class="footer"></footer>
     <script src="https://www.guiaracas.com.br/scripts/main.js" defer></script>
   </body>
 </html>
