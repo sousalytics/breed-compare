@@ -21,6 +21,9 @@ def clamp_0_5(x):
 def round_int(x):
   return int(round(x))
 
+def attr(s: str) -> str:
+  return htmllib.escape(s or "", quote=True)
+
 def minutes_to_scale(mins):
   if mins is None:
     return 3
@@ -124,6 +127,22 @@ def parse_minmax(txt):
     return None, None
   return int(m.group(1)), int(m.group(2))
 
+def breed_slug(r):
+  return (r.get("slug") or slugify(r["nome"]))
+
+def get_aliases_for_breed(r):
+  sl = breed_slug(r)
+  arr = aliases_map.get(sl) or []
+  seen = set()
+  out = []
+  for a in arr:
+    a = (a or "").strip()
+    if a and a.lower() not in seen:
+      seen.add(a.lower())
+      out.append(a)
+  return out
+
+
 def jsonld_breadcrumb(nome, url):
   return json.dumps({
     "@context":"https://schema.org","@type":"BreadcrumbList",
@@ -180,9 +199,6 @@ def jsonld_breed(d, url):
     "mainEntityOfPage": url,
     "additionalProperty": props
   }, ensure_ascii=False)
-
-def attr(s: str) -> str:
-  return htmllib.escape(s or "", quote=True)
 
 #-----------Scores-----------
 FUNCOES_TXT = {
@@ -413,10 +429,10 @@ out_dir = ROOT/"racas"; out_dir.mkdir(exist_ok=True)
 tpl_list = Template((ROOT/"templates/lista-racas.html").read_text(encoding="utf-8"))
 
 ALIASES_PATH = ROOT / "data" / "aliases_oficiais.json"
-ALIASES = {}
 if ALIASES_PATH.exists():
-  ALIASES = json.loads(ALIASES_PATH.read_text(encoding="utf-8"))
-
+  aliases_map = json.loads(ALIASES_PATH.read_text(encoding="utf-8"))
+else:
+  aliases_map = {}
 
 #-----------Geradores-----------
 def render_card(r):
@@ -438,8 +454,9 @@ def render_card(r):
     f"</figure>"
   )
 
-  aliases = ALIASES.get(slug, []) or []
-  alias_attr = " | ".join(a for a in aliases if a and a.strip())
+  aliases = get_aliases_for_breed(r)
+  alias_attr = " | ".join(a for a in aliases if a)
+
 
   title_html = attr(r["nome"])
   fci_desc_html = attr(fci_desc)
@@ -501,6 +518,18 @@ for r in racas:
   if foto_src.startswith("/"):
     foto_src = f"{BASE}{foto_src}"
 
+  aliases = get_aliases_for_breed(r)
+  if aliases:
+    aka_text = join_pt(aliases)
+    AKA_BLOCK = (
+      f"<p class='breed__aka'>"
+      f"<span class='aka__label'>Também conhecido como:</span> "
+      f"{htmllib.escape(aka_text)}"
+      f"</p>"
+    )
+  else:
+    AKA_BLOCK = ""
+
   page_html = tpl.safe_substitute(
     HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
     SITE_HEADER=site_header, SITE_FOOTER=site_footer,
@@ -518,6 +547,7 @@ for r in racas:
     ativ_txt_trailer=ativ_trailer,
     foto=foto_src, foto_w=r.get("foto_w",""), foto_h=r.get("foto_h",""),
     foto_credito=r.get("foto_credito",""),
+    AKA_BLOCK=AKA_BLOCK,
     jsonld_breadcrumb=jsonld_breadcrumb(r["nome"], url),
     jsonld_breed=jsonld_breed(r, url),
   )

@@ -530,6 +530,17 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 }
 
+.breed__aka {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+.breed__aka .aka__label {
+  margin-right: 0.25ch;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
 /* Facts (direita) */
 .fact {
   display: flex;
