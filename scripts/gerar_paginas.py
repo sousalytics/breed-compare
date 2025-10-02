@@ -62,6 +62,46 @@ def duracao_frase(mins):
     return "duração curta a moderada"
   return "curta duração"
 
+def human_pelo(p):
+  return {
+    "sem_pelo": "sem pelo",
+    "curta": "curta",
+    "media": "média",
+    "longa": "longa",
+    "encaracolada": "encaracolada",
+    "dupla_curta": "dupla curta",
+    "dupla_longa": "dupla longa"
+  }.get(p, p.replace("_", " "))
+
+def freq_escovacao_from_pelo(pelo):
+  return {
+    "sem_pelo": "1x/semana ou conforme necessário",
+    "curta": "1–2x/semana",
+    "dupla_curta": "2–3x/semana",
+    "media": "2–3x/semana",
+    "longa": "3–5x/semana",
+    "encaracolada": "diária ou em dias alternados",
+    "dupla_longa": "diária"
+  }.get(pelo, "2–3x/semana")
+
+def shedding_text(subpelo, shedding_estacao):
+  base = {"nenhum": "baixa", "leve": "moderada", "denso": "alta"}.get(subpelo, "moderada")
+  saz = " com picos sazonais" if shedding_estacao in {"alto", "moderado"} else ""
+  under = {
+    "nenhum": "não possui subpelo",
+    "leve": "possui subpelo leve",
+    "denso": "possui subpelo denso"
+  }.get(subpelo, "")
+  return base, saz, under
+
+def tosa_text(need):
+  return {
+    "nao": "não requer tosa",
+    "ocasional": "requer tosa ocasional",
+    "regular_8_10": "requer tosa regular (a cada 8–10 semanas)",
+    "regular_4_6": "requer tosa frequente (a cada 4–6 semanas)"
+  }.get(need, "não requer tosa")
+
 def parse_minmax(txt):
   if not txt or txt == "—":
       return None, None
@@ -156,7 +196,7 @@ def score_atividade(r, rules):
 
   funcoes_pt = [FUNCOES_TXT.get(f, f) for f in funcoes]
   sugestoes  = [SUGESTOES.get(f) for f in funcoes if SUGESTOES.get(f)]
-  dicas = f" Atividades sugeridas: {', '.join(sugestoes)}." if sugestoes else ""
+  dicas = f" para o qual recomenda-se atividades de <strong>{', '.join(sugestoes)}</strong>." if sugestoes else ""
 
   funcoes = at.get("funcoes", []) or []
   main_func = funcoes[0] if funcoes else None
@@ -164,7 +204,7 @@ def score_atividade(r, rules):
   ativ_txt = SUGESTOES.get(main_func) if main_func else None
   perfil_str = ""
   if func_txt and ativ_txt:
-    perfil_str = f" Seu perfil/função típica é <strong>{func_txt}</strong>, para o qual recomendam-se <strong>{ativ_txt}</strong>."
+    perfil_str = f" Seu perfil/função típica é <strong>{func_txt}</strong>,{dicas}"
   elif func_txt:
     perfil_str = f" Seu perfil/função típica é <strong>{func_txt}</strong>."
 
@@ -172,53 +212,40 @@ def score_atividade(r, rules):
     f"Os cães da raça {r['nome']} costumam apresentar <strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
     f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) e de "
     f"<strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>. "
-    f"{perfil_str}{dicas}"
+    f"{perfil_str}"
   )
   return val, texto
 
-PELAGEM_TXT = {
-  "sem_pelo": "sem pelo",
-  "curta": "curta",
-  "media": "média",
-  "longa": "longa",
-  "encaracolada": "encaracolada",
-  "dupla_curta": "dupla curta",
-  "dupla_longa": "dupla longa",
-}
-
-SUBPELO_TXT = {
-  "nenhum": "sem subpelo",
-  "leve": "subpelo leve",
-  "denso": "subpelo denso",
-}
-
-TOSA_TXT = {
-  "nao": "não requer tosa",
-  "ocasional": "tosa ocasional",
-  "regular_8_10": "tosa regular (a cada 8–10 semanas)",
-  "regular_4_6": "tosa frequente (a cada 4–6 semanas)",
-}
-
 def score_grooming(r, rules):
   at = r["atributos"]
-  esc = rules["escovacao_pelo"].get(at.get("pelagem_tipo","curta"), 1)
-  shed = rules["shedding_subpelo"].get(at.get("subpelo","nenhum"), 1)
-  if at.get("shedding_estacao") in {"moderado","alto"}:
+  pelo = at.get("pelagem_tipo", "curta")
+  subpelo = at.get("subpelo", "nenhum")
+  shed_est = at.get("shedding_estacao", "baixo")
+  need_tosa = at.get("necessita_tosa", "nao")
+
+  esc = rules["escovacao_pelo"].get(pelo, 1)
+  shed = rules["shedding_subpelo"].get(subpelo, 1)
+  if shed_est in {"moderado", "alto"}:
     shed = clamp_0_5(shed + 1)
-  tosa = rules["tosa_necessidade"].get(at.get("necessita_tosa","nao"), 1)
+  tosa = rules["tosa_necessidade"].get(need_tosa, 1)
 
   w = rules["pesos"]["higiene_pelagem"]
   val = round_int(clamp_0_5(esc*w["escovacao"] + shed*w["shedding"] + tosa*w["tosa"]))
 
-  pt_pelagem = PELAGEM_TXT.get(at.get("pelagem_tipo","curta"), at.get("pelagem_tipo","curta"))
-  pt_subpelo = SUBPELO_TXT.get(at.get("subpelo","nenhum"), at.get("subpelo","nenhum"))
-  pt_tosa   = TOSA_TXT.get(at.get("necessita_tosa","nao"), at.get("necessita_tosa","nao"))
+  esc_txt = {1:"escovação simples", 2:"escovação regular", 3:"escovação cuidadosa", 4:"escovação intensiva"}.get(esc, "escovação regular")
+  freq_txt = freq_escovacao_from_pelo(pelo)
+  shed_nivel, shed_saz, under_txt = shedding_text(subpelo, shed_est)
+  tosa_txt = tosa_text(need_tosa)
+  pelo_hum = human_pelo(pelo)
 
   texto = (
-    f"Para {r['nome']}, a rotina de higiene envolve <strong>escovação {nivel_txt(esc)}</strong> "
-    f"(pelagem {pt_pelagem}), <strong>queda de pelos {nivel_txt(shed)}</strong> ({pt_subpelo}) "
-    f"e <strong>{pt_tosa}</strong>."
+    f"Para os cães da raça {r['nome']}, recomenda-se <strong>{esc_txt}</strong> "
+    f"(<strong>{freq_txt}</strong>), devido a sua pelagem {pelo_hum}; "
+    f"eles apresentam <strong>queda de pelos {shed_nivel}</strong>{shed_saz}"
+    f"{(' — ' + under_txt) if under_txt else ''}; "
+    f"e <strong>{tosa_txt}</strong>."
   )
+
   return val, texto
 
 
