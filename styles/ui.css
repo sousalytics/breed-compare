@@ -785,6 +785,13 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .cmp-colhead__name {
   text-align: center;
 }
+.cmp-colhead__name,
+.cmp-colhead__name:hover,
+.cmp-colhead__name:focus {
+  text-decoration: none;
+  color: inherit;
+}
+
 .cmp-colhead__actions {
   display: flex;
   gap: 0.25rem;

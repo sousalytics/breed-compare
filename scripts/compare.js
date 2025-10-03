@@ -22,6 +22,7 @@
   const chips = root.querySelector(".selected-chips");
   const datalist = root.querySelector("#breeds-datalist");
   const BASE_URL = document.body?.dataset?.baseurl || "";
+  const breedUrl = (slug) => `${BASE_URL}/racas/${slug}.html`;
 
   function mkSection(title) {
     const sec = document.createElement("section");
@@ -133,7 +134,7 @@
         <button type="button" class="cmp-colhead__remove" aria-label="Remover ${b.nome}">×</button>
         ${hThumb(b.foto, `Foto da raça ${b.nome}`)}
         <div class="cmp-colhead__txt">
-          <a class="cmp-colhead__name" href="${BASE_URL}/racas/${b.slug}/">
+          <a class="cmp-colhead__name" href="${breedUrl(b.slug)}">
             <strong>${b.nome}</strong>
           </a>
         </div>
@@ -142,6 +143,8 @@
           <button type="button" class="btn btn--sm" aria-label="Mover para a direita">→</button>
         </div>
       `;
+
+        d.querySelector(".cmp-colhead__name").draggable = false;
 
         d.setAttribute("draggable", "true");
 
