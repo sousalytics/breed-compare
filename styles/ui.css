@@ -880,7 +880,16 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 .page-header {
-  margin-block: var(--space-4, 1.5rem) var(--space-2, 0.75rem);
+  margin-block: var(--space-2) var(--space-2);
+}
+
+.page-title {
+  font-size: var(--step-2);
+  line-height: 1.2;
+}
+.page-lead {
+  opacity: 0.85;
+  margin-top: 0.25rem;
 }
 
 .breeds-layout {

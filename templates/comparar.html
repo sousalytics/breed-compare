@@ -2,72 +2,35 @@
 <html lang="pt-BR">
   <head>
     ${HEAD_BASE}
-    <title>Comparar Raças — Guia Raças</title>
-    <meta
-      name="description"
-      content="Compare até três raças lado a lado: classificação FCI, porte, origem, medidas, energia, pelagem e adaptação ao ambiente."
-    />
-    <link rel="canonical" href="${baseUrl}/comparar/" />
-    <script type="application/ld+json">
-      ${jsonld_breadcrumb_compare}
-    </script>
+    <title>Comparar Raças • Guia Raças</title>
+    <meta name="description" content="Compare até 3 raças de cães lado a lado." />
   </head>
-  <body>
-    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-
+  <body class="page-compare">
     ${SITE_HEADER}
 
-    <nav class="breadcrumbs" aria-label="Você está em">
+    <nav class="breadcrumbs container" aria-label="Breadcrumb">
       <ol class="breadcrumbs__list">
         <li><a href="${baseUrl}/">Início</a></li>
-        <li aria-current="page">Comparar</li>
+        <li>Comparar</li>
       </ol>
     </nav>
 
-    <div class="page-compare">
-      <main id="conteudo" tabindex="-1" class="container" role="main">
-        <header class="page-header">
-          <h1 class="page-title">Comparar Raças</h1>
-          <p class="page-lead">Adicione até <strong>3 raças</strong> e compare lado a lado.</p>
-        </header>
+    <main class="container compare-main" id="top">
+      <header class="page-header">
+        <h1 class="page-title">Comparar Raças</h1>
+        <p class="page-lead">
+          Adicione raças a partir da página <a href="${baseUrl}/racas/">Raças</a> (botão “+
+          Comparar”). Você pode abrir esta página com parâmetros, por exemplo:
+          <code>?add=labrador-retriever&add=bulldog-ingles</code>.
+        </p>
 
-        <section class="filters card" aria-labelledby="filters-title">
-          <h2 id="filters-title" class="visually-hidden">Selecionar raças</h2>
+        <div class="selected-chips" aria-live="polite"></div>
+      </header>
 
-          <form id="compare-form" class="filters__row" novalidate>
-            <label for="q-compare" class="visually-hidden">Buscar raça</label>
-            <input
-              id="q-compare"
-              class="input"
-              type="text"
-              inputmode="search"
-              placeholder="Digite o nome da raça (ex.: Labrador)"
-              aria-describedby="compare-help"
-              list="breeds-datalist"
-              autocomplete="off"
-            />
-            <button id="add-breed" type="button" class="btn btn--primary">Adicionar</button>
-          </form>
-
-          <datalist id="breeds-datalist">${DATALIST_BREEDS}</datalist>
-
-          <p id="compare-help" class="help">
-            Dica: comece a digitar e escolha na lista. Limite de 3 raças.
-          </p>
-
-          <div class="selected-chips" aria-live="polite"></div>
-        </section>
-
-        <!-- As seções de comparação são injetadas via JS -->
-        <noscript>
-          <p class="card" style="margin-top: 1rem">
-            Para usar a comparação, ative o JavaScript no seu navegador.
-          </p>
-        </noscript>
-      </main>
-    </div>
+      <!-- As seções/grades são criadas pelo compare.js -->
+    </main>
 
     ${SITE_FOOTER}
-    <script src="${baseUrl}/scripts/compare.js" defer></script>
+    <script defer src="${baseUrl}/scripts/compare.js"></script>
   </body>
 </html>

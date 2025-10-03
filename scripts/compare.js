@@ -213,25 +213,27 @@
       datalist.innerHTML = data.map((b) => `<option value="${b.nome}">`).join("");
     }
 
-    populateDatalist();
     renderAll();
   }
 
-  btnAdd.addEventListener("click", () => {
-    const slug = resolveSlugByName(inputQ.value);
-    if (!slug) return;
-    if (selected.includes(slug)) return;
-    if (selected.length >= MAX_COLS) return;
-    selected.push(slug);
-    writeURL();
-    renderAll();
-    inputQ.value = "";
-    inputQ.focus();
-  });
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    btnAdd.click();
-  });
+  if (form && inputQ && btnAdd) {
+    btnAdd.addEventListener("click", () => {
+      const slug = resolveSlugByName(inputQ.value);
+      if (!slug) return;
+      if (selected.includes(slug)) return;
+      if (selected.length >= MAX_COLS) return;
+      selected.push(slug);
+      writeURL();
+      renderAll();
+      inputQ.value = "";
+      inputQ.focus();
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      btnAdd.click();
+    });
+  }
 
   init();
 })();

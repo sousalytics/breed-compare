@@ -26,26 +26,16 @@
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap"
 />
 
-    <title>Comparar Raças — Guia Raças</title>
-    <meta
-      name="description"
-      content="Compare até três raças lado a lado: classificação FCI, porte, origem, medidas, energia, pelagem e adaptação ao ambiente."
-    />
-    <link rel="canonical" href="https://www.guiaracas.com.br/comparar/" />
-    <script type="application/ld+json">
-      {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Início", "item": "https://www.guiaracas.com.br/"}, {"@type": "ListItem", "position": 2, "name": "Comparar", "item": "https://www.guiaracas.com.br/comparar/"}]}
-    </script>
+    <title>Comparar Raças • Guia Raças</title>
+    <meta name="description" content="Compare até 3 raças de cães lado a lado." />
   </head>
-  <body>
-    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-
+  <body class="page-compare">
     <header class="header" role="banner">
   <div class="header__inner">
     <a href="https://www.guiaracas.com.br/" class="logo">Guia Raças</a>
     <nav class="nav" aria-label="Principal">
       <ul class="nav__list">
         <li><a class="nav__link" href="https://www.guiaracas.com.br/racas/">Raças</a></li>
-        <li><a class="nav__link" href="https://www.guiaracas.com.br/comparar/">Comparar</a></li>
         <li><a class="nav__link" href="https://www.guiaracas.com.br/sobre/">Sobre</a></li>
       </ul>
     </nav>
@@ -53,57 +43,27 @@
 </header>
 
 
-    <nav class="breadcrumbs" aria-label="Você está em">
+    <nav class="breadcrumbs container" aria-label="Breadcrumb">
       <ol class="breadcrumbs__list">
         <li><a href="https://www.guiaracas.com.br/">Início</a></li>
-        <li aria-current="page">Comparar</li>
+        <li>Comparar</li>
       </ol>
     </nav>
 
-    <div class="page-compare">
-      <main id="conteudo" tabindex="-1" class="container" role="main">
-        <header class="page-header">
-          <h1 class="page-title">Comparar Raças</h1>
-          <p class="page-lead">Adicione até <strong>3 raças</strong> e compare lado a lado.</p>
-        </header>
+    <main class="container compare-main" id="top">
+      <header class="page-header">
+        <h1 class="page-title">Comparar Raças</h1>
+        <p class="page-lead">
+          Adicione raças a partir da página <a href="https://www.guiaracas.com.br/racas/">Raças</a> (botão “+
+          Comparar”). Você pode abrir esta página com parâmetros, por exemplo:
+          <code>?add=labrador-retriever&add=bulldog-ingles</code>.
+        </p>
 
-        <section class="filters card" aria-labelledby="filters-title">
-          <h2 id="filters-title" class="visually-hidden">Selecionar raças</h2>
+        <div class="selected-chips" aria-live="polite"></div>
+      </header>
 
-          <form id="compare-form" class="filters__row" novalidate>
-            <label for="q-compare" class="visually-hidden">Buscar raça</label>
-            <input
-              id="q-compare"
-              class="input"
-              type="text"
-              inputmode="search"
-              placeholder="Digite o nome da raça (ex.: Labrador)"
-              aria-describedby="compare-help"
-              list="breeds-datalist"
-              autocomplete="off"
-            />
-            <button id="add-breed" type="button" class="btn btn--primary">Adicionar</button>
-          </form>
-
-          <datalist id="breeds-datalist"><option value="Bulldog Inglês">
-<option value="Labrador Retriever">
-<option value="Vira-lata (SRD)"></datalist>
-
-          <p id="compare-help" class="help">
-            Dica: comece a digitar e escolha na lista. Limite de 3 raças.
-          </p>
-
-          <div class="selected-chips" aria-live="polite"></div>
-        </section>
-
-        <!-- As seções de comparação são injetadas via JS -->
-        <noscript>
-          <p class="card" style="margin-top: 1rem">
-            Para usar a comparação, ative o JavaScript no seu navegador.
-          </p>
-        </noscript>
-      </main>
-    </div>
+      <!-- As seções/grades são criadas pelo compare.js -->
+    </main>
 
     <footer class="footer" role="contentinfo">
   <nav class="footer__nav" aria-label="Links institucionais">
@@ -116,6 +76,6 @@
   </p>
 </footer>
 
-    <script src="https://www.guiaracas.com.br/scripts/compare.js" defer></script>
+    <script defer src="https://www.guiaracas.com.br/scripts/compare.js"></script>
   </body>
 </html>

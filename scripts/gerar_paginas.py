@@ -91,41 +91,40 @@ aliases_map = load_aliases_map()
 
 # ===== Cartão da listagem =====
 def render_card(r):
-    slug = r.get("slug") or slugify(r["nome"])
-    grupo = r["atributos"].get("fci_grupo")
-    fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
-    fci_desc = rules["fci_grupos"].get(str(grupo), "—")
+  slug = r.get("slug") or slugify(r["nome"])
+  grupo = r["atributos"].get("fci_grupo")
+  fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
+  porte = (r["atributos"].get("porte") or "").lower()
 
-    porte = (r["atributos"].get("porte") or "").lower()
-    porte_label = human_porte(porte)
+  foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
+  if foto_src.startswith("/"):
+    foto_src = f"{BASE}{foto_src}"
 
-    foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
-    if foto_src.startswith("/"): foto_src = f"{BASE}{foto_src}"
+  aliases = get_aliases_for_breed(r, aliases_map)
+  alias_attr = " | ".join(a for a in aliases if a)
 
-    aliases = get_aliases_for_breed(r, aliases_map)
-    alias_attr = " | ".join(a for a in aliases if a)
+  title_html = attr(r["nome"])
 
-    title_html = attr(r["nome"])
-    fci_desc_html = attr(fci_desc)
+  return (
+    f"<li class='breed-card' "
+    f" data-name='{attr(r['nome'].lower())}'"
+    f" data-porte='{attr(porte)}'"
+    f" data-grupo='{attr(str(grupo or ''))}'"
+    f" data-alias='{attr(alias_attr)}'>"
+    f"  <article class='breed-card__inner'>"
+    f"    <figure class='breed-card__thumb'>"
+    f"      <img src='{foto_src}' alt='' width='120' height='80' loading='lazy' decoding='async' />"
+    f"    </figure>"
+    f"    <div class='breed-card__body'>"
+    f"      <h3 class='breed-card__title'><a href='{BASE}/racas/{slug}.html'>{title_html}</a></h3>"
+    f"      <div class='breed-card__actions'>"
+    f"        <a class='btn btn--sm' href='{BASE}/comparar/?add={slug}'>+ Comparar</a>"
+    f"      </div>"
+    f"    </div>"
+    f"  </article>"
+    f"</li>"
+  )
 
-    return (
-      f"<li class='breed-card' "
-      f" data-name='{attr(r['nome'].lower())}'"
-      f" data-porte='{attr(porte)}'"
-      f" data-grupo='{attr(str(grupo or ''))}'"
-      f" data-alias='{attr(alias_attr)}'>"
-      f"  <article class='breed-card__inner'>"
-      f"    <figure class='breed-card__thumb'>"
-      f"      <img src='{foto_src}' alt='' width='120' height='80' loading='lazy' decoding='async' />"
-      f"    </figure>"
-      f"    <div class='breed-card__body'>"
-      f"      <h3 class='breed-card__title'><a href='{BASE}/racas/{slug}.html'>{title_html}</a></h3>"
-      f"      <p class='breed-card__meta'><span class='badge'>{fci_grupo_txt}</span> {fci_desc_html}"
-      f"      <span class='dot'>•</span> Porte: {porte_label}</p>"
-      f"    </div>"
-      f"  </article>"
-      f"</li>"
-    )
 
 # ===== Páginas de raça =====
 for r in racas:
