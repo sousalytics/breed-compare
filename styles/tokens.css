@@ -1,22 +1,23 @@
-/* ===== Paleta 1 (Principal) - Blue + âmbar ===== */
+/* ===== Design Tokens (cores, tipografia, espaçamentos, raios, sombras) ===== */
 :root {
-  /* Cores */
+  /* Cores base */
   --color-bg: #fafafc;
   --color-surface: #ffffff;
   --color-text: #0b1320;
   --color-muted: #667085;
 
-  --color-primary: #0033a0; /* links e botão primário */
+  /* Ação / Marca */
+  --color-primary: #0033a0;
   --color-primary-contrast: #ffffff;
-  --color-accent: #b45309; /* CTA "Comparar" (âmbar 700) */
+  --color-accent: #b45309;
   --color-accent-contrast: #ffffff;
 
-  /* Foco/Seleção */
+  /* Foco / Seleção */
   --focus-ring: var(--color-primary);
   --mix-contrast: #000;
   --primary-rgb: 0 51 160;
 
-  /* Tipografia/Escala */
+  /* Tipografia */
   --font-title: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --weight-regular: 400;
@@ -25,13 +26,14 @@
   --lh-tight: 1.25;
   --lh-normal: 1.6;
 
+  /* Escala tipográfica */
   --step--1: clamp(0.875rem, 0.86rem + 0.1vw, 0.95rem);
   --step-0: 1rem;
   --step-1: clamp(1.125rem, 1.1rem + 0.3vw, 1.375rem);
   --step-2: clamp(1.25rem, 1.2rem + 0.6vw, 1.75rem);
   --step-3: clamp(1.5rem, 1.4rem + 1vw, 2.25rem);
 
-  /* Espaçamento/Raios/Container */
+  /* Espaços / Raios / Container */
   --radius-1: 0.25rem;
   --radius-2: 0.5rem;
   --radius-3: 1rem;
@@ -48,7 +50,7 @@
   --container-max: 72rem;
   --sticky-offset: 3.25rem;
 
-  /* Sombras/Bordas/Superfícies */
+  /* Sombras / Bordas / Superfícies */
   --shadow-rgb: 0 0 0;
   --shadow-1: 0 1px 0 rgb(var(--shadow-rgb) / 0.05);
   --shadow-1-inset: inset 0 1px 2px rgb(var(--shadow-rgb) / 0.12);
@@ -60,27 +62,26 @@
 
   --surface-1: #eaeaea;
 
-  /* Propriedades Globais */
+  /* Propriedades globais */
   accent-color: var(--color-primary);
   color-scheme: light;
 
-  /*Tokens de Estado*/
+  /* Estados */
   --color-success: #0f9d58;
   --color-warning: #f59e0b;
   --color-danger: #dc2626;
 
-  /* Tamanhos de Ícone */
+  /* Ícones */
   --icon-12: 0.75rem;
   --icon-16: 1rem;
   --icon-20: 1.25rem;
   --icon-24: 1.5rem;
   --icon-32: 2rem;
 
-  /* Largura mínima de tabela larga */
+  /* Tabelas largas */
   --table-min-width: 48rem;
 }
 
-/* Ajustes dinâmicos com suporte color-mix */
 @supports (background: color-mix(in srgb, #000, #fff)) {
   :root {
     --surface-1: color-mix(in srgb, var(--color-bg), var(--mix-contrast) 6%);
@@ -88,23 +89,22 @@
   }
 }
 
-/* ===== Paleta 2 (Alternativa) — Deep Blue + Teal ===== */
+/* ===== Tema alternativo ===== */
 html[data-theme="alt"] {
   --color-bg: #f7fafc;
   --color-surface: #ffffff;
   --color-text: #0b1320;
   --color-muted: #667085;
 
-  --color-primary: #1d4ed8; /* links e botão primário */
+  --color-primary: #1d4ed8;
   --color-primary-contrast: #ffffff;
-  --color-accent: #0f766e; /* CTA "Comparar" (teal 700) */
+  --color-accent: #0f766e;
 
   --focus-ring: var(--color-primary);
   --mix-contrast: #000;
   --primary-rgb: 29 78 216;
 
   --border-color: #e5e7eb;
-
   --surface-1: #eaeaea;
 
   --color-success: #0f9d58;

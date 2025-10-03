@@ -28,15 +28,22 @@ def slugify(s: str) -> str:
     s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
     return re.sub(r"[^a-zA-Z0-9]+", "-", s).strip("-").lower()
 
-def clamp_0_5(x): return max(0, min(5, x))
-def round_int(x): return int(round(x))
+def clamp_0_5(x):
+    return max(0, min(5, x))
+def round_int(x):
+    return int(round(x))
 
 def minutes_to_scale(mins):
-    if mins is None: return 3
-    if mins >= 90:  return 5
-    if mins >= 75:  return 4
-    if mins >= 60:  return 3
-    if mins >= 45:  return 2
+    if mins is None:
+        return 3
+    if mins >= 90:
+        return 5
+    if mins >= 75:
+        return 4
+    if mins >= 60:
+        return 3
+    if mins >= 45:
+        return 2
     return 1
 
 def nivel_txt(n):
@@ -45,9 +52,12 @@ def nivel_txt(n):
 
 def join_pt(itens):
     itens = [i for i in itens if i]
-    if not itens: return ""
-    if len(itens) == 1: return itens[0]
-    if len(itens) == 2: return f"{itens[0]} e {itens[1]}"
+    if not itens:
+        return ""
+    if len(itens) == 1:
+        return itens[0]
+    if len(itens) == 2:
+        return f"{itens[0]} e {itens[1]}"
     return ", ".join(itens[:-1]) + " e " + itens[-1]
 
 def human_pelo(p):
@@ -83,23 +93,30 @@ def tosa_text(need):
     }.get(need, "não requer tosa")
 
 def ambiente_label(s_espaco):
-    if s_espaco >= 4.5: return "apartamento pequeno (≤ 50 m²), com passeios diários e enriquecimento"
-    if s_espaco >= 3.6: return "apartamento médio (50–80 m²)"
-    if s_espaco >= 2.6: return "apartamento amplo ou casa pequena"
-    if s_espaco >= 1.6: return "casa com quintal"
+    if s_espaco >= 4.5:
+        return "apartamento pequeno (≤ 50 m²), com passeios diários e enriquecimento"
+    if s_espaco >= 3.6:
+        return "apartamento médio (50–80 m²)"
+    if s_espaco >= 2.6:
+        return "apartamento amplo ou casa pequena"
+    if s_espaco >= 1.6:
+        return "casa com quintal"
     return "área ampla (quintal grande/chácara)"
 
 def parse_minmax(txt):
-    if not txt or txt == "—": return None, None
+    if not txt or txt == "—":
+        return None, None
     m = rng.search(txt)
     if not m:
         only_num = re.findall(r"\d+", txt)
         if len(only_num) == 1:
-            v = int(only_num[0]); return v, v
+            v = int(only_num[0])
+            return v, v
         return None, None
     return int(m.group(1)), int(m.group(2))
 
-def breed_slug(r): return (r.get("slug") or slugify(r["nome"]))
+def breed_slug(r):
+    return (r.get("slug") or slugify(r["nome"]))
 
 def get_aliases_for_breed(r, aliases_map):
     sl = breed_slug(r)
@@ -108,7 +125,8 @@ def get_aliases_for_breed(r, aliases_map):
     for a in arr:
         a = (a or "").strip()
         if a and a.lower() not in seen:
-            seen.add(a.lower()); out.append(a)
+            seen.add(a.lower())
+            out.append(a)
     return out
 
 def human_porte(p):
@@ -134,44 +152,126 @@ SUGESTOES = {
 }
 
 def score_atividade(r, rules):
-    at = r["atributos"]; grupo = str(at.get("fci_grupo") or "")
+    at = r["atributos"]
+    grupo = str(at.get("fci_grupo") or "")
     fci_int = rules["fci_base_intensidade"].get(grupo, 3)
     fci_min = rules["fci_base_minutos"].get(grupo, 60)
     intensidade = clamp_0_5(fci_int)
 
-    estimulo_map = rules["mental_funcoes"]
+    # === Funções/perfil + estimulação cognitiva ===
     funcoes = at.get("funcoes", []) or []
     funcao_pref = at.get("funcao_principal")
+
     main_func = funcao_pref if (funcao_pref and funcao_pref in funcoes) else (funcoes[0] if funcoes else None)
     funcoes_escolhidas = [f for f in [main_func] if f]
+    # opcional: mostra no máx. 2 funções (principal + 1)
     if funcoes:
         for f in funcoes:
             if f and f != main_func:
-                funcoes_escolhidas.append(f); break
+                funcoes_escolhidas.append(f)
+                break
 
+    estimulo_map = rules["mental_funcoes"]
     estimulo_vals = [estimulo_map.get(f, 2) for f in funcoes] or [2]
     estimulo = clamp_0_5(max(estimulo_vals))
 
+    # === Score final (0–5) com pesos ===
     w = rules["pesos"]["atividade_fisica"]
-    val = round_int(clamp_0_5(intensidade*w["intensidade"] + minutes_to_scale(fci_min)*w["duracao"] + estimulo*w["estimulo_mental"]))
+    val = round_int(
+        clamp_0_5(
+            intensidade * w["intensidade"]
+            + minutes_to_scale(fci_min) * w["duracao"]
+            + estimulo * w["estimulo_mental"]
+        )
+    )
 
+    # === Texto base (sempre mostrado) ===
     def duracao_frase(mins):
-        if mins is None: return "duração moderada"
-        if mins >= 90:  return "longa duração"
-        if mins >= 75:  return "duração moderada a longa"
-        if mins >= 60:  return "duração moderada"
-        if mins >= 45:  return "duração curta a moderada"
+        if mins is None:
+            return "duração moderada"
+        if mins >= 90:
+            return "longa duração"
+        if mins >= 75:
+            return "duração moderada a longa"
+        if mins >= 60:
+            return "duração moderada"
+        if mins >= 45:
+            return "duração curta a moderada"
         return "curta duração"
 
+    mins_chunk = f" (≈{fci_min} min/dia)" if fci_min is not None else ""
     texto = (
         f"Os cães da raça {r['nome']} costumam apresentar "
         f"<strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
-        f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) "
+        f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong>{mins_chunk} "
         f"e de <strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>."
     )
 
-    # resumo p/ cliente
-    facts = {"nivel_fisico_txt": nivel_txt(intensidade), "minutos_dia": fci_min, "exigencia_cog_txt": nivel_txt(estimulo)}
+    # === Frase final (perfil + sugestões) no estilo antigo ===
+    def fun_pt(code: str) -> str:
+        return FUNCOES_TXT.get(code, (code or "").replace("_", " "))
+
+    def sug(code: str) -> str | None:
+        return SUGESTOES.get(code)
+
+    def tokenizar(s: str) -> list[str]:
+        # normaliza e extrai tokens legíveis/deduplicáveis
+        s = (s or "").lower()
+        s = s.replace("com supervisão", "").strip()
+        s = s.replace(" e ", ", ")
+        parts = [p.strip() for p in s.split(",") if p.strip()]
+        tokens: list[str] = []
+        for p in parts:
+            if "natação" in p or "água" in p:
+                tokens.append("atividades aquáticas supervisionadas")
+            elif "aportes" in p or "apporte" in p or "buscar e trazer" in p:
+                tokens.append("aportes (buscar e trazer)")
+            else:
+                tokens.append(p)
+        return tokens
+
+    funcs_txt = [fun_pt(f) for f in funcoes_escolhidas if f]
+    funcao_txt = " e ".join(funcs_txt) if funcs_txt else ""
+    perfil_label = "Seus perfis/funções típicas são" if len(funcs_txt) > 1 else "Seu perfil/função típica é"
+
+    # monta trailer de atividades (deduplicado)
+    todos_tokens: list[str] = []
+    for f in funcoes_escolhidas:
+        s = sug(f)
+        if s:
+            todos_tokens += tokenizar(s)
+    uniq: list[str] = []
+    seen: set[str] = set()
+    for t in todos_tokens:
+        if t not in seen:
+            seen.add(t)
+            uniq.append(t)
+    atividades_final = ", ".join(uniq)
+
+    if funcao_txt:
+        if atividades_final:
+            ativ_trailer = (", para as quais recomendam-se <strong>" if len(funcs_txt) > 1
+                            else ", para o qual recomendam-se <strong>")
+            ativ_trailer += f"{atividades_final}</strong>."
+        else:
+            ativ_trailer = "."
+        texto += f" {perfil_label} de <strong>{funcao_txt}</strong>{ativ_trailer}"
+    else:
+        ativ_trailer = ""  # nada a dizer; mantém texto base
+
+    # === Facts para UI/JSON (compatível com novo e antigo) ===
+    facts = {
+        # usados hoje:
+        "nivel_fisico_txt": nivel_txt(intensidade),
+        "minutos_dia": fci_min,
+        "exigencia_cog_txt": nivel_txt(estimulo),
+        "perfil_txt": funcao_txt,                   # ex: "recolhedor de caça" ou "recolhedor de caça e farejador"
+        "sugestoes_txt": atividades_final,          # ex: "aportes (buscar e trazer), atividades aquáticas supervisionadas"
+        # compat com template antigo:
+        "perfil_label": perfil_label,               # "Seu perfil/função típica é" | "Seus perfis/funções típicas são"
+        "funcao_txt": funcao_txt,                   # lista PT-BR
+        "ativ_txt_trailer": ativ_trailer,           # pontuação + conjunção já pronta
+    }
     return val, texto, facts
 
 def score_grooming(r, rules):
@@ -183,7 +283,8 @@ def score_grooming(r, rules):
 
     esc = rules["escovacao_pelo"].get(pelo, 1)
     shed = rules["shedding_subpelo"].get(subpelo, 1)
-    if shed_est in {"moderado","alto"}: shed = clamp_0_5(shed + 1)
+    if shed_est in {"moderado","alto"}:
+        shed = clamp_0_5(shed + 1)
     tosa = rules["tosa_necessidade"].get(need_tosa, 1)
 
     w = rules["pesos"]["higiene_pelagem"]
@@ -208,20 +309,29 @@ def score_grooming(r, rules):
 
 def calor_score(at):
     s = 3
-    if at.get("braquicefalico"): s -= 2
-    if at.get("dobras_cutaneas"): s -= 1
-    if at.get("pelagem_tipo") in {"longa","encaracolada","dupla_longa"}: s -= 1
-    if at.get("subpelo") == "denso": s -= 1
+    if at.get("braquicefalico"):
+        s -= 2
+    if at.get("dobras_cutaneas"):
+        s -= 1
+    if at.get("pelagem_tipo") in {"longa","encaracolada","dupla_longa"}:
+        s -= 1
+    if at.get("subpelo") == "denso":
+        s -= 1
     climas = set(at.get("origem_clima",[]))
-    if "tropical" in climas: s += 1
-    if "frio" in climas: s -= 1
+    if "tropical" in climas:
+        s += 1
+    if "frio" in climas:
+        s -= 1
     return clamp_0_5(s)
 
 def umidade_score(at):
     s = 3
-    if at.get("dobras_cutaneas"): s -= 1
-    if at.get("subpelo") == "denso": s -= 1
-    if at.get("pelagem_tipo") in {"dupla_longa","longa"}: s -= 1
+    if at.get("dobras_cutaneas"):
+        s -= 1
+    if at.get("subpelo") == "denso":
+        s -= 1
+    if at.get("pelagem_tipo") in {"dupla_longa","longa"}:
+        s -= 1
     return clamp_0_5(s)
 
 def espaco_need(porte, atividade_val):
@@ -229,9 +339,11 @@ def espaco_need(porte, atividade_val):
     return clamp_0_5(base + (atividade_val-3)*0.5)
 
 def score_clima(r, rules, atividade_val):
-    at = r["atributos"]; perfil = rules["perfil_ambiente"]
+    at = r["atributos"]
+    perfil = rules["perfil_ambiente"]
     w = rules["pesos"]["clima_ambiente"][perfil]
-    s_calor = calor_score(at); s_umid = umidade_score(at)
+    s_calor = calor_score(at)
+    s_umid = umidade_score(at)
     need = espaco_need(at.get("porte","medio"), atividade_val)
     s_espaco = clamp_0_5(5 - need)  # maior = adapta melhor a espaços menores
     val = round_int(clamp_0_5(s_calor*w["calor"] + s_umid*w["umidade"] + s_espaco*w["espaco"]))

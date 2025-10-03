@@ -1,24 +1,73 @@
 === AUDITORIA DE CSS ===
 
 CSS analisados: styles\base.css, styles\tokens.css, styles\ui.css
-HTML analisados: 10 arquivos
+HTML analisados: 14 arquivos
 
-Classes declaradas: 65
-Classes usadas: 64
-Não usadas (candidatas a remoção): 3
+Classes declaradas: 148
+Classes usadas: 98
+Não usadas (candidatas a remoção): 52
 Usadas mas não declaradas (verifique typos): 8
 
 ---- NÃO USADAS ----
+breed-card__meta
+breed__gallery
+breed__header
+breed__main
+breed__photo
+breed__title
+breeds-layout
+card
+chip
+cmp-add-col
+cmp-add-input
+cmp-card
+cmp-card__title
+cmp-cell
+cmp-cell--head
+cmp-cell--label
+cmp-colhead
+cmp-colhead__box
+cmp-colhead__txt
+cmp-grid
+cmp-headwrap
+cmp-spacer
+cmp-thumb
+compare-layout
+dot
+fact
+fact--pop
+fact__dl
+fact__label
+fact__value
+fact__viz
+facts
+facts__grid
+fci-card__title
+full-bleed
 icon--xl
 icon--xs
-nav
+indicator
+indicator-list
+indicator__meter
+indicator__toggle
+indicator__value
+indicators
+js
+pop-spark
+ref-tipo
+refs
+section
+section--notes
+site-footer
+sources
+transparencia__conteudo
 
 ---- USADAS MAS NÃO DECLARADAS ----
-.btn
 .header
 .header__inner
 .logo
 .nav
 .nav__list
-.section
 .visually-hidden
+breed-card__body
+js-compare-add

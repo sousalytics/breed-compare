@@ -1,6 +1,4 @@
-from pathlib import Path
 from string import Template
-from html import escape as _escape
 import json
 
 from build_lib import (
@@ -47,16 +45,18 @@ def jsonld_breed(d, url):
     vida_txt  = d["medidas"].get("expectativa_anos", "—")
 
     def _pm(txt):
-        from build_lib import parse_minmax
-        a,b = parse_minmax(txt);
+        a,b = parse_minmax(txt)
         return None if a is None or b is None else {"@type":"QuantitativeValue","minValue":a,"maxValue":b}
     props=[]
     qa=_pm(alt_macho) or _pm(alt_fem)
     qp=_pm(peso_m)   or _pm(peso_f)
     qv=_pm(vida_txt)
-    if qa: props.append({"@type":"PropertyValue","name":"Altura","value":{**qa,"unitCode":"CMT"}})
-    if qp: props.append({"@type":"PropertyValue","name":"Peso","value":{**qp,"unitCode":"KGM"}})
-    if qv: props.append({"@type":"PropertyValue","name":"Expectativa de vida","value":{**qv,"unitCode":"ANN"}})
+    if qa:
+       props.append({"@type":"PropertyValue","name":"Altura","value":{**qa,"unitCode":"CMT"}})
+    if qp:
+       props.append({"@type":"PropertyValue","name":"Peso","value":{**qp,"unitCode":"KGM"}})
+    if qv:
+       props.append({"@type":"PropertyValue","name":"Expectativa de vida","value":{**qv,"unitCode":"ANN"}})
 
     desc = d.get("lead") or d.get("notas", {}).get("resumo", "")
     return json.dumps({
@@ -83,7 +83,8 @@ site_footer = footer_tpl.safe_substitute(baseUrl=BASE)
 
 
 tpl_list = Template((ROOT/"templates/lista-racas.html").read_text(encoding="utf-8"))
-out_dir = ROOT/"racas"; out_dir.mkdir(exist_ok=True)
+out_dir = ROOT/"racas"
+out_dir.mkdir(exist_ok=True)
 tpl_compare = Template((ROOT/"templates/comparar.html").read_text(encoding="utf-8"))
 
 
@@ -93,12 +94,11 @@ aliases_map = load_aliases_map()
 def render_card(r):
   slug = r.get("slug") or slugify(r["nome"])
   grupo = r["atributos"].get("fci_grupo")
-  fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
   porte = (r["atributos"].get("porte") or "").lower()
 
   foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
   if foto_src.startswith("/"):
-    foto_src = f"{BASE}{foto_src}"
+     foto_src = f"{BASE}{foto_src}"
 
   aliases = get_aliases_for_breed(r, aliases_map)
   alias_attr = " | ".join(a for a in aliases if a)
@@ -155,7 +155,8 @@ for r in racas:
     porte_label = human_porte(porte_slug)
 
     foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
-    if foto_src.startswith("/"): foto_src = f"{BASE}{foto_src}"
+    if foto_src.startswith("/"):
+       foto_src = f"{BASE}{foto_src}"
 
     # AKA
     aliases = get_aliases_for_breed(r, aliases_map)

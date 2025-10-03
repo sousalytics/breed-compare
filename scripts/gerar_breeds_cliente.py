@@ -1,4 +1,3 @@
-from pathlib import Path
 import json
 
 from build_lib import (
@@ -39,7 +38,8 @@ def main():
             "aliases":  get_aliases_for_breed(r, aliases_map),
         })
 
-    out = ROOT/"data"; out.mkdir(exist_ok=True)
+    out = ROOT/"data"
+    out.mkdir(exist_ok=True)
     (out/"breeds-client.json").write_text(
         json.dumps(client, ensure_ascii=False, indent=2),
         encoding="utf-8"
