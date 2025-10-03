@@ -215,32 +215,40 @@ def score_atividade(r, rules):
         return SUGESTOES.get(code)
 
     def tokenizar(s: str) -> list[str]:
+      # base
       s = (s or "").lower().strip()
-      s = s.replace("com supervisão", "").strip()
+
+      # remove variantes de "com supervisão"
+      s = re.sub(r"\s+com\s+supervis[ãa]o\b", "", s)
 
       tokens: list[str] = []
 
-      # 1) agrega "aportes / buscar e trazer" numa única etiqueta
-      if ("aportes" in s) or ("apporte" in s) or ("buscar e trazer" in s) or ("buscar" in s and "trazer" in s):
+      # === 1) Agregar "aportes/buscar e trazer" em uma etiqueta única
+      if re.search(r"\b(aportes?|apporte|buscar\s+e\s+trazer|buscar\s*,?\s*trazer)\b", s):
           tokens.append("aportes (buscar e trazer)")
-          s = re.sub(r"aportes?\s*(\(.*?\))?", "", s)
-          s = s.replace("buscar e trazer", "")
-          s = s.replace("buscar", "")
-          s = s.replace("trazer", "")
+          s = re.sub(r"\b(aportes?|apporte|buscar\s+e\s+trazer|buscar\s*,?\s*trazer)\b", "", s)
 
-      # 2) normaliza qualquer coisa aquática para uma etiqueta só
-      if ("natação" in s) or ("água" in s) or ("aquática" in s) or ("aquáticas" in s):
+      # === 2) Agregar todo o tema aquático em uma etiqueta única
+      if re.search(r"\b(nata[çc][ãa]o|brincadeiras?\s+com\s+água|atividades?\s+aqu[áa]ticas?)\b", s):
           tokens.append("atividades aquáticas supervisionadas")
-          s = re.sub(r"natação|água|aquáticas?", "", s)
+          s = re.sub(r"\b(nata[çc][ãa]o|brincadeiras?\s+com\s+água|atividades?\s+aqu[áa]ticas?)\b", "", s)
 
-      # 3) quebra o restante por vírgula ou " e "
-      parts = re.split(r",|\se\s", s)
+      # limpar sobras típicas ("brincadeiras com", conectores, espaços)
+      s = re.sub(r"\bbrincadeiras?\s+com\b", "", s)
+      s = re.sub(r"\s{2,}", " ", s).strip(" ,.;/")
+
+      # === 3) Quebrar o resto por vírgula, " e ", " ou " e "/"
+      parts = re.split(r",|\se\s|\sou\s|/", s)
       for p in parts:
-          p = p.strip(" ,.;")
-          if p:
-              tokens.append(p)
+          p = p.strip(" ,.;/")
+          if not p:
+              continue
+          # filtrar conectores soltos
+          if p in {"e", "ou", "com", "de", "do", "da", "dos", "das", "para", "no", "na", "nos", "nas"}:
+              continue
+          tokens.append(p)
 
-      # 4) dedup
+      # === 4) Dedup na ordem
       out: list[str] = []
       seen: set[str] = set()
       for t in tokens:
@@ -248,6 +256,7 @@ def score_atividade(r, rules):
               seen.add(t)
               out.append(t)
       return out
+
 
     funcs_txt = [fun_pt(f) for f in funcoes_escolhidas if f]
     funcao_txt = " e ".join(funcs_txt) if funcs_txt else ""
