@@ -112,9 +112,12 @@
     headgrid.style.display = "grid";
     headgrid.style.gridTemplateColumns = colTemplate(MAX_COLS);
 
-    headgrid.appendChild(spacer()); // coluna dos rótulos
+    // célula invisível para a coluna de rótulos
+    headgrid.appendChild(spacer());
+
+    // acessibilidade
     headgrid.setAttribute("role", "table");
-    headgrid.setAttribute("aria-colcount", String(1 + MAX_COLS));
+    headgrid.setAttribute("aria-colcount", String(1 + breeds.length));
 
     for (let i = 0; i < MAX_COLS; i++) {
       const b = breeds[i];
@@ -123,58 +126,54 @@
         d.className = "cmp-colhead";
         d.setAttribute("role", "columnheader");
         d.id = `col-${i + 1}`;
-        d.setAttribute("draggable", "true");
 
         d.innerHTML = `
-          <div class="cmp-colhead__card">
-            <div class="cmp-colhead__thumbwrap">
-              ${hThumb(b.foto, `Foto da raça ${b.nome}`)}
-              <button type="button" class="cmp-colhead__remove" title="Remover ${
-                b.nome
-              }" aria-label="Remover ${b.nome}">×</button>
-            </div>
-            <div class="cmp-colhead__name"><strong>${b.nome}</strong></div>
-            <div class="cmp-colhead__actions">
-              <button type="button" class="btn btn--sm" data-move="-1" aria-label="Mover ${
-                b.nome
-              } para a esquerda">←</button>
-              <button type="button" class="btn btn--sm" data-move="1" aria-label="Mover ${
-                b.nome
-              } para a direita">→</button>
-            </div>
-          </div>`;
+        <button type="button" class="cmp-colhead__remove" aria-label="Remover ${b.nome}">×</button>
+        ${hThumb(b.foto, `Foto da raça ${b.nome}`)}
+        <div class="cmp-colhead__txt"><strong>${b.nome}</strong></div>
+        <div class="cmp-colhead__actions" role="group" aria-label="Reordenar coluna">
+          <button type="button" class="btn btn--sm" aria-label="Mover para a esquerda">←</button>
+          <button type="button" class="btn btn--sm" aria-label="Mover para a direita">→</button>
+        </div>
+      `;
 
-        // remover
-        d.querySelector(".cmp-colhead__remove")?.addEventListener("click", () => {
-          selected = selected.filter((s) => s !== b.slug);
+        // eventos: remover/mover
+        d.querySelector(".cmp-colhead__remove").addEventListener("click", () => {
+          selected.splice(i, 1);
           saveSel();
           renderAll();
         });
-
-        // mover por teclado
-        d.querySelectorAll("[data-move]").forEach((btn, idx) => {
-          btn.addEventListener("click", (ev) => {
-            const step = parseInt(ev.currentTarget.getAttribute("data-move"), 10) || 0;
-            selected = move(selected, i, i + step);
+        const [btnL, btnR] = d.querySelectorAll(".cmp-colhead__actions .btn");
+        btnL.addEventListener("click", () => {
+          if (i > 0) {
+            [selected[i - 1], selected[i]] = [selected[i], selected[i - 1]];
             saveSel();
             renderAll();
-          });
+          }
+        });
+        btnR.addEventListener("click", () => {
+          if (i < selected.length - 1) {
+            [selected[i + 1], selected[i]] = [selected[i], selected[i + 1]];
+            saveSel();
+            renderAll();
+          }
         });
 
-        // drag & drop
-        d.addEventListener("dragstart", (ev) => {
-          ev.dataTransfer.setData("text/col-idx", String(i));
-          d.classList.add("is-dragging");
-        });
-        d.addEventListener("dragend", () => d.classList.remove("is-dragging"));
-        d.addEventListener("dragover", (ev) => ev.preventDefault());
-        d.addEventListener("drop", (ev) => {
-          ev.preventDefault();
-          const from = parseInt(ev.dataTransfer.getData("text/col-idx"), 10);
-          const to = i;
-          selected = move(selected, from, to);
-          saveSel();
-          renderAll();
+        // teclado: ← → delete/backspace
+        d.tabIndex = 0;
+        d.addEventListener("keydown", (ev) => {
+          if (ev.key === "ArrowLeft") {
+            ev.preventDefault();
+            btnL.click();
+          }
+          if (ev.key === "ArrowRight") {
+            ev.preventDefault();
+            btnR.click();
+          }
+          if (ev.key === "Delete" || ev.key === "Backspace") {
+            ev.preventDefault();
+            d.querySelector(".cmp-colhead__remove").click();
+          }
         });
 
         headgrid.appendChild(d);
@@ -184,23 +183,14 @@
         form.setAttribute("role", "columnheader");
         form.id = `col-${i + 1}`;
         form.innerHTML = `
-          <input class="cmp-add-input input" list="breeds-datalist"
-                 placeholder="Adicionar raça..." aria-label="Adicionar raça">
-          <button class="btn btn--sm" type="submit">Adicionar</button>
-          <span class="visually-hidden" aria-live="polite"></span>`;
+        <input class="cmp-add-input input" list="breeds-datalist"
+               placeholder="Adicionar raça..." aria-label="Adicionar raça">
+        <button class="btn btn--sm" type="submit">Adicionar</button>`;
         form.addEventListener("submit", (e) => {
           e.preventDefault();
           const inp = form.querySelector(".cmp-add-input");
-          const msg = form.querySelector("[aria-live]");
           const slug = resolveSlugByName(inp.value);
-          if (!slug) {
-            inp.classList.add("is-error");
-            msg.textContent = "Raça não encontrada. Tente outro nome.";
-            return;
-          }
-          if (selected.includes(slug) || selected.length >= MAX_COLS) return;
-          inp.classList.remove("is-error");
-          msg.textContent = "";
+          if (!slug || selected.includes(slug) || selected.length >= MAX_COLS) return;
           selected.push(slug);
           saveSel();
           renderAll();
@@ -213,7 +203,9 @@
 
   function makeRowAppender(grid, groupId, breeds) {
     grid.dataset.group = groupId;
-    grid.style.gridTemplateColumns = colTemplate(MAX_COLS);
+
+    grid.style.gridTemplateColumns = breeds && breeds.length ? colTemplate(MAX_COLS) : "1fr";
+
     return function row(label, fn) {
       const labelId = `${grid.dataset.group || "g"}-${slugify(label)}`;
       const lbl = cell(label, true);
@@ -297,7 +289,7 @@
   function renderAll() {
     renderChips();
 
-    // ações rápidas
+    // ações rápidas (copiar/limpar)
     const hdr = root.querySelector(".page-header");
     let tools = hdr.querySelector(".js-tools");
     if (!tools) {
@@ -312,28 +304,19 @@
       share.type = "button";
       share.className = "btn btn--sm with-icon";
       share.textContent = "Copiar link da comparação";
-      share.dataset.label = share.textContent;
-
-      const status = document.createElement("span");
-      status.className = "copy-hint";
-      status.setAttribute("role", "status");
-      status.ariaLive = "polite";
 
       share.addEventListener("click", async () => {
         const p = new URLSearchParams();
         selected.forEach((s) => p.append("add", s));
         const url = `${location.origin}${location.pathname}?${p.toString()}`;
+        const original = share.textContent;
         try {
           await navigator.clipboard.writeText(url);
-          // feedback visível
           share.textContent = "Copiado!";
-          status.textContent = "Link copiado!";
-          setTimeout(() => {
-            share.textContent = share.dataset.label;
-            status.textContent = "";
-          }, 1500);
         } catch {
-          status.textContent = "Não foi possível copiar o link.";
+          share.textContent = "Não deu :(";
+        } finally {
+          setTimeout(() => (share.textContent = original), 1600);
         }
       });
 
@@ -348,7 +331,7 @@
         renderAll();
       });
 
-      tools.append(share, clear, status);
+      tools.append(share, clear);
     }
 
     const breeds = selected.map((slug) => data.find((d) => d.slug === slug)).filter(Boolean);

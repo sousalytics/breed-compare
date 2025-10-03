@@ -746,7 +746,11 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 .cmp-colhead {
-  gap: 0.5rem;
+  position: relative;
+  flex-direction: column;
+  text-align: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.75rem 0.7rem;
 }
 .cmp-colhead__card {
   display: flex;
@@ -756,25 +760,33 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   width: 100%;
 }
 .cmp-colhead__thumbwrap {
-  position: relative;
-}
-.cmp-colhead__thumbwrap .cmp-thumb {
   width: 96px;
   height: 64px;
+  position: relative;
+}
+
+.cmp-thumb {
+  width: 64px;
+  height: 64px;
+}
+
+.cmp-colhead__thumbwrap .cmp-thumb {
   object-fit: cover;
   border-radius: var(--radius-2);
   display: block;
 }
 .cmp-colhead__remove {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  inline-size: 1.5rem;
-  block-size: 1.5rem;
+  top: 0.4px;
+  right: 0.4px;
+  width: 1.6rem;
+  height: 1.6rem;
   line-height: 1;
   border-radius: 999px;
   border: var(--border-1);
   background: var(--color-surface);
+  display: inline-grid;
+  place-items: center;
   cursor: pointer;
 }
 .cmp-colhead__name {
@@ -790,6 +802,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   gap: 0.5rem;
 }
 .cmp-colhead__txt {
+  font-weight: var(--weight-semibold);
   min-width: 0;
 }
 
@@ -798,7 +811,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   background: #fff;
   border: 1px solid #e6e6ea;
   border-radius: 0.75rem;
-  padding: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -828,6 +840,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 .cmp-add-col {
+  padding: 0.75rem;
   flex-direction: row;
   gap: 0.5rem;
 }
