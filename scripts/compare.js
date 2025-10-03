@@ -82,6 +82,13 @@
     return `minmax(180px, 1fr)${" minmax(200px, 1fr)".repeat(nCols)}`;
   }
 
+  function spacer() {
+    const d = document.createElement("div");
+    d.className = "cmp-spacer";
+    d.setAttribute("aria-hidden", "true");
+    return d;
+  }
+
   function hThumb(img, alt = "") {
     if (!img) return "";
     const altText = alt || "Foto da raça";
@@ -98,7 +105,9 @@
   function renderHeadgrid(breeds) {
     headgrid.innerHTML = "";
     headgrid.style.display = "grid";
-    headgrid.style.gridTemplateColumns = colTemplateHead(MAX_COLS);
+    headgrid.style.gridTemplateColumns = colTemplate(MAX_COLS);
+
+    headgrid.appendChild(spacer());
 
     for (let i = 0; i < MAX_COLS; i++) {
       const b = breeds[i];
