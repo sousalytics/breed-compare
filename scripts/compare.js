@@ -39,6 +39,7 @@
 
   let data = [];
   let selected = [];
+  let dragIndex = -1;
 
   function loadSel() {
     try {
@@ -137,6 +138,39 @@
         </div>
       `;
 
+        d.setAttribute("draggable", "true");
+
+        d.addEventListener("dragstart", (e) => {
+          dragIndex = i;
+          d.classList.add("is-dragging");
+
+          const dt = e.dataTransfer;
+          if (dt) {
+            dt.setData("text/plain", String(i));
+            try {
+              dt.setDragImage(d, 10, 10);
+            } catch {}
+            dt.effectAllowed = "move";
+          }
+        });
+
+        d.addEventListener("dragend", () => {
+          dragIndex = -1;
+          d.classList.remove("is-dragging");
+        });
+
+        d.addEventListener("dragover", (e) => {
+          e.preventDefault(); // permite drop
+        });
+
+        d.addEventListener("drop", (e) => {
+          e.preventDefault();
+          if (dragIndex === -1 || dragIndex === i) return;
+          selected = move(selected, dragIndex, i);
+          saveSel();
+          renderAll();
+        });
+
         // eventos: remover/mover
         d.querySelector(".cmp-colhead__remove").addEventListener("click", () => {
           selected.splice(i, 1);
@@ -186,6 +220,17 @@
         <input class="cmp-add-input input" list="breeds-datalist"
                placeholder="Adicionar raça..." aria-label="Adicionar raça">
         <button class="btn btn--sm" type="submit">Adicionar</button>`;
+
+        // aceitar soltar aqui para mover a coluna arrastada para esta posição
+        form.addEventListener("dragover", (e) => e.preventDefault());
+        form.addEventListener("drop", (e) => {
+          e.preventDefault();
+          if (dragIndex === -1 || dragIndex === i) return;
+          selected = move(selected, dragIndex, i);
+          saveSel();
+          renderAll();
+        });
+
         form.addEventListener("submit", (e) => {
           e.preventDefault();
           const inp = form.querySelector(".cmp-add-input");
