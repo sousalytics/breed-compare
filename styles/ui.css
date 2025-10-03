@@ -720,7 +720,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
    ========================================================================== */
 
 .compare-main {
-  /* já usa .container no HTML; nada de largura duplicada */
 }
 .page-compare {
   width: min(100% - clamp(1rem, 4vw, 2rem), var(--container-max));
@@ -749,6 +748,42 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .cmp-colhead {
   gap: 0.5rem;
 }
+.cmp-colhead__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+}
+.cmp-colhead__thumbwrap {
+  position: relative;
+}
+.cmp-colhead__thumbwrap .cmp-thumb {
+  width: 96px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: var(--radius-2);
+  display: block;
+}
+.cmp-colhead__remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  line-height: 1;
+  border-radius: 999px;
+  border: var(--border-1);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+.cmp-colhead__name {
+  text-align: center;
+}
+.cmp-colhead__actions {
+  display: flex;
+  gap: 0.25rem;
+}
 .cmp-colhead__box {
   display: flex;
   align-items: center;
@@ -769,14 +804,25 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   justify-content: center;
   min-height: 84px;
 }
-.cmp-thumb {
-  width: 64px;
-  height: 64px;
-  object-fit: cover;
-  border-radius: var(--radius-2);
+
+.cmp-colhead[draggable="true"] {
+  cursor: grab;
 }
+.cmp-colhead.is-dragging {
+  opacity: 0.6;
+}
+
+.copy-hint {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
 @media (max-width: 48rem) {
   .cmp-thumb {
+    display: none;
+  }
+  .cmp-colhead__actions {
     display: none;
   }
 }

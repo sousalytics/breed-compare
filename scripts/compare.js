@@ -5,7 +5,6 @@
   const MAX_COLS = 3;
   const STORAGE_KEY = "compare:selected";
 
-  // Normalizadores
   const simplify = (s) =>
     (s || "")
       .normalize("NFD")
@@ -18,13 +17,11 @@
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
 
-  // DOM
   const main = root.querySelector(".compare-main");
   const headgrid = root.querySelector(".cmp-headgrid");
   const chips = root.querySelector(".selected-chips");
   const datalist = root.querySelector("#breeds-datalist");
 
-  // Seções
   function mkSection(title) {
     const sec = document.createElement("section");
     sec.className = "cmp-card card";
@@ -40,11 +37,9 @@
   };
   Object.values(sections).forEach((s) => main.appendChild(s));
 
-  // Estado
   let data = [];
   let selected = [];
 
-  // Persistência
   function loadSel() {
     try {
       return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -56,7 +51,6 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(selected.slice(0, MAX_COLS)));
   }
 
-  // URL ?add=
   function readURLAndMerge() {
     const p = new URLSearchParams(location.search);
     const adds = p.getAll("add");
@@ -66,32 +60,26 @@
     history.replaceState(null, "", location.pathname);
   }
 
-  // UI helpers
   function colTemplate(nCols) {
     return `minmax(180px, 1fr)${" minmax(200px, 1fr)".repeat(nCols)}`;
   }
-
   function spacer() {
     const d = document.createElement("div");
     d.className = "cmp-spacer";
     d.setAttribute("aria-hidden", "true");
     return d;
   }
-
   function hThumb(img, alt = "") {
     if (!img) return "";
     const altText = alt || "Foto da raça";
     return `<img src="${img}" alt="${altText}" loading="lazy" decoding="async" width="96" height="64" class="cmp-thumb">`;
   }
-
   function cell(text, isLabel = false) {
     const d = document.createElement("div");
     d.className = "cmp-cell" + (isLabel ? " cmp-cell--label" : "");
     d.innerHTML = text;
     return d;
   }
-
-  // Reordenar array utilitário
   function move(arr, from, to) {
     if (from === to || from < 0 || to < 0 || from >= arr.length || to >= arr.length) return arr;
     const copy = arr.slice();
@@ -100,7 +88,6 @@
     return copy;
   }
 
-  // Chips
   function renderChips() {
     chips.innerHTML = "";
     selected.forEach((slug) => {
@@ -120,20 +107,15 @@
     });
   }
 
-  // Cabeçalho com remover/drag/teclado
   function renderHeadgrid(breeds) {
     headgrid.innerHTML = "";
     headgrid.style.display = "grid";
     headgrid.style.gridTemplateColumns = colTemplate(MAX_COLS);
 
-    // célula vazia (coluna de rótulos à esquerda)
-    headgrid.appendChild(spacer());
-
-    // Acessibilidade da tabela
+    headgrid.appendChild(spacer()); // coluna dos rótulos
     headgrid.setAttribute("role", "table");
     headgrid.setAttribute("aria-colcount", String(1 + MAX_COLS));
 
-    // Cabeçalhos de coluna (raças)
     for (let i = 0; i < MAX_COLS; i++) {
       const b = breeds[i];
       if (b) {
@@ -142,46 +124,44 @@
         d.setAttribute("role", "columnheader");
         d.id = `col-${i + 1}`;
         d.setAttribute("draggable", "true");
-        d.dataset.index = String(i);
 
-        // Conteúdo (thumb + nome + actions)
         d.innerHTML = `
-        <div class="cmp-colhead__box">
-          ${hThumb(b.foto, `Foto da raça ${b.nome}`)}
-          <div class="cmp-colhead__txt"><strong>${b.nome}</strong></div>
-        </div>
-        <div class="with-icon" style="margin-left:auto; gap:.25rem;">
-          <button type="button" class="btn btn--sm" data-move="-1" aria-label="Mover ${
-            b.nome
-          } para a esquerda">←</button>
-          <button type="button" class="btn btn--sm" data-move="1" aria-label="Mover ${
-            b.nome
-          } para a direita">→</button>
-          <button type="button" class="btn btn--sm" data-remove aria-label="Remover ${
-            b.nome
-          }">×</button>
-        </div>`;
+          <div class="cmp-colhead__card">
+            <div class="cmp-colhead__thumbwrap">
+              ${hThumb(b.foto, `Foto da raça ${b.nome}`)}
+              <button type="button" class="cmp-colhead__remove" title="Remover ${
+                b.nome
+              }" aria-label="Remover ${b.nome}">×</button>
+            </div>
+            <div class="cmp-colhead__name"><strong>${b.nome}</strong></div>
+            <div class="cmp-colhead__actions">
+              <button type="button" class="btn btn--sm" data-move="-1" aria-label="Mover ${
+                b.nome
+              } para a esquerda">←</button>
+              <button type="button" class="btn btn--sm" data-move="1" aria-label="Mover ${
+                b.nome
+              } para a direita">→</button>
+            </div>
+          </div>`;
 
-        // Remover
-        d.querySelector("[data-remove]")?.addEventListener("click", () => {
+        // remover
+        d.querySelector(".cmp-colhead__remove")?.addEventListener("click", () => {
           selected = selected.filter((s) => s !== b.slug);
           saveSel();
           renderAll();
         });
 
-        // Mover por teclado
-        d.querySelectorAll("[data-move]").forEach((btn) => {
+        // mover por teclado
+        d.querySelectorAll("[data-move]").forEach((btn, idx) => {
           btn.addEventListener("click", (ev) => {
             const step = parseInt(ev.currentTarget.getAttribute("data-move"), 10) || 0;
-            const from = i;
-            const to = from + step;
-            selected = move(selected, from, to);
+            selected = move(selected, i, i + step);
             saveSel();
             renderAll();
           });
         });
 
-        // Drag & Drop
+        // drag & drop
         d.addEventListener("dragstart", (ev) => {
           ev.dataTransfer.setData("text/col-idx", String(i));
           d.classList.add("is-dragging");
@@ -199,16 +179,15 @@
 
         headgrid.appendChild(d);
       } else {
-        // Coluna "Adicionar"
         const form = document.createElement("form");
         form.className = "cmp-add-col";
         form.setAttribute("role", "columnheader");
         form.id = `col-${i + 1}`;
         form.innerHTML = `
-        <input class="cmp-add-input input" list="breeds-datalist"
-               placeholder="Adicionar raça..." aria-label="Adicionar raça">
-        <button class="btn btn--sm" type="submit">Adicionar</button>
-        <span class="visually-hidden" aria-live="polite"></span>`;
+          <input class="cmp-add-input input" list="breeds-datalist"
+                 placeholder="Adicionar raça..." aria-label="Adicionar raça">
+          <button class="btn btn--sm" type="submit">Adicionar</button>
+          <span class="visually-hidden" aria-live="polite"></span>`;
         form.addEventListener("submit", (e) => {
           e.preventDefault();
           const inp = form.querySelector(".cmp-add-input");
@@ -225,7 +204,6 @@
           selected.push(slug);
           saveSel();
           renderAll();
-          // foco no próximo input vazio
           requestAnimationFrame(() => headgrid.querySelector(".cmp-add-input")?.focus());
         });
         headgrid.appendChild(form);
@@ -233,7 +211,6 @@
     }
   }
 
-  // Fabrica uma função para adicionar linhas em um grid
   function makeRowAppender(grid, groupId, breeds) {
     grid.dataset.group = groupId;
     grid.style.gridTemplateColumns = colTemplate(MAX_COLS);
@@ -253,7 +230,6 @@
     };
   }
 
-  // Grupos de linhas
   function renderG1(grid, breeds) {
     const row = makeRowAppender(grid, "g1", breeds);
     row("Grupo FCI", (b) => `Grupo ${b.fci.grupo ?? "—"} — ${b.fci.descricao ?? "—"}`);
@@ -296,7 +272,6 @@
     row("Adaptação ao espaço", (b) => b.clima.adaptacao_espaco_txt || "—");
   }
 
-  // Limpa as grades das seções
   function clearGrids() {
     Object.values(sections).forEach((sec) => {
       const g = sec.querySelector(".cmp-grid");
@@ -304,7 +279,6 @@
     });
   }
 
-  // Resolve nome/alias → slug
   function resolveSlugByName(name) {
     const norm = simplify(name);
     if (!norm) return null;
@@ -320,11 +294,10 @@
     return hit?.slug || null;
   }
 
-  // Render principal
   function renderAll() {
     renderChips();
 
-    // ações rápidas (compartilhar/limpar)
+    // ações rápidas
     const hdr = root.querySelector(".page-header");
     let tools = hdr.querySelector(".js-tools");
     if (!tools) {
@@ -339,18 +312,28 @@
       share.type = "button";
       share.className = "btn btn--sm with-icon";
       share.textContent = "Copiar link da comparação";
-      const live = document.createElement("span");
-      live.className = "visually-hidden";
-      live.setAttribute("aria-live", "polite");
+      share.dataset.label = share.textContent;
+
+      const status = document.createElement("span");
+      status.className = "copy-hint";
+      status.setAttribute("role", "status");
+      status.ariaLive = "polite";
+
       share.addEventListener("click", async () => {
         const p = new URLSearchParams();
         selected.forEach((s) => p.append("add", s));
         const url = `${location.origin}${location.pathname}?${p.toString()}`;
         try {
           await navigator.clipboard.writeText(url);
-          live.textContent = "Link copiado.";
+          // feedback visível
+          share.textContent = "Copiado!";
+          status.textContent = "Link copiado!";
+          setTimeout(() => {
+            share.textContent = share.dataset.label;
+            status.textContent = "";
+          }, 1500);
         } catch {
-          live.textContent = "Não foi possível copiar o link.";
+          status.textContent = "Não foi possível copiar o link.";
         }
       });
 
@@ -365,7 +348,7 @@
         renderAll();
       });
 
-      tools.append(share, clear, live);
+      tools.append(share, clear, status);
     }
 
     const breeds = selected.map((slug) => data.find((d) => d.slug === slug)).filter(Boolean);
@@ -391,7 +374,6 @@
       data = [];
     }
 
-    // datalist (nomes + aliases, deduplicados)
     if (datalist && !datalist.children.length) {
       const opts = new Set();
       data.forEach((b) => {
