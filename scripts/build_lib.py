@@ -202,9 +202,9 @@ def score_atividade(r, rules):
     mins_chunk = f" (≈{fci_min} min/dia)" if fci_min is not None else ""
     texto = (
         f"Os cães da raça {r['nome']} costumam apresentar "
-        f"<strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
+        f"<strong>nível de energia física {nivel_txt(intensidade)}</strong>, "
         f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong>{mins_chunk} "
-        f"e de <strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>."
+        f"e de <strong>exigência cognitiva {nivel_txt(estimulo)}</strong>."
     )
 
     # === Frase final (perfil + sugestões) no estilo antigo ===
@@ -246,7 +246,7 @@ def score_atividade(r, rules):
         if t not in seen:
             seen.add(t)
             uniq.append(t)
-    atividades_final = ", ".join(uniq)
+    atividades_final = join_pt(uniq)
 
     if funcao_txt:
         if atividades_final:
