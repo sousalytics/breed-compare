@@ -21,6 +21,7 @@
   const headgrid = root.querySelector(".cmp-headgrid");
   const chips = root.querySelector(".selected-chips");
   const datalist = root.querySelector("#breeds-datalist");
+  const BASE_URL = document.body?.dataset?.baseurl || "";
 
   function mkSection(title) {
     const sec = document.createElement("section");
@@ -131,7 +132,11 @@
         d.innerHTML = `
         <button type="button" class="cmp-colhead__remove" aria-label="Remover ${b.nome}">×</button>
         ${hThumb(b.foto, `Foto da raça ${b.nome}`)}
-        <div class="cmp-colhead__txt"><strong>${b.nome}</strong></div>
+        <div class="cmp-colhead__txt">
+          <a class="cmp-colhead__name" href="${BASE_URL}/racas/${b.slug}/">
+            <strong>${b.nome}</strong>
+          </a>
+        </div>
         <div class="cmp-colhead__actions" role="group" aria-label="Reordenar coluna">
           <button type="button" class="btn btn--sm" aria-label="Mover para a esquerda">←</button>
           <button type="button" class="btn btn--sm" aria-label="Mover para a direita">→</button>
@@ -303,7 +308,6 @@
 
   function renderG33(grid, breeds) {
     const row = makeRowAppender(grid, "g33", breeds);
-    row("Perfil climático", (b) => b.clima.perfil_txt || "—");
     row("Tolerância ao calor", (b) => b.clima.tolerancia_calor_txt || "—");
     row("Tolerância à umidade", (b) => b.clima.tolerancia_umidade_txt || "—");
     row("Adaptação ao espaço", (b) => b.clima.adaptacao_espaco_txt || "—");
