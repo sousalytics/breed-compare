@@ -23,7 +23,7 @@ SAFELIST = {
   "header","header__inner","logo","nav","nav__list","footer","footer__inner",
   # comparador (injetadas por JS)
   "chip","card","cmp-card","cmp-card__title","cmp-grid","cmp-cell","cmp-cell--label",
-  "cmp-colhead","cmp-colhead__box","cmp-colhead__txt","cmp-thumb","cmp-add-col","cmp-add-input","cmp-spacer",
+  "cmp-colhead","cmp-colhead__box","cmp-colhead__txt","cmp-thumb","cmp-add-col","cmp-add-input","cmp-spacer", "compare-main", "page-compare"
 }
 SAFE_PREFIXES = ("is-","js-","cmp-")  # estados, hooks e família do comparador
 
