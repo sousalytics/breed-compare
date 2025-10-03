@@ -1,25 +1,28 @@
-#Sistema/IDE
+# --- Python ---
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes virtuais
+.venv/
+venv/
+env/
+
+# Caches de ferramentas
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.pyre/
+.dmypy.json
+.coverage
+.cache/
+
+# Logs temporários
+*.log
+
+# SO / editor
 .DS_Store
 Thumbs.db
-
-#Dependências/Build
-node_modules/
-dist/
-build/
-.temp/
-.cache/
-.lighthouse/
-
-#Ambiente/segurança
-.env
-.env.*
-*.local
-
-#Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-node_modules/
-.lighthouse/
-tmp/
+*.swp
+*.swo

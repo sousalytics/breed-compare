@@ -1,0 +1,24 @@
+=== AUDITORIA DE CSS ===
+
+CSS analisados: styles\base.css, styles\tokens.css, styles\ui.css
+HTML analisados: 10 arquivos
+
+Classes declaradas: 65
+Classes usadas: 64
+Não usadas (candidatas a remoção): 3
+Usadas mas não declaradas (verifique typos): 8
+
+---- NÃO USADAS ----
+icon--xl
+icon--xs
+nav
+
+---- USADAS MAS NÃO DECLARADAS ----
+.btn
+.header
+.header__inner
+.logo
+.nav
+.nav__list
+.section
+.visually-hidden

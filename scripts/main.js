@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const det = document.getElementById(id);
     if (!det) return;
 
-    // inicial
     btn.setAttribute("aria-expanded", det.hasAttribute("open") ? "true" : "false");
 
     btn.addEventListener("click", () => {
@@ -26,32 +25,32 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-const DEBOUNCE_MS = 250; // ↑ (até ~300 ms) se engasgar; ↓ (150–200 ms) se parecer “lento” de resposta
-const USE_DEBOUNCE = true; // true = espera ~250ms após digitar; false = aplica a cada tecla
-
-function debounce(fn, wait = 250) {
-  let t;
-  return function debounced(...args) {
-    const ctx = this;
-    clearTimeout(t);
-    t = setTimeout(() => fn.apply(ctx, args), wait);
-  };
-}
-
-function simplify(str) {
-  return (str || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[’'´`-]+/g, " ")
-    .replace(/[^a-z0-9]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
 (function () {
   const root = document.querySelector(".page-breeds");
   if (!root) return;
+
+  const DEBOUNCE_MS = 250; // ↑ (até ~300 ms) se engasgar; ↓ (150–200 ms) se parecer “lento” de resposta
+  const USE_DEBOUNCE = true; // true = espera ~250ms após digitar; false = aplica a cada tecla
+
+  function debounce(fn, wait = 250) {
+    let t;
+    return function debounced(...args) {
+      const ctx = this;
+      clearTimeout(t);
+      t = setTimeout(() => fn.apply(ctx, args), wait);
+    };
+  }
+
+  function simplify(str) {
+    return (str || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[’'´`-]+/g, " ")
+      .replace(/[^a-z0-9]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
 
   const form = root.querySelector("#breed-filters");
   const list = root.querySelector(".breed-list");
@@ -148,12 +147,9 @@ function simplify(str) {
     composing = false;
     applyFilter();
   });
-
   inputQ.addEventListener("input", () => {
-    if (composing) return;
-    debouncedApply();
+    if (!composing) debouncedApply();
   });
-
   inputQ.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();

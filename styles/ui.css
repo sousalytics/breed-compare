@@ -896,12 +896,13 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 .filters {
+  align-self: start;
   background: var(--color-surface);
   border: var(--border-1);
   border-radius: var(--radius-2);
   padding: var(--space-2);
   position: sticky;
-  top: calc(var(--space-2) + 3rem);
+  top: calc(64px + var(--space-2));
 }
 .filters__row {
   display: grid;
@@ -1012,4 +1013,98 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 .js .filters .actions .btn--clear {
   display: inline-flex;
+}
+
+/* Página de comparação */
+.cmp-card {
+  margin-block: var(--space-3);
+}
+.cmp-card.card {
+  padding: var(--space-2);
+}
+.cmp-card__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+.cmp-grid {
+  display: grid;
+  gap: 0.25rem;
+}
+.cmp-cell {
+  border-bottom: var(--border-1);
+  padding: 0.5rem 0.75rem;
+}
+.cmp-cell--label {
+  font-weight: var(--weight-semibold);
+  color: var(--color-muted);
+  background: var(--surface-1);
+}
+.cmp-cell--head {
+  background: var(--color-surface);
+  border-bottom: var(--border-1);
+}
+.cmp-colhead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cmp-colhead__txt {
+  min-width: 0;
+}
+.cmp-thumb {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: var(--radius-2);
+}
+@media (max-width: 48rem) {
+  .cmp-thumb {
+    display: none;
+  }
+}
+
+.page-compare {
+  width: min(100% - clamp(1rem, 4vw, 2rem), var(--container-max));
+  margin-inline: auto;
+}
+
+.compare-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-3);
+}
+
+@media (max-width: 64rem) {
+  .compare-layout {
+    grid-template-columns: 1fr;
+  }
+  .filters {
+    position: static;
+  }
+}
+
+.selected-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+  border: var(--border-1);
+  border-radius: 999px;
+  background: var(--surface-1);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.chip span {
+  font-weight: 700;
+}
+
+.compare-main {
+  display: grid;
+  gap: var(--space-3);
 }

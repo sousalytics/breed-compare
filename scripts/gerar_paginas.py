@@ -1,571 +1,196 @@
 from pathlib import Path
 from string import Template
-import html as htmllib
+from html import escape as _escape
 import json
-import unicodedata
-import re
 
+from build_lib import (
+    ROOT, load_all, load_aliases_map, slugify, attr, join_pt,
+    parse_minmax, human_porte, score_atividade, score_grooming, score_clima,
+    get_aliases_for_breed
+)
 
-ROOT = Path(__file__).resolve().parents[1]
+# ===== JSON-LD helpers (só as páginas usam) =====
+def jsonld_breadcrumb(nome, url, BASE):
+    return json.dumps({
+        "@context":"https://schema.org","@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Início","item":f"{BASE}/"},
+          {"@type":"ListItem","position":2,"name":"Raças","item":f"{BASE}/racas/"},
+          {"@type":"ListItem","position":3,"name":nome,"item":url}
+        ]
+    }, ensure_ascii=False)
 
-rng = re.compile(r"(\d+)\D+(\d+)")
+def jsonld_breadcrumb_list(BASE):
+    return json.dumps({
+        "@context":"https://schema.org","@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Início","item":f"{BASE}/"},
+          {"@type":"ListItem","position":2,"name":"Raças","item":f"{BASE}/racas/"},
+        ]
+    }, ensure_ascii=False)
 
-#-----------Helpers-----------
-def slugify(s):
-  s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
-  return re.sub(r"[^a-zA-Z0-9]+", "-", s).strip("-").lower()
-
-def clamp_0_5(x):
-  return max(0, min(5, x))
-
-def round_int(x):
-  return int(round(x))
-
-def attr(s: str) -> str:
-  return htmllib.escape(s or "", quote=True)
-
-def minutes_to_scale(mins):
-  if mins is None:
-    return 3
-  if mins >= 90:
-    return 5
-  if mins >= 75:
-    return 4
-  if mins >= 60:
-    return 3
-  if mins >= 45:
-    return 2
-  return 1
-
-def nivel_txt(n):
-  m = {1:"muito baixa",2:"baixa",3:"moderada",4:"alta",5:"muito alta"}
-  return m.get(int(clamp_0_5(n)), "moderada")
-
-def duracao_txt(mins):
-  if mins is None:
-    return "moderada"
-  if mins >= 90:
-    return "longa"
-  if mins >= 75:
-    return "moderada a longa"
-  if mins >= 60:
-    return "moderada"
-  if mins >= 45:
-    return "curta a moderada"
-  return "curta"
-
-def join_pt(itens):
-  itens = [i for i in itens if i]
-  if not itens:
-    return ""
-  if len(itens) == 1:
-    return itens[0]
-  if len(itens) == 2:
-    return f"{itens[0]} e {itens[1]}"
-  return ", ".join(itens[:-1]) + " e " + itens[-1]
-
-def human_pelo(p):
-  return {
-    "sem_pelo": "sem pelo",
-    "curta": "curta",
-    "media": "média",
-    "longa": "longa",
-    "encaracolada": "encaracolada",
-    "dupla_curta": "dupla curta",
-    "dupla_longa": "dupla longa"
-  }.get(p, p.replace("_", " "))
-
-def freq_escovacao_from_pelo(pelo):
-  return {
-    "sem_pelo": "1x/semana ou conforme necessário",
-    "curta": "1–2x/semana",
-    "dupla_curta": "2–3x/semana",
-    "media": "2–3x/semana",
-    "longa": "3–5x/semana",
-    "encaracolada": "diária ou em dias alternados",
-    "dupla_longa": "diária"
-  }.get(pelo, "2–3x/semana")
-
-def shedding_text(subpelo, shedding_estacao):
-  base = {"nenhum": "baixa", "leve": "moderada", "denso": "alta"}.get(subpelo, "moderada")
-  saz = " com picos sazonais" if shedding_estacao in {"alto", "moderado"} else ""
-  under = {
-    "nenhum": "não possui subpelo",
-    "leve": "possui subpelo leve",
-    "denso": "possui subpelo denso"
-  }.get(subpelo, "")
-  return base, saz, under
-
-def tosa_text(need):
-  return {
-    "nao": "não requer tosa",
-    "ocasional": "requer tosa ocasional",
-    "regular_8_10": "requer tosa regular (a cada 8–10 semanas)",
-    "regular_4_6": "requer tosa frequente (a cada 4–6 semanas)"
-  }.get(need, "não requer tosa")
-
-def ambiente_label(s_espaco):
-  if s_espaco >= 4.5:
-    return "apartamento pequeno (≤ 50 m²), com passeios diários e enriquecimento"
-  if s_espaco >= 3.6:
-    return "apartamento médio (50–80 m²)"
-  if s_espaco >= 2.6:
-    return "apartamento amplo ou casa pequena"
-  if s_espaco >= 1.6:
-    return "casa com quintal"
-  return "área ampla (quintal grande/chácara)"
-
-def parse_minmax(txt):
-  if not txt or txt == "—":
-      return None, None
-  m = rng.search(txt)
-  if not m:
-    only_num = re.findall(r"\d+", txt)
-    if len(only_num) == 1:
-      v = int(only_num[0])
-      return v, v
-    return None, None
-  return int(m.group(1)), int(m.group(2))
-
-def breed_slug(r):
-  return (r.get("slug") or slugify(r["nome"]))
-
-def get_aliases_for_breed(r):
-  sl = breed_slug(r)
-  arr = aliases_map.get(sl) or []
-  seen = set()
-  out = []
-  for a in arr:
-    a = (a or "").strip()
-    if a and a.lower() not in seen:
-      seen.add(a.lower())
-      out.append(a)
-  return out
-
-
-def jsonld_breadcrumb(nome, url):
+def jsonld_breadcrumb_compare():
+  url = f"{BASE}/comparar/"
   return json.dumps({
     "@context":"https://schema.org","@type":"BreadcrumbList",
     "itemListElement":[
       {"@type":"ListItem","position":1,"name":"Início","item":f"{BASE}/"},
-      {"@type":"ListItem","position":2,"name":"Raças","item":f"{BASE}/racas/"},
-      {"@type":"ListItem","position":3,"name":nome,"item":url}
+      {"@type":"ListItem","position":2,"name":"Comparar","item":url},
     ]
   }, ensure_ascii=False)
-
-def jsonld_breadcrumb_list():
-  return json.dumps({
-    "@context":"https://schema.org","@type":"BreadcrumbList",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Início","item":f"{BASE}/"},
-      {"@type":"ListItem","position":2,"name":"Raças","item":f"{BASE}/racas/"},
-    ]
-  }, ensure_ascii=False)
-
 
 def jsonld_breed(d, url):
-  desc = d.get("lead") or d.get("notas", {}).get("resumo", "")
-  alt_macho = d["medidas"]["altura_cm"].get("macho", "—")
-  alt_fem   = d["medidas"]["altura_cm"].get("femea", "—")
-  peso_m    = d["medidas"]["peso_kg"].get("macho", "—")
-  peso_f    = d["medidas"]["peso_kg"].get("femea", "—")
-  vida_txt  = d["medidas"].get("expectativa_anos", "—")
+    alt_macho = d["medidas"]["altura_cm"].get("macho", "—")
+    alt_fem   = d["medidas"]["altura_cm"].get("femea", "—")
+    peso_m    = d["medidas"]["peso_kg"].get("macho", "—")
+    peso_f    = d["medidas"]["peso_kg"].get("femea", "—")
+    vida_txt  = d["medidas"].get("expectativa_anos", "—")
 
-  a_min, a_max = parse_minmax(alt_macho)
-  if a_min is None: a_min, a_max = parse_minmax(alt_fem)
-  p_min, p_max = parse_minmax(peso_m)
-  if p_min is None: p_min, p_max = parse_minmax(peso_f)
-  v_min, v_max = parse_minmax(vida_txt)
+    def _pm(txt):
+        from build_lib import parse_minmax
+        a,b = parse_minmax(txt);
+        return None if a is None or b is None else {"@type":"QuantitativeValue","minValue":a,"maxValue":b}
+    props=[]
+    qa=_pm(alt_macho) or _pm(alt_fem)
+    qp=_pm(peso_m)   or _pm(peso_f)
+    qv=_pm(vida_txt)
+    if qa: props.append({"@type":"PropertyValue","name":"Altura","value":{**qa,"unitCode":"CMT"}})
+    if qp: props.append({"@type":"PropertyValue","name":"Peso","value":{**qp,"unitCode":"KGM"}})
+    if qv: props.append({"@type":"PropertyValue","name":"Expectativa de vida","value":{**qv,"unitCode":"ANN"}})
 
-  def qv(min_, max_, unit):
-    if min_ is None or max_ is None: return None
-    return {"@type":"QuantitativeValue","minValue":min_,"maxValue":max_,"unitCode":unit}
+    desc = d.get("lead") or d.get("notas", {}).get("resumo", "")
+    return json.dumps({
+        "@context":"https://schema.org",
+        "@type":"Thing",
+        "additionalType":"http://www.productontology.org/id/Dog_breed",
+        "name": d["nome"],
+        "description": desc,
+        "image": d.get("foto", ""),
+        "mainEntityOfPage": url,
+        "additionalProperty": props
+    }, ensure_ascii=False)
 
-  props = []
-  q_alt = qv(a_min, a_max, "CMT")
-  q_pes = qv(p_min, p_max, "KGM")
-  q_vid = qv(v_min, v_max, "ANN")
-  if q_alt: props.append({"@type":"PropertyValue","name":"Altura","value":q_alt})
-  if q_pes: props.append({"@type":"PropertyValue","name":"Peso","value":q_pes})
-  if q_vid: props.append({"@type":"PropertyValue","name":"Expectativa de vida","value":q_vid})
-
-  return json.dumps({
-    "@context":"https://schema.org",
-    "@type":"Thing",
-    "additionalType":"http://www.productontology.org/id/Dog_breed",
-    "name": d["nome"],
-    "description": desc,
-    "image": d.get("foto", ""),
-    "mainEntityOfPage": url,
-    "additionalProperty": props
-  }, ensure_ascii=False)
-
-#-----------Scores-----------
-FUNCOES_TXT = {
-    "herding":"pastoreio", "retriever":"recolhedor de caça", "pointer":"cão de aponte",
-    "terrier":"controle de pragas", "scent":"farejador", "guard":"guarda",
-    "water":"cão d'água", "sight":"cão de caça à vista", "companhia":"companhia"
-}
-SUGESTOES = {
-  "herding": "pastoreio simulado, obediência e truques",
-  "retriever": "aportes (buscar e trazer) e natação",
-  "pointer": "jogos de aponte e rastros curtos",
-  "terrier": "brincadeiras de escavação controladas e caça ao brinquedo",
-  "scent": "jogos de faro/caça ao tesouro em casa ou quintal",
-  "guard": "obediência, autocontrole e socialização orientada",
-  "water": "natação e brincadeiras com água com supervisão",
-  "sight": "corridas controladas (lure) e busca visual por alvos",
-  "companhia": "passeios leves e interação social diária"
-}
-
-def score_atividade(r, rules):
-  at = r["atributos"]; grupo = str(at.get("fci_grupo") or "")
-  fci_int = rules["fci_base_intensidade"].get(grupo, 3)
-  fci_min = rules["fci_base_minutos"].get(grupo, 60)
-
-  intensidade = clamp_0_5(fci_int)
-  estimulo_map = rules["mental_funcoes"]
-
-  funcoes = at.get("funcoes", []) or []
-  funcao_pref = at.get("funcao_principal")
-
-  main_func = funcao_pref if (funcao_pref and funcao_pref in funcoes) else (funcoes[0] if funcoes else None)
-
-  ALLOW_TWO = True
-  funcoes_escolhidas = [f for f in [main_func] if f]
-  if ALLOW_TWO and funcoes:
-    for f in funcoes:
-      if f and f != main_func:
-        funcoes_escolhidas.append(f)
-        break
-
-  estimulo_vals = [estimulo_map.get(f, 2) for f in funcoes] or [2]
-  estimulo = clamp_0_5(max(estimulo_vals))
-
-  w = rules["pesos"]["atividade_fisica"]
-  val = round_int(clamp_0_5(
-    intensidade*w["intensidade"] + minutes_to_scale(fci_min)*w["duracao"] + estimulo*w["estimulo_mental"]
-  ))
-
-  def duracao_frase(mins):
-    if mins is None:
-      return "duração moderada"
-    if mins >= 90:
-      return "longa duração"
-    if mins >= 75:
-      return "duração moderada a longa"
-    if mins >= 60:
-      return "duração moderada"
-    if mins >= 45:
-      return "duração curta a moderada"
-    return "curta duração"
-
-  texto = (
-    f"Os cães da raça {r['nome']} costumam apresentar "
-    f"<strong>nível de energia física {nivel_txt(intensidade)} ({intensidade}/5)</strong>, "
-    f"necessitando de atividades de <strong>{duracao_frase(fci_min)}</strong> (≈{fci_min} min/dia) "
-    f"e de <strong>exigência cognitiva {nivel_txt(estimulo)} ({estimulo}/5)</strong>."
-  )
-
-  def fun_pt(f):
-    return FUNCOES_TXT.get(f, f)
-  def sug(f):
-    return SUGESTOES.get(f)
-
-  def tokenizar(s):
-    s = s.lower()
-    s = s.replace("com supervisão", "").strip()
-    s = re.sub(r"\s+", " ", s)
-
-    SENT = "__APORTE__"
-    s = s.replace("aportes (buscar e trazer)", SENT)
-
-    parts = re.split(r"\s*,\s*|\s+e\s+", s)
-
-    tokens = []
-    for p in parts:
-      if not p:
-        continue
-      if p == SENT:
-        tokens.append("aportes (buscar e trazer)")
-      elif "natação" in p or "água" in p:
-        tokens.append("atividades aquáticas supervisionadas")
-      elif "aportes" in p or "apporte" in p or "buscar e trazer" in p:
-        tokens.append("aportes (buscar e trazer)")
-      else:
-        tokens.append(p)
-    return tokens
-
-  if not funcoes_escolhidas:
-    perfil_label = "Perfil/função não informada"
-    funcao_txt = "—"
-    ativ_trailer = "."
-  else:
-    funcs_txt = [fun_pt(f) for f in funcoes_escolhidas]
-    funcao_txt = " e ".join(funcs_txt)
-    todos_tokens = []
-    for f in funcoes_escolhidas:
-      s = sug(f)
-      if s:
-        todos_tokens += tokenizar(s)
-    uniq, seen = [], set()
-    for t in todos_tokens:
-      if t not in seen:
-        seen.add(t)
-        uniq.append(t)
-    atividades_final = join_pt(uniq)
-    plural = (len(funcs_txt) > 1)
-    perfil_label = "Seus perfis/funções típicas são" if plural else "Seu perfil/função típica é"
-    if atividades_final:
-      ativ_trailer = (", com sugestão de exercícios que envolvam <strong>" if plural
-                      else ", com sugestões de exercícios que envolvam <strong>")
-      ativ_trailer += f"{atividades_final}</strong>."
-    else:
-      ativ_trailer = "."
-
-  return val, texto, perfil_label, funcao_txt, ativ_trailer
-
-def score_grooming(r, rules):
-  at = r["atributos"]
-  pelo = at.get("pelagem_tipo", "curta")
-  subpelo = at.get("subpelo", "nenhum")
-  shed_est = at.get("shedding_estacao", "baixo")
-  need_tosa = at.get("necessita_tosa", "nao")
-
-  esc = rules["escovacao_pelo"].get(pelo, 1)
-  shed = rules["shedding_subpelo"].get(subpelo, 1)
-  if shed_est in {"moderado", "alto"}:
-    shed = clamp_0_5(shed + 1)
-  tosa = rules["tosa_necessidade"].get(need_tosa, 1)
-
-  w = rules["pesos"]["higiene_pelagem"]
-  val = round_int(clamp_0_5(esc*w["escovacao"] + shed*w["shedding"] + tosa*w["tosa"]))
-
-  esc_txt = {1:"escovação simples", 2:"escovação regular", 3:"escovação cuidadosa", 4:"escovação intensiva"}.get(esc, "escovação regular")
-  freq_txt = freq_escovacao_from_pelo(pelo)
-  shed_nivel, shed_saz, under_txt = shedding_text(subpelo, shed_est)
-  tosa_txt = tosa_text(need_tosa)
-  pelo_hum = human_pelo(pelo)
-
-  texto = (
-    f"Para os cães da raça {r['nome']}, recomenda-se <strong>{esc_txt}</strong> "
-    f"(<strong>{freq_txt}</strong>), devido a sua pelagem {pelo_hum}; "
-    f"eles apresentam <strong>queda de pelos {shed_nivel}</strong>{shed_saz}"
-    f"{(' — ' + under_txt) if under_txt else ''}; "
-    f"e <strong>{tosa_txt}</strong>."
-  )
-
-  return val, texto
-
-def calor_score(at):
-  s = 3
-  if at.get("braquicefalico"): s -= 2
-  if at.get("dobras_cutaneas"): s -= 1
-  if at.get("pelagem_tipo") in {"longa","encaracolada","dupla_longa"}: s -= 1
-  if at.get("subpelo") == "denso": s -= 1
-  climas = set(at.get("origem_clima",[]))
-  if "tropical" in climas: s += 1
-  if "frio" in climas: s -= 1
-  return clamp_0_5(s)
-
-def umidade_score(at):
-  s = 3
-  if at.get("dobras_cutaneas"): s -= 1
-  if at.get("subpelo") == "denso": s -= 1
-  if at.get("pelagem_tipo") in {"dupla_longa","longa"}: s -= 1
-  return clamp_0_5(s)
-
-def espaco_need(porte, atividade_val):
-  base = {"pequeno":1.5, "medio":3, "grande":4}.get(porte, 3)
-  return clamp_0_5(base + (atividade_val-3)*0.5)
-
-def score_clima(r, rules, atividade_val):
-  at = r["atributos"]; perfil = rules["perfil_ambiente"]
-  w = rules["pesos"]["clima_ambiente"][perfil]
-
-  s_calor = calor_score(at)
-  s_umid  = umidade_score(at)
-  need = espaco_need(at.get("porte","medio"), atividade_val)
-  s_espaco = clamp_0_5(5 - need)  # maior = adapta melhor a espaços menores
-
-  val = round_int(clamp_0_5(s_calor*w["calor"] + s_umid*w["umidade"] + s_espaco*w["espaco"]))
-
-  perfil_hum = perfil.replace("-", " ")
-  ambiente = ambiente_label(s_espaco)
-
-  texto = (
-    f"No clima <strong>{perfil_hum}</strong>, os cães da raça {r['nome']} apresentam "
-    f"<strong>tolerância ao calor {nivel_txt(s_calor)}</strong>, "
-    f"<strong>tolerância à umidade {nivel_txt(s_umid)}</strong> e "
-    f"<strong>adaptam-se melhor a {ambiente}</strong>."
-  )
-  return val, texto
-
-def human_porte(p):
-  m = {
-    "mini": "Mini",
-    "pequeno": "Pequeno",
-    "medio": "Médio",
-    "grande": "Grande",
-    "gigante": "Gigante",
-  }
-  return m.get((p or "").lower(), "—")
-
-#-----------Loads-----------
-site = json.loads((ROOT/"data/site.json").read_text(encoding="utf-8"))
+# ===== Carregamentos =====
+site, rules, racas = load_all()
 BASE = site.get("base_url", "https://www.guiaracas.com.br")
-rules = json.loads((ROOT/"data/rules.json").read_text(encoding="utf-8"))
 
 tpl = Template((ROOT/"templates/detalhe-raca.html").read_text(encoding="utf-8"))
-head_base = Template((ROOT/"templates/head-base.html").read_text(encoding="utf-8")).safe_substitute(baseUrl=BASE)
-header_tpl = Template((ROOT/"templates/header.html").read_text(encoding="utf-8"))
-footer_tpl = Template((ROOT/"templates/footer.html").read_text(encoding="utf-8"))
+head_base   = Template((ROOT/"templates/head-base.html").read_text(encoding="utf-8")).safe_substitute(baseUrl=BASE)
+header_tpl  = Template((ROOT/"templates/header.html").read_text(encoding="utf-8"))
+footer_tpl  = Template((ROOT/"templates/footer.html").read_text(encoding="utf-8"))
 site_header = header_tpl.safe_substitute(baseUrl=BASE)
 site_footer = footer_tpl.safe_substitute(baseUrl=BASE)
 
-racas = json.loads((ROOT/"data/racas.json").read_text(encoding="utf-8"))
-out_dir = ROOT/"racas"; out_dir.mkdir(exist_ok=True)
 
 tpl_list = Template((ROOT/"templates/lista-racas.html").read_text(encoding="utf-8"))
+out_dir = ROOT/"racas"; out_dir.mkdir(exist_ok=True)
+tpl_compare = Template((ROOT/"templates/comparar.html").read_text(encoding="utf-8"))
 
-ALIASES_PATH = ROOT / "data" / "aliases_oficiais.json"
-if ALIASES_PATH.exists():
-  aliases_map = json.loads(ALIASES_PATH.read_text(encoding="utf-8"))
-else:
-  aliases_map = {}
 
-#-----------Geradores-----------
+aliases_map = load_aliases_map()
+
+# ===== Cartão da listagem =====
 def render_card(r):
-  slug = r.get("slug") or slugify(r["nome"])
-  grupo = r["atributos"].get("fci_grupo")
-  fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
-  fci_desc = rules["fci_grupos"].get(str(grupo), "—")
+    slug = r.get("slug") or slugify(r["nome"])
+    grupo = r["atributos"].get("fci_grupo")
+    fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
+    fci_desc = rules["fci_grupos"].get(str(grupo), "—")
 
-  porte = (r["atributos"].get("porte") or "").lower()
-  porte_label = human_porte(porte)
+    porte = (r["atributos"].get("porte") or "").lower()
+    porte_label = human_porte(porte)
 
-  foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
-  if foto_src.startswith("/"):
-    foto_src = f"{BASE}{foto_src}"
+    foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
+    if foto_src.startswith("/"): foto_src = f"{BASE}{foto_src}"
 
-  thumb = (
-    f"<figure class='breed-card__thumb'>"
-    f"  <img src='{foto_src}' alt='' width='120' height='80' loading='lazy' decoding='async' />"
-    f"</figure>"
-  )
+    aliases = get_aliases_for_breed(r, aliases_map)
+    alias_attr = " | ".join(a for a in aliases if a)
 
-  aliases = get_aliases_for_breed(r)
-  alias_attr = " | ".join(a for a in aliases if a)
+    title_html = attr(r["nome"])
+    fci_desc_html = attr(fci_desc)
 
-
-  title_html = attr(r["nome"])
-  fci_desc_html = attr(fci_desc)
-
-  return (
-    f"<li class='breed-card' "
-    f" data-name='{attr(r['nome'].lower())}'"
-    f" data-porte='{attr(porte)}'"
-    f" data-grupo='{attr(str(grupo or ''))}'"
-    f" data-alias='{attr(alias_attr)}'>"
-    f"  <article class='breed-card__inner'>"
-    f"    <figure class='breed-card__thumb'>"
-    f"      <img src='{foto_src}' alt='' width='120' height='80' loading='lazy' decoding='async' />"
-    f"    </figure>"
-    f"    <div class='breed-card__body'>"
-    f"      <h3 class='breed-card__title'><a href='{BASE}/racas/{slug}.html'>{title_html}</a></h3>"
-    f"      <p class='breed-card__meta'><span class='badge'>{fci_grupo_txt}</span> {fci_desc_html}"
-    f"      <span class='dot'>•</span> Porte: {porte_label}</p>"
-    f"    </div>"
-    f"  </article>"
-    f"</li>"
-  )
-
-for r in racas:
-  slug = slugify(r["nome"])
-  url = f"{BASE}/racas/{slug}.html"
-
-  lead = r.get("lead") or r.get("notas", {}).get("resumo", "")
-
-  alt = r["medidas"]["altura_cm"]
-  altura_texto_html = (
-    f"{alt.get('macho','—')} "
-    f"<span class='sex sex--m' aria-label='macho' title='macho'>♂</span> / "
-    f"{alt.get('femea','—')} "
-    f"<span class='sex sex--f' aria-label='fêmea' title='fêmea'>♀</span> cm"
-  )
-
-  pes = r["medidas"]["peso_kg"]
-  peso_texto_html = (
-    f"{pes.get('macho','—')} "
-    f"<span class='sex sex--m' aria-label='macho' title='macho'>♂</span> / "
-    f"{pes.get('femea','—')} "
-    f"<span class='sex sex--f' aria-label='fêmea' title='fêmea'>♀</span> kg"
-  )
-
-  vida_texto = f"{r['medidas'].get('expectativa_anos','—')} anos"
-
-  atividade, detA, perfil_label, funcao_txt, ativ_trailer = score_atividade(r, rules)
-  grooming, detG  = score_grooming(r, rules)
-  clima, detC     = score_clima(r, rules, atividade)
-
-  grupo = r["atributos"].get("fci_grupo")
-  fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
-  fci_desc = rules["fci_grupos"].get(str(grupo), "—")
-  porte_slug = (r["atributos"].get("porte") or "").lower()
-  porte_label = human_porte(porte_slug)
-
-  foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
-  if foto_src.startswith("/"):
-    foto_src = f"{BASE}{foto_src}"
-
-  aliases = get_aliases_for_breed(r)
-  if aliases:
-    aka_text = join_pt(aliases)
-    AKA_BLOCK = (
-      f"<p class='breed__aka'>"
-      f"<span class='aka__label'>Também conhecido como:</span> "
-      f"{htmllib.escape(aka_text)}"
-      f"</p>"
+    return (
+      f"<li class='breed-card' "
+      f" data-name='{attr(r['nome'].lower())}'"
+      f" data-porte='{attr(porte)}'"
+      f" data-grupo='{attr(str(grupo or ''))}'"
+      f" data-alias='{attr(alias_attr)}'>"
+      f"  <article class='breed-card__inner'>"
+      f"    <figure class='breed-card__thumb'>"
+      f"      <img src='{foto_src}' alt='' width='120' height='80' loading='lazy' decoding='async' />"
+      f"    </figure>"
+      f"    <div class='breed-card__body'>"
+      f"      <h3 class='breed-card__title'><a href='{BASE}/racas/{slug}.html'>{title_html}</a></h3>"
+      f"      <p class='breed-card__meta'><span class='badge'>{fci_grupo_txt}</span> {fci_desc_html}"
+      f"      <span class='dot'>•</span> Porte: {porte_label}</p>"
+      f"    </div>"
+      f"  </article>"
+      f"</li>"
     )
-  else:
-    AKA_BLOCK = ""
 
-  page_html = tpl.safe_substitute(
-    HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
-    SITE_HEADER=site_header, SITE_FOOTER=site_footer,
-    nome=r["nome"], lead=lead,
-    origem=r.get("origem","—"),
-    fci_grupo=fci_grupo_txt, fci_descricao=fci_desc,
-    fci_codigo=r.get("fci_codigo","—"),
-    porte_label=porte_label,
-    porte_slug=porte_slug,
-    altura_texto_html=altura_texto_html, peso_texto_html=peso_texto_html, vida_texto=vida_texto,
-    atividade=atividade, grooming=grooming, clima=clima,
-    detalhe_atividade_html=detA, detalhe_grooming_html=detG, detalhe_clima_html=detC,
-    perfil_label=perfil_label,
-    funcao_txt=funcao_txt,
-    ativ_txt_trailer=ativ_trailer,
-    foto=foto_src, foto_w=r.get("foto_w",""), foto_h=r.get("foto_h",""),
-    foto_credito=r.get("foto_credito",""),
-    AKA_BLOCK=AKA_BLOCK,
-    jsonld_breadcrumb=jsonld_breadcrumb(r["nome"], url),
-    jsonld_breed=jsonld_breed(r, url),
-  )
+# ===== Páginas de raça =====
+for r in racas:
+    slug = slugify(r["nome"])
+    url  = f"{BASE}/racas/{slug}.html"
 
-  (out_dir/f"{slug}.html").write_text(page_html, encoding="utf-8")
+    lead = r.get("lead") or r.get("notas", {}).get("resumo", "")
+    alt = r["medidas"]["altura_cm"]
+    altura_texto_html = (
+      f"{alt.get('macho','—')} <span class='sex sex--m' aria-label='macho' title='macho'>♂</span> / "
+      f"{alt.get('femea','—')} <span class='sex sex--f' aria-label='fêmea' title='fêmea'>♀</span> cm"
+    )
+    pes = r["medidas"]["peso_kg"]
+    peso_texto_html = (
+      f"{pes.get('macho','—')} <span class='sex sex--m' aria-label='macho' title='macho'>♂</span> / "
+      f"{pes.get('femea','—')} <span class='sex sex--f' aria-label='fêmea' title='fêmea'>♀</span> kg"
+    )
+    vida_texto = f"{r['medidas'].get('expectativa_anos','—')} anos"
 
-# ----------- Listagem /racas/index.html -----------
+    atividade_val, detA_txt, _factsA = score_atividade(r, rules)
+    grooming_val,  detG_txt, _factsG = score_grooming(r, rules)
+    clima_val,     detC_txt, _factsC = score_clima(r, rules, atividade_val)
+
+    grupo = r["atributos"].get("fci_grupo")
+    fci_grupo_txt = f"Grupo {grupo}" if grupo else "—"
+    fci_desc = rules["fci_grupos"].get(str(grupo), "—")
+    porte_slug = (r["atributos"].get("porte") or "").lower()
+    porte_label = human_porte(porte_slug)
+
+    foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
+    if foto_src.startswith("/"): foto_src = f"{BASE}{foto_src}"
+
+    # AKA
+    aliases = get_aliases_for_breed(r, aliases_map)
+    AKA_BLOCK = (f"<p class='breed__aka'><span class='aka__label'>Também conhecido como:</span> {attr(join_pt(aliases))}</p>") if aliases else ""
+
+    page_html = tpl.safe_substitute(
+      HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
+      SITE_HEADER=site_header, SITE_FOOTER=site_footer,
+      nome=r["nome"], lead=lead,
+      origem=r.get("origem","—"),
+      fci_grupo=fci_grupo_txt, fci_descricao=fci_desc,
+      fci_codigo=r.get("fci_codigo","—"),
+      porte_label=porte_label, porte_slug=porte_slug,
+      altura_texto_html=altura_texto_html, peso_texto_html=peso_texto_html, vida_texto=vida_texto,
+      atividade=atividade_val, grooming=grooming_val, clima=clima_val,
+      detalhe_atividade_html=detA_txt, detalhe_grooming_html=detG_txt, detalhe_clima_html=detC_txt,
+      perfil_label="Seu perfil/função típica é", funcao_txt="", ativ_txt_trailer="",
+      foto=foto_src, foto_w=r.get("foto_w",""), foto_h=r.get("foto_h",""),
+      foto_credito=r.get("foto_credito",""),
+      AKA_BLOCK=AKA_BLOCK,
+      jsonld_breadcrumb=jsonld_breadcrumb(r["nome"], url, BASE),
+      jsonld_breed=jsonld_breed(r, url),
+    )
+    (out_dir/f"{slug}.html").write_text(page_html, encoding="utf-8")
+
+# ===== Página /racas/index.html =====
 options = []
 for k in sorted(rules["fci_grupos"].keys(), key=lambda x: int(x)):
-  label = rules["fci_grupos"][k]
-  options.append(f"<option value='{k}'>Grupo {k} — {label}</option>")
+    label = rules["fci_grupos"][k]
+    options.append(f"<option value='{k}'>Grupo {k} — {attr(label)}</option>")
 options_grupo_html = "\n".join(options)
 
 cards_html = "\n".join(render_card(r) for r in sorted(racas, key=lambda x: x["nome"]))
-datalist = "\n".join(
-  f"<option value=\"{r['nome']}\">"
-  for r in sorted(racas, key=lambda x: x["nome"])
-)
+datalist = "\n".join(f"<option value=\"{attr(r['nome'])}\">" for r in sorted(racas, key=lambda x: x["nome"]))
 
 html_list = tpl_list.safe_substitute(
   HEAD_BASE=head_base, baseUrl=BASE,
@@ -573,7 +198,21 @@ html_list = tpl_list.safe_substitute(
   OPTIONS_GRUPO=options_grupo_html,
   LISTA_RACAS_ITEMS=cards_html,
   DATALIST_BREEDS=datalist,
-  jsonld_breadcrumb_list=jsonld_breadcrumb_list()
+  jsonld_breadcrumb_list=jsonld_breadcrumb_list(BASE)
+)
+(out_dir/"index.html").write_text(html_list, encoding="utf-8")
+
+# ===== Página /comparar/index.html =====
+cmp_out_dir = ROOT / "comparar"
+cmp_out_dir.mkdir(exist_ok=True)
+
+datalist = "\n".join(f'<option value="{r["nome"]}">' for r in sorted(racas, key=lambda x: x["nome"]))
+
+html_cmp = tpl_compare.safe_substitute(
+    HEAD_BASE=head_base, baseUrl=BASE,
+    SITE_HEADER=site_header, SITE_FOOTER=site_footer,
+    DATALIST_BREEDS=datalist,
+    jsonld_breadcrumb_compare=jsonld_breadcrumb_compare()
 )
 
-(out_dir/"index.html").write_text(html_list, encoding="utf-8")
+(cmp_out_dir/"index.html").write_text(html_cmp, encoding="utf-8")

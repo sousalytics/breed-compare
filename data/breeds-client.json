@@ -1,0 +1,145 @@
+[
+  {
+    "slug": "labrador-retriever",
+    "nome": "Labrador Retriever",
+    "foto": "/assets/breeds/_placeholder.jpg",
+    "origem": "Canadá / Reino Unido",
+    "fci": {
+      "grupo": 8,
+      "descricao": "Retrievers, Levantadores e Cães d'Água"
+    },
+    "porte": {
+      "slug": "grande",
+      "label": "Grande"
+    },
+    "medidas": {
+      "altura_cm": {
+        "macho": "54–57",
+        "femea": "52–55"
+      },
+      "peso_kg": {
+        "macho": "29–36",
+        "femea": "25–32"
+      },
+      "expectativa_anos": "10–12"
+    },
+    "energia": {
+      "valor": 5,
+      "nivel_fisico_txt": "muito alta",
+      "minutos_dia": 90,
+      "exigencia_cog_txt": "alta"
+    },
+    "pelagem": {
+      "valor": 3,
+      "escovacao_txt": "2–3x/semana",
+      "queda_txt": "alta com picos sazonais",
+      "tosa_txt": "não requer tosa"
+    },
+    "clima": {
+      "valor": 1,
+      "perfil_txt": "tropical umido",
+      "tolerancia_calor_txt": "muito baixa",
+      "tolerancia_umidade_txt": "baixa",
+      "adaptacao_espaco_txt": "área ampla (quintal grande/chácara)"
+    },
+    "aliases": [
+      "Labrador",
+      "Retriever du Labrador"
+    ]
+  },
+  {
+    "slug": "bulldog-ingles",
+    "nome": "Bulldog Inglês",
+    "foto": "/assets/breeds/_placeholder.jpg",
+    "origem": "Reino Unido",
+    "fci": {
+      "grupo": 2,
+      "descricao": "Pinscher, Schnauzer, Molossos e Boiadeiros Suiços"
+    },
+    "porte": {
+      "slug": "medio",
+      "label": "Médio"
+    },
+    "medidas": {
+      "altura_cm": {
+        "macho": "31–36",
+        "femea": "31–36"
+      },
+      "peso_kg": {
+        "macho": "23–25",
+        "femea": "18–23"
+      },
+      "expectativa_anos": "8–10"
+    },
+    "energia": {
+      "valor": 3,
+      "nivel_fisico_txt": "moderada",
+      "minutos_dia": 45,
+      "exigencia_cog_txt": "moderada"
+    },
+    "pelagem": {
+      "valor": 1,
+      "escovacao_txt": "1–2x/semana",
+      "queda_txt": "baixa",
+      "tosa_txt": "não requer tosa"
+    },
+    "clima": {
+      "valor": 1,
+      "perfil_txt": "tropical umido",
+      "tolerancia_calor_txt": "moderada",
+      "tolerancia_umidade_txt": "baixa",
+      "adaptacao_espaco_txt": "casa com quintal"
+    },
+    "aliases": [
+      "Bulldog"
+    ]
+  },
+  {
+    "slug": "vira-lata-srd",
+    "nome": "Vira-lata (SRD)",
+    "foto": "/assets/breeds/_placeholder.jpg",
+    "origem": "—",
+    "fci": {
+      "grupo": null,
+      "descricao": "—"
+    },
+    "porte": {
+      "slug": "medio",
+      "label": "Médio"
+    },
+    "medidas": {
+      "altura_cm": {
+        "macho": "—",
+        "femea": "—"
+      },
+      "peso_kg": {
+        "macho": "—",
+        "femea": "—"
+      },
+      "expectativa_anos": "—"
+    },
+    "energia": {
+      "valor": 3,
+      "nivel_fisico_txt": "moderada",
+      "minutos_dia": 60,
+      "exigencia_cog_txt": "baixa"
+    },
+    "pelagem": {
+      "valor": 2,
+      "escovacao_txt": "1–2x/semana",
+      "queda_txt": "moderada com picos sazonais",
+      "tosa_txt": "não requer tosa"
+    },
+    "clima": {
+      "valor": 3,
+      "perfil_txt": "tropical umido",
+      "tolerancia_calor_txt": "alta",
+      "tolerancia_umidade_txt": "moderada",
+      "adaptacao_espaco_txt": "casa com quintal"
+    },
+    "aliases": [
+      "Sem Raça Definida",
+      "SRD"
+    ]
+  }
+]
