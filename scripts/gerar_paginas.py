@@ -173,7 +173,7 @@ for r in racas:
       altura_texto_html=altura_texto_html, peso_texto_html=peso_texto_html, vida_texto=vida_texto,
       atividade=atividade_val, grooming=grooming_val, clima=clima_val,
       detalhe_atividade_html=detA_txt, detalhe_grooming_html=detG_txt, detalhe_clima_html=detC_txt,
-      perfil_label="Seu perfil/função típica é", funcao_txt="", ativ_txt_trailer="",
+      funcao_txt="", ativ_txt_trailer="",
       foto=foto_src, foto_w=r.get("foto_w",""), foto_h=r.get("foto_h",""),
       foto_credito=r.get("foto_credito",""),
       AKA_BLOCK=AKA_BLOCK,

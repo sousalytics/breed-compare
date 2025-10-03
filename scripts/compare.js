@@ -29,11 +29,11 @@
     return sec;
   }
   const sections = {
-    g1: mkSection("Classificação & Origem"),
+    g1: mkSection("Classificação"),
     g2: mkSection("Medidas"),
     g31: mkSection("Energia Física & Mental"),
     g32: mkSection("Cuidados & Pelagem"),
-    g33: mkSection("Clima & Espaço"),
+    g33: mkSection("Ambiente & Espaço"),
   };
   Object.values(sections).forEach((s) => main.appendChild(s));
 

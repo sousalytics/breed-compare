@@ -852,18 +852,19 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 .cmp-card {
-  margin-block: var(--space-3);
+  margin-block: var(--space-2);
 }
 .cmp-card.card {
   padding: var(--space-2);
 }
 .cmp-card__title {
+  margin-bottom: 0.35;
   margin: 0 0 0.5rem;
   font-size: 1.05rem;
 }
 .cmp-card .cmp-grid {
   display: grid;
-  gap: 0.25rem;
+  gap: 0.2rem;
   margin-top: 0.5rem;
 }
 .cmp-cell {
