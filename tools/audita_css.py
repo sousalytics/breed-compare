@@ -1,5 +1,6 @@
 # tools/audita_css.py
-import re, sys
+import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -83,17 +84,7 @@ def extract_used_from_js(text: str) -> set[str]:
         for token in re.findall(r'["\']([a-zA-Z0-9_-]+)["\']', args):
             used.add(_norm(token))
 
-    # 2) className = "a b"  |  class: 'a b'  |  class = "a b"
-    #    Usa grupo NÃO-capturante pro prefixo e reaproveita a aspa capturada (\1)
-    for quote, content in re.findall(
-        r'(?:class(?:Name)?\s*[:=]\s*|class\s*=\s*)(["\'])(.*?)\1',
-        text, flags=re.S
-    ):
-        for token in re.split(r'\s+', content.strip()):
-            if token:
-                used.add(_norm(token))
-
-    # 3) Template strings: class=`a b` (com crase)
+    # 2) Template strings: class=`a b` (com crase)
     for content in re.findall(r'class\s*=\s*`([^`]+)`', text, flags=re.S):
         for token in re.findall(r'[a-zA-Z0-9_-]+', content):
             used.add(_norm(token))
@@ -109,9 +100,11 @@ def main():
     js_files   = glob(JS_GLOBS)
 
     if not css_files:
-        print("Nenhum CSS encontrado."); sys.exit(1)
+        print("Nenhum CSS encontrado.")
+        sys.exit(1)
     if not html_files:
-        print("Nenhum HTML encontrado."); sys.exit(1)
+        print("Nenhum HTML encontrado.")
+        sys.exit(1)
 
     css_text  = load_files(css_files)
     html_text = load_files(html_files)
@@ -141,14 +134,18 @@ def main():
         f.write(f"Declaradas: {len(declared)} • Usadas: {len(used)} • KEEP: {len(keep)} • REMOVE: {len(remove)} • MISSING: {len(missing)}\n\n")
         if renames:
             f.write("---- RENAME SUGERIDO ----\n")
-            for s,d in renames: f.write(f"{s}  →  {d}\n")
+            for s,d in renames:
+                f.write(f"{s}  →  {d}\n")
             f.write("\n")
         f.write("---- REMOVE (candidatas) ----\n")
-        for c in remove: f.write(c + "\n")
+        for c in remove:
+            f.write(c + "\n")
         f.write("\n---- MISSING (HTML/JS usa e não tem no CSS) ----\n")
-        for m in missing: f.write(m + "\n")
+        for m in missing:
+            f.write(m + "\n")
         f.write("\n---- KEEP (usadas/safelisted) ----\n")
-        for k in keep: f.write(k + "\n")
+        for k in keep:
+            f.write(k + "\n")
 
     print(f"✔ Relatório: {report}")
 
