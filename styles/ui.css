@@ -783,7 +783,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   height: 1.6rem;
   line-height: 1;
   border-radius: 999px;
-  border: var(--border-1);
+  border: 0;
   background: var(--color-surface);
   display: inline-grid;
   place-items: center;
