@@ -80,7 +80,8 @@
 
   function hThumb(img, alt = "") {
     if (!img) return "";
-    return `<img src="${img}" alt="${alt}" loading="lazy" decoding="async" width="96" height="64" class="cmp-thumb">`;
+    const altText = alt || "Foto da raça";
+    return `<img src="${img}" alt="${altText}" loading="lazy" decoding="async" width="96" height="64" class="cmp-thumb">`;
   }
 
   function cell(text, isLabel = false) {
@@ -225,8 +226,10 @@
 
   async function init() {
     readURLAndMerge();
+
+    const BASE = document.body?.dataset?.baseurl || "";
     try {
-      const res = await fetch("/data/breeds-client.json", { cache: "no-store" });
+      const res = await fetch(`${BASE}/data/breeds-client.json`, { cache: "no-store" });
       data = await res.json();
     } catch (e) {
       console.error(e);

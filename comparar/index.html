@@ -29,7 +29,7 @@
     <title>Comparar Raças • Guia Raças</title>
     <meta name="description" content="Compare até 3 raças de cães lado a lado." />
   </head>
-  <body class="page-compare">
+  <body class="page-compare" data-baseurl="https://www.guiaracas.com.br">
     <header class="header" role="banner">
   <div class="header__inner">
     <a href="https://www.guiaracas.com.br/" class="logo">Guia Raças</a>
@@ -60,7 +60,9 @@
         <div class="selected-chips" aria-live="polite"></div>
       </header>
 
-      <!-- As seções/grades são criadas pelo compare.js -->
+      <div class="cmp-headgrid" role="region" aria-live="polite"></div>
+
+      <datalist id="breeds-datalist"></datalist>
     </main>
 
     <footer class="footer" role="contentinfo">
