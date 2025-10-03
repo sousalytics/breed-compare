@@ -215,20 +215,39 @@ def score_atividade(r, rules):
         return SUGESTOES.get(code)
 
     def tokenizar(s: str) -> list[str]:
-        # normaliza e extrai tokens legíveis/deduplicáveis
-        s = (s or "").lower()
-        s = s.replace("com supervisão", "").strip()
-        s = s.replace(" e ", ", ")
-        parts = [p.strip() for p in s.split(",") if p.strip()]
-        tokens: list[str] = []
-        for p in parts:
-            if "natação" in p or "água" in p:
-                tokens.append("atividades aquáticas supervisionadas")
-            elif "aportes" in p or "apporte" in p or "buscar e trazer" in p:
-                tokens.append("aportes (buscar e trazer)")
-            else:
-                tokens.append(p)
-        return tokens
+      s = (s or "").lower().strip()
+      s = s.replace("com supervisão", "").strip()
+
+      tokens: list[str] = []
+
+      # 1) agrega "aportes / buscar e trazer" numa única etiqueta
+      if ("aportes" in s) or ("apporte" in s) or ("buscar e trazer" in s) or ("buscar" in s and "trazer" in s):
+          tokens.append("aportes (buscar e trazer)")
+          s = re.sub(r"aportes?\s*(\(.*?\))?", "", s)
+          s = s.replace("buscar e trazer", "")
+          s = s.replace("buscar", "")
+          s = s.replace("trazer", "")
+
+      # 2) normaliza qualquer coisa aquática para uma etiqueta só
+      if ("natação" in s) or ("água" in s) or ("aquática" in s) or ("aquáticas" in s):
+          tokens.append("atividades aquáticas supervisionadas")
+          s = re.sub(r"natação|água|aquáticas?", "", s)
+
+      # 3) quebra o restante por vírgula ou " e "
+      parts = re.split(r",|\se\s", s)
+      for p in parts:
+          p = p.strip(" ,.;")
+          if p:
+              tokens.append(p)
+
+      # 4) dedup
+      out: list[str] = []
+      seen: set[str] = set()
+      for t in tokens:
+          if t and t not in seen:
+              seen.add(t)
+              out.append(t)
+      return out
 
     funcs_txt = [fun_pt(f) for f in funcoes_escolhidas if f]
     funcao_txt = " e ".join(funcs_txt) if funcs_txt else ""

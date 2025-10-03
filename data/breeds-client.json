@@ -29,10 +29,10 @@
       "minutos_dia": 90,
       "exigencia_cog_txt": "alta",
       "perfil_txt": "recolhedor de caça e cão d'água",
-      "sugestoes_txt": "aportes (buscar e trazer), trazer), atividades aquáticas supervisionadas",
+      "sugestoes_txt": "aportes (buscar e trazer), atividades aquáticas supervisionadas e brincadeiras com",
       "perfil_label": "Seus perfis/funções típicas são",
       "funcao_txt": "recolhedor de caça e cão d'água",
-      "ativ_txt_trailer": ", para as quais recomendam-se <strong>aportes (buscar e trazer), trazer), atividades aquáticas supervisionadas</strong>."
+      "ativ_txt_trailer": ", para as quais recomendam-se <strong>aportes (buscar e trazer), atividades aquáticas supervisionadas e brincadeiras com</strong>."
     },
     "pelagem": {
       "valor": 3,
@@ -82,10 +82,10 @@
       "minutos_dia": 45,
       "exigencia_cog_txt": "moderada",
       "perfil_txt": "companhia e guarda",
-      "sugestoes_txt": "passeios leves, interação social diária, obediência, autocontrole, socialização orientada",
+      "sugestoes_txt": "passeios leves, interação social diária, obediência, autocontrole e socialização orientada",
       "perfil_label": "Seus perfis/funções típicas são",
       "funcao_txt": "companhia e guarda",
-      "ativ_txt_trailer": ", para as quais recomendam-se <strong>passeios leves, interação social diária, obediência, autocontrole, socialização orientada</strong>."
+      "ativ_txt_trailer": ", para as quais recomendam-se <strong>passeios leves, interação social diária, obediência, autocontrole e socialização orientada</strong>."
     },
     "pelagem": {
       "valor": 1,
@@ -134,10 +134,10 @@
       "minutos_dia": 60,
       "exigencia_cog_txt": "baixa",
       "perfil_txt": "companhia",
-      "sugestoes_txt": "passeios leves, interação social diária",
+      "sugestoes_txt": "passeios leves e interação social diária",
       "perfil_label": "Seu perfil/função típica é",
       "funcao_txt": "companhia",
-      "ativ_txt_trailer": ", para o qual recomendam-se <strong>passeios leves, interação social diária</strong>."
+      "ativ_txt_trailer": ", para o qual recomendam-se <strong>passeios leves e interação social diária</strong>."
     },
     "pelagem": {
       "valor": 2,

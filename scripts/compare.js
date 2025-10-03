@@ -298,7 +298,10 @@
   function renderG31(grid, breeds) {
     const row = makeRowAppender(grid, "g31", breeds);
     row("Nível de energia física", (b) => b.energia.nivel_fisico_txt || "—");
-    row("Duração das atividades (≈ min/dia)", (b) => b.energia.minutos_dia ?? "—");
+    row("Duração das atividades", (b) => {
+      const m = b.energia.minutos_dia;
+      return m ?? m === 0 ? `<data value="${m}">${m}</data> min/dia` : "—";
+    });
     row("Exigência cognitiva", (b) => b.energia.exigencia_cog_txt || "—");
   }
 
