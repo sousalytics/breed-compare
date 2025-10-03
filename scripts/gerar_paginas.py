@@ -118,7 +118,7 @@ def render_card(r):
     f"    <div class='breed-card__body'>"
     f"      <h3 class='breed-card__title'><a href='{BASE}/racas/{slug}.html'>{title_html}</a></h3>"
     f"      <div class='breed-card__actions'>"
-    f"        <a class='btn btn--sm' href='{BASE}/comparar/?add={slug}'>+ Comparar</a>"
+    f"        <a class='btn btn--sm btn--primary js-compare-add' data-slug='{slug}' href='{BASE}/comparar/?add={slug}'>+ Comparar</a>"
     f"      </div>"
     f"    </div>"
     f"  </article>"

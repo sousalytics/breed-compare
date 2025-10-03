@@ -454,8 +454,8 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   border-top: 0;
 }
 .btn--sm {
-  padding: 0.5rem 0.9rem;
-  font-size: 0.95rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
   border-radius: var(--radius-2);
 }
 
@@ -886,6 +886,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .page-title {
   font-size: var(--step-2);
   line-height: 1.2;
+  margin: 1rem 0 0.75rem;
 }
 .page-lead {
   opacity: 0.85;
@@ -989,12 +990,14 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-size: 1.05rem;
 }
 .breed-card__title a {
-  color: inherit;
   text-decoration: none;
 }
-.breed-card:hover .breed-card__title a,
-.breed-card__title a:focus-visible {
+.breed-card__title a:hover,
+.breed-card__title a:focus {
   text-decoration: underline;
+}
+.breed-card:hover .breed-card__title a {
+  text-decoration: none;
 }
 .breed-card__meta {
   font-size: 0.9rem;
@@ -1035,13 +1038,16 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   margin: 0 0 0.5rem;
   font-size: 1.05rem;
 }
-.cmp-grid {
+.cmp-card .cmp-grid {
   display: grid;
   gap: 0.25rem;
+  margin-top: 0.5rem;
 }
 .cmp-cell {
-  border-bottom: var(--border-1);
-  padding: 0.5rem 0.75rem;
+  background: #fff;
+  border: 1px solid #ececf1;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-2);
 }
 .cmp-cell--label {
   font-weight: var(--weight-semibold);
@@ -1052,18 +1058,51 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   background: var(--color-surface);
   border-bottom: var(--border-1);
 }
+.cmp-headwrap {
+  margin: 0.5rem 0 1rem;
+}
+.cmp-headgrid {
+  display: grid;
+  gap: 0.5rem;
+  align-items: stretch;
+  grid-auto-rows: 1fr;
+}
 .cmp-colhead {
-  display: flex;
-  align-items: center;
   gap: 0.5rem;
 }
 .cmp-colhead__txt {
   min-width: 0;
 }
+.cmp-colhead,
+.cmp-add-col {
+  background: #fff;
+  border: 1px solid #e6e6ea;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 84px;
+}
+.cmp-colhead__box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 .cmp-thumb {
   width: 64px;
   height: 64px;
   object-fit: cover;
+  border-radius: var(--radius-2);
+}
+.cmp-add-col {
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.cmp-add-input {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #cfd3dc;
   border-radius: var(--radius-2);
 }
 @media (max-width: 48rem) {

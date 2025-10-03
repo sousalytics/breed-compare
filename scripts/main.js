@@ -161,3 +161,29 @@ document.addEventListener("DOMContentLoaded", () => {
   readURL();
   applyFilter();
 })();
+
+(function () {
+  const KEY = "compare:selected";
+  function loadSel() {
+    try {
+      return JSON.parse(localStorage.getItem(KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+  function saveSel(arr) {
+    localStorage.setItem(KEY, JSON.stringify(arr.slice(0, 3)));
+  }
+
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest(".js-compare-add");
+    if (!a) return;
+    const slug = a.getAttribute("data-slug");
+    if (!slug) return;
+    e.preventDefault();
+    let sel = loadSel();
+    if (!sel.includes(slug) && sel.length < 3) sel.push(slug);
+    saveSel(sel);
+    location.href = a.getAttribute("href").split("?")[0];
+  });
+})();

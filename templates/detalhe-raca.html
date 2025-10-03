@@ -16,14 +16,6 @@
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
     ${SITE_HEADER}
 
-    <nav class="breadcrumbs container" aria-label="Você está em">
-      <ol class="breadcrumbs__list">
-        <li><a href="${baseUrl}/">Início</a></li>
-        <li><a href="${baseUrl}/racas/">Raças</a></li>
-        <li aria-current="page">${nome}</li>
-      </ol>
-    </nav>
-
     <main
       id="conteudo"
       tabindex="-1"
@@ -31,6 +23,13 @@
       role="main"
       data-porte="${porte_slug}"
     >
+      <nav class="breadcrumbs" aria-label="Você está em">
+        <ol class="breadcrumbs__list">
+          <li><a href="${baseUrl}/">Início</a></li>
+          <li><a href="${baseUrl}/racas/">Raças</a></li>
+          <li aria-current="page">${nome}</li>
+        </ol>
+      </nav>
       <header class="breed__hero">
         <aside class="breed__summary" aria-labelledby="breed-name">
           <figure class="breed__thumb">
