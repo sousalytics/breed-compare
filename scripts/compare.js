@@ -74,6 +74,10 @@
     });
   }
 
+  function colTemplateHead(n) {
+    return `repeat(${n}, minmax(220px, 1fr))`;
+  }
+
   function colTemplate(nCols) {
     return `minmax(180px, 1fr)${" minmax(200px, 1fr)".repeat(nCols)}`;
   }
@@ -93,37 +97,37 @@
 
   function renderHeadgrid(breeds) {
     headgrid.innerHTML = "";
-    headgrid.style.gridTemplateColumns = colTemplate(breeds.length);
-    headgrid.appendChild(cell("&nbsp;", true));
+    headgrid.style.display = "grid";
+    headgrid.style.gridTemplateColumns = colTemplateHead(MAX_COLS);
 
-    breeds.forEach((b) => {
-      const d = document.createElement("div");
-      d.className = "cmp-colhead";
-      d.innerHTML = `<div class="cmp-colhead__box">${hThumb(
-        b.foto,
-        ""
-      )}<div class="cmp-colhead__txt"><strong>${b.nome}</strong></div></div>`;
-      headgrid.appendChild(d);
-    });
-
-    for (let i = breeds.length; i < MAX_COLS; i++) {
-      const form = document.createElement("form");
-      form.className = "cmp-add-col";
-      form.innerHTML = `
+    for (let i = 0; i < MAX_COLS; i++) {
+      const b = breeds[i];
+      if (b) {
+        const d = document.createElement("div");
+        d.className = "cmp-colhead";
+        d.innerHTML = `
+        <div class="cmp-colhead__box">
+          ${hThumb(b.foto, `Foto da raça ${b.nome}`)}
+          <div class="cmp-colhead__txt"><strong>${b.nome}</strong></div>
+        </div>`;
+        headgrid.appendChild(d);
+      } else {
+        const form = document.createElement("form");
+        form.className = "cmp-add-col";
+        form.innerHTML = `
         <input class="cmp-add-input" list="breeds-datalist" placeholder="Adicionar raça..." aria-label="Adicionar raça">
         <button class="btn btn--sm" type="submit">Adicionar</button>`;
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const inp = form.querySelector("input");
-        const slug = resolveSlugByName(inp.value);
-        if (!slug) return;
-        if (selected.includes(slug)) return;
-        if (selected.length >= MAX_COLS) return;
-        selected.push(slug);
-        saveSel();
-        renderAll();
-      });
-      headgrid.appendChild(form);
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const inp = form.querySelector("input");
+          const slug = resolveSlugByName(inp.value);
+          if (!slug || selected.includes(slug) || selected.length >= MAX_COLS) return;
+          selected.push(slug);
+          saveSel();
+          renderAll();
+        });
+        headgrid.appendChild(form);
+      }
     }
   }
 
