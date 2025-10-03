@@ -29,10 +29,10 @@
       "minutos_dia": 90,
       "exigencia_cog_txt": "alta",
       "perfil_txt": "recolhedor de caça e cão d'água",
-      "sugestoes_txt": "aportes (buscar e trazer), atividades aquáticas supervisionadas e () e",
+      "sugestoes_txt": "aportes (buscar e trazer) e atividades aquáticas supervisionadas",
       "perfil_label": "Seus perfis/funções típicas são",
       "funcao_txt": "recolhedor de caça e cão d'água",
-      "ativ_txt_trailer": ", para as quais recomendam-se <strong>aportes (buscar e trazer), atividades aquáticas supervisionadas e () e</strong>."
+      "ativ_txt_trailer": ", para as quais recomendam-se <strong>aportes (buscar e trazer) e atividades aquáticas supervisionadas</strong>."
     },
     "pelagem": {
       "valor": 3,

@@ -215,47 +215,53 @@ def score_atividade(r, rules):
         return SUGESTOES.get(code)
 
     def tokenizar(s: str) -> list[str]:
-      # base
       s = (s or "").lower().strip()
 
-      # remove variantes de "com supervisão"
+      # remove "com supervisão" (variações)
       s = re.sub(r"\s+com\s+supervis[ãa]o\b", "", s)
 
       tokens: list[str] = []
 
-      # === 1) Agregar "aportes/buscar e trazer" em uma etiqueta única
+      # 1) Agregar "aportes / buscar e trazer"
       if re.search(r"\b(aportes?|apporte|buscar\s+e\s+trazer|buscar\s*,?\s*trazer)\b", s):
           tokens.append("aportes (buscar e trazer)")
-          s = re.sub(r"\b(aportes?|apporte|buscar\s+e\s+trazer|buscar\s*,?\s*trazer)\b", "", s)
+          # remove "aportes" + parênteses opcionais
+          s = re.sub(r"\b(aportes?|apporte)\b\s*(\([^)]*\))?", "", s)
+          # remove "buscar e trazer" (em qualquer formato comum)
+          s = re.sub(r"\bbuscar\s*(?:,?\s*e\s*)?trazer\b", "", s)
 
-      # === 2) Agregar todo o tema aquático em uma etiqueta única
+      # 2) Agregar qualquer coisa aquática
       if re.search(r"\b(nata[çc][ãa]o|brincadeiras?\s+com\s+água|atividades?\s+aqu[áa]ticas?)\b", s):
           tokens.append("atividades aquáticas supervisionadas")
           s = re.sub(r"\b(nata[çc][ãa]o|brincadeiras?\s+com\s+água|atividades?\s+aqu[áa]ticas?)\b", "", s)
 
-      # limpar sobras típicas ("brincadeiras com", conectores, espaços)
-      s = re.sub(r"\bbrincadeiras?\s+com\b", "", s)
+      # 3) Limpezas finais: parênteses vazios, espaços e pontuação sobrando
+      s = re.sub(r"\(\s*\)", "", s)         # <- remove "()" que causava o bug
       s = re.sub(r"\s{2,}", " ", s).strip(" ,.;/")
 
-      # === 3) Quebrar o resto por vírgula, " e ", " ou " e "/"
+      # 4) Quebrar o resto por vírgula, " e ", " ou " e "/"
       parts = re.split(r",|\se\s|\sou\s|/", s)
       for p in parts:
           p = p.strip(" ,.;/")
           if not p:
               continue
-          # filtrar conectores soltos
-          if p in {"e", "ou", "com", "de", "do", "da", "dos", "das", "para", "no", "na", "nos", "nas"}:
+          # filtra conectores soltos
+          if re.fullmatch(r"(e|ou|com|de|do|da|dos|das|para|no|na|nos|nas)", p):
               continue
           tokens.append(p)
 
-      # === 4) Dedup na ordem
+      # 5) Dedup na ordem + filtra resíduos
       out: list[str] = []
       seen: set[str] = set()
       for t in tokens:
-          if t and t not in seen:
+          t = t.strip()
+          if not t or t in {"()", "( )"}:
+              continue
+          if t not in seen:
               seen.add(t)
               out.append(t)
       return out
+
 
 
     funcs_txt = [fun_pt(f) for f in funcoes_escolhidas if f]
