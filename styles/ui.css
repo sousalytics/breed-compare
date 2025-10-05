@@ -490,11 +490,14 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .breed__kpis {
   margin-block: var(--space-2);
 }
-/* === KPIs: sempre 1 coluna (um embaixo do outro), inclusive em 1440 === */
+
 .kpis__grid {
+  list-style: none; /* remove marcadores */
+  padding: 0; /* zera padding padrão do UL (removia a margem falsa) */
+  margin: 0; /* zera margem padrão do UL */
   display: grid;
   gap: var(--space-2);
-  grid-template-columns: 1fr; /* força uma coluna em todas as larguras */
+  grid-template-columns: 1fr; /* força 1 coluna em todas as larguras */
 }
 .kpi {
   display: flex;
@@ -512,6 +515,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 .kpi__value {
   font-weight: 700;
+  white-space: nowrap;
 }
 
 /* --- Popularidade (mini-barras, BR/Global) --- */
