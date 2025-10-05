@@ -250,14 +250,34 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   gap: var(--space-3);
 }
 .breed__summary {
-  background: var(--color-surface);
-  border: var(--border-1);
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  border: 0 !important;
+  box-shadow: none;
   border-radius: var(--radius-2);
   padding: var(--space-2);
   display: flex;
   flex-direction: column;
   min-height: var(--hero-minh);
   gap: var(--space-2);
+}
+.breed__summary .breed__name,
+.breed__summary .breed__lead,
+.breed__summary .breed__aka,
+.breed__summary .aka__label {
+  color: var(--color-primary-contrast);
+}
+.breed__summary a {
+  color: var(--color-primary-contrast);
+  text-decoration-color: color-mix(in srgb, var(--color-primary-contrast), transparent 45%);
+}
+.breed__summary a:hover {
+  text-decoration-color: currentColor;
+}
+.breed__summary a:focus-visible {
+  outline: 2px solid var(--color-primary-contrast);
+  outline-offset: 2px;
+  box-shadow: none;
 }
 .breed__name {
   margin: 0;
@@ -297,6 +317,9 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   padding: var(--space-2);
 }
 .fci-card {
+  border: 0 !important;
+  box-shadow: none;
+  background: var(--color-surface);
   margin: 0;
   line-height: 1.45;
 }
