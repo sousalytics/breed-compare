@@ -126,53 +126,32 @@ def render_card(r):
   )
 
 def render_pop_block(r):
-    """Gera HTML minimalista de popularidade com BR, Global e País de origem (se houver)."""
+    """Gera HTML minimalista de popularidade com BR e Global (até 2 itens)."""
     pop = r.get("popularidade")
     if not isinstance(pop, dict) or not pop:
-        return "<section class='card pop'><h2 class='section-title'>Popularidade</h2><p class='muted'>Ainda sem dados suficientes.</p></section>"
+        return ("<section class='card pop'>"
+                "<ol class='pop__list'></ol>"
+                "</section>")
 
-    # mapa simples de nomes -> códigos esperados no JSON de popularidade
-    origem_nome = (r.get("atributos", {}).get("origem") or "").strip().lower()
-    origem_map = {
-        "brasil": "br", "portugal": "pt",
-        "reino unido": "uk", "inglaterra": "uk", "escócia": "uk", "irlanda do norte": "uk", "país de gales": "uk",
-        "estados unidos": "us", "eua": "us",
-        "alemanha": "de", "frança": "fr", "canadá": "ca", "japão": "jp", "itália": "it", "espanha": "es"
-    }
-    origem_key = origem_map.get(origem_nome)
-
-    # coleta candidatos na ordem desejada
     def pick(label, key):
-        if key in pop and isinstance(pop[key], (int, float)):
-            val = max(0, min(100, int(pop[key])))
+        v = pop.get(key)
+        if isinstance(v, (int, float)):
+            val = max(0, min(100, int(v)))
             return (label, val)
         return None
 
-    itens = []
-    itens.append(pick("Brasil", "br"))
-    itens.append(pick("Global", "global"))
-    if origem_key and origem_key not in ("br", "global"):
-        # País de origem (se houver no dict)
-        lbl_origem = r.get("atributos", {}).get("origem") or origem_key.upper()
-        itens.append(pick(lbl_origem, origem_key))
+    items = []
+    items.append(pick("Brasil", "br"))
+    items.append(pick("Global", "global"))
+    items = [x for x in items if x]
 
-    # fallback: se faltou algum, pega até completar 3
-    if len([x for x in itens if x]) < 3:
-        for k, v in pop.items():
-            if k in ("br", "global", origem_key):  # já tentados
-                continue
-            if isinstance(v, (int, float)):
-                lbl = k.upper()
-                itens.append((lbl, max(0, min(100, int(v)))))
-                if len([x for x in itens if x]) >= 3:
-                    break
-
-    itens = [x for x in itens if x]
-    if not itens:
-        return "<section class='card pop'><h2 class='section-title'>Popularidade</h2><p class='muted'>Ainda sem dados suficientes.</p></section>"
+    if not items:
+        return ("<section class='card pop'>"
+                "<ol class='pop__list'></ol>"
+                "</section>")
 
     lis = []
-    for label, val in itens[:3]:
+    for label, val in items[:2]:
         lis.append(
             f"<li class='pop__item'>"
             f"<span class='pop__label'>{attr(label)}</span>"
@@ -180,12 +159,8 @@ def render_pop_block(r):
             f"<data class='pop__value' value='{val}'>{val}%</data>"
             f"</li>"
         )
-    return (
-        "<section class='card pop'>"
-        "<h2 class='section-title'>Popularidade</h2>"
-        "<ol class='pop__list'>" + "".join(lis) + "</ol>"
-        "</section>"
-    )
+    return "<section class='card pop'><ol class='pop__list'>" + "".join(lis) + "</ol></section>"
+
 
 # ===== Páginas de raça =====
 for r in racas:

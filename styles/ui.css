@@ -288,41 +288,30 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   color: var(--color-text);
 }
 
-/* <= tablet: empilha e fixa o AKA no rodapé do card */
+/* <= tablet: ordem heading -> foto -> AKA, com AKA colado no rodapé */
 @media (max-width: 47.999rem) {
   .breed__summary {
-    /* o card do hero precisa oferecer altura para o heading “crescer” */
     display: flex;
     flex-direction: column;
-    min-height: var(--hero-minh);
+    min-height: var(--hero-minh); /* altura de “capa” */
     gap: var(--space-2);
     padding-bottom: var(--space-2);
   }
 
-  /* heading ocupa a altura disponível */
-  .breed__heading {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto; /* <- essencial p/ o AKA “descer” */
-    min-height: 0;
-  }
-
-  /* ordem visual: título/lead, foto (se ativa), AKA */
+  /* ordem visual */
   .breed__heading {
     order: 1;
   }
   .breed__thumb {
     order: 2;
   }
-
-  /* AKA gruda no rodapé do card */
   .breed__aka {
     order: 3;
     margin-top: auto;
     padding-top: 0.25rem;
   }
 
-  /* Foto “capa” em telas >320, mas: */
+  /* foto “capa” quando existir em ≥375px */
   .breed__thumb img {
     inline-size: 100%;
     block-size: auto;
@@ -332,7 +321,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 }
 
-/* Piso 320 px (20rem): sem fotos (prioriza leitura) */
+/* Piso 320px: sem foto (prioriza leitura) */
 @media (max-width: 20rem) {
   .breed__thumb {
     display: none !important;
@@ -655,6 +644,57 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   .breed__pop,
   .pop,
   .pop-chart {
+    display: block !important;
+  }
+}
+/* Título externo “Popularidade” com respiro semelhante a “Características & Cuidados” */
+.breed__pop > h2 {
+  margin-block: 0 0.25rem; /* bota o card “coladinho” no título */
+}
+
+/* O card de popularidade não precisa de margem extra */
+.breed__pop .pop {
+  margin: 0;
+}
+
+/* Popularidade (barras) – já existente; mantém */
+.pop__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.pop__item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pop__bar {
+  height: 0.5rem;
+  background: var(--surface-1);
+  border-radius: 999px;
+  position: relative;
+  overflow: hidden;
+}
+.pop__bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: calc(var(--val, 0) * 1%);
+  background: var(--color-primary);
+}
+.pop__value {
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  text-align: right;
+}
+
+/* 320px: garante render */
+@media (max-width: 20rem) {
+  .breed__pop,
+  .pop {
     display: block !important;
   }
 }
