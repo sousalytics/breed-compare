@@ -543,9 +543,11 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 }
 
-/* --- Card de Foto (entre FCI e KPIs) --- */
-.breed__photo.card {
-  padding: var(--space-2);
+/* Card de Foto (entre FCI e KPIs) — sem borda */
+.breed__photo {
+  margin: var(--space-2) 0; /* separa do FCI e dos KPIs */
+  padding: 0; /* sem “caixa” */
+  background: transparent;
 }
 .photo__figure {
   margin: 0;
@@ -932,10 +934,23 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 /* ==========================================================================
    7) Helpers pontuais usados aqui
    ========================================================================== */
+/* Emojis nos rótulos dos KPIs (visíveis exceto no piso 320px) */
+.kpi--altura .kpi__label::before {
+  content: "📏";
+  margin-right: 0.35ch;
+}
+.kpi--peso .kpi__label::before {
+  content: "⚖️";
+  margin-right: 0.35ch;
+}
+.kpi--vida .kpi__label::before {
+  content: "❤️";
+  margin-right: 0.35ch;
+}
 @media (max-width: 20rem) {
   .kpi--altura .kpi__label::before,
   .kpi--peso .kpi__label::before,
   .kpi--vida .kpi__label::before {
     content: "";
-  } /* sem emojis no piso */
+  }
 }

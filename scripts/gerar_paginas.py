@@ -171,11 +171,20 @@ def render_foto_block(r, BASE):
     credito = r.get("foto_credito", "")
     cap = f"<figcaption class='photo__cap'>{attr(credito)}</figcaption>" if credito else ""
     return (
-        "<section class='breed__photo card' aria-labelledby='foto-title'>"
+        "<section class='breed__photo' aria-labelledby='foto-title'>"
         "<h2 id='foto-title' class='visually-hidden'>Foto</h2>"
         f"<figure class='photo__figure'>"
         f"<img src='{src}' alt='Foto ilustrativa de {attr(r['nome'])}' loading='lazy' width='{w}' height='{h}'>"
         f"{cap}</figure></section>"
+    )
+
+def fmt_mf(macho_txt, femea_txt, unidade):
+    """Formata 'M ♂ / F ♀ + unidade' com spans .sex para estilização."""
+    m = macho_txt or "—"
+    f = femea_txt or "—"
+    return (
+        f"{m} <span class='sex sex--m' aria-hidden='true'>♂</span> / "
+        f"{f} <span class='sex sex--f' aria-hidden='true'>♀</span> {unidade}"
     )
 
 # ===== Páginas de raça =====
@@ -184,16 +193,12 @@ for r in racas:
     url  = f"{BASE}/racas/{slug}.html"
 
     lead = r.get("lead") or r.get("notas", {}).get("resumo", "")
-    alt = r["medidas"]["altura_cm"]
-    altura_texto_html = (
-      f"{alt.get('macho','—')} <span class='sex sex--m' aria-label='macho' title='macho'>♂</span> / "
-      f"{alt.get('femea','—')} <span class='sex sex--f' aria-label='fêmea' title='fêmea'>♀</span> cm"
-    )
-    pes = r["medidas"]["peso_kg"]
-    peso_texto_html = (
-      f"{pes.get('macho','—')} <span class='sex sex--m' aria-label='macho' title='macho'>♂</span> / "
-      f"{pes.get('femea','—')} <span class='sex sex--f' aria-label='fêmea' title='fêmea'>♀</span> kg"
-    )
+
+    alt = r.get("medidas", {}).get("altura_cm", {}) or {}
+    altura_texto_html = fmt_mf(alt.get("macho"), alt.get("femea"), "cm")
+
+    peso = r.get("medidas", {}).get("peso_kg", {}) or {}
+    peso_texto_html = fmt_mf(peso.get("macho"), peso.get("femea"), "kg")
     vida_texto = f"{r['medidas'].get('expectativa_anos','—')} anos"
 
     atividade_val, detA_txt, _factsA = score_atividade(r, rules)
