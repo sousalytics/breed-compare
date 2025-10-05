@@ -142,6 +142,7 @@
     outline: 2px solid transparent;
     outline-offset: 2px;
     border-radius: var(--radius-1);
+    /* anel duplo: "recorte" do fundo + anel de foco da marca */
     box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--focus-ring);
   }
   @supports not selector(:focus-visible) {
@@ -253,6 +254,7 @@
         [tabindex="-1"]
       ):focus-visible {
       outline: 2px solid CanvasText;
+      box-shadow: none;
     }
     .skip-link:focus {
       background: Canvas;
@@ -316,7 +318,7 @@
 /* ========== COMPONENTS (genéricos) ========== */
 @layer components {
   .container {
-    width: min(100% - clamp(1rem, 4vw, 2rem), var(--container-max));
+    width: min(100% - 2 * var(--page-inline-padding), var(--container-max));
     margin-inline: auto;
   }
 

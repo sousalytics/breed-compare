@@ -1,5 +1,10 @@
-/* ===== Design Tokens (cores, tipografia, espaçamentos, raios, sombras) ===== */
+/* ===== Design Tokens ===== */
 :root {
+  /* Viewports */
+  --bp-tablet: 37.5rem; /* Tablet  ≥ 600px  */
+  --bp-notebook: 56.25rem; /* Notebook ≥ 900px */
+  --bp-desktop: 75rem; /* Desktop  ≥ 1200px*/
+
   /* Cores base */
   --color-bg: #fafafc;
   --color-surface: #ffffff;
@@ -47,8 +52,12 @@
   --space-7: 4rem;
   --space-8: clamp(4rem, 6vw, 6rem);
 
-  --container-max: 72rem;
+  --container-max: 72rem; /* ~1152px */
   --sticky-offset: 3.25rem;
+
+  --page-inline-padding: clamp(1rem, 4vw, 2rem);
+
+  --grid-gap: var(--space-2);
 
   /* Sombras / Bordas / Superfícies */
   --shadow-rgb: 0 0 0;
