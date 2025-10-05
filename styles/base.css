@@ -78,7 +78,8 @@
     text-decoration: none;
   }
   .logo:focus-visible {
-    box-shadow: 0 0 0 3px var(--focus-ring);
+    /* Foco visível (anel duplo com box-shadow) */
+    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--focus-ring);
     border-radius: 6px;
   }
 
@@ -97,7 +98,7 @@
     height: auto;
   }
 
-  /* Ancoras */
+  /* Âncoras */
   a {
     color: inherit;
     text-decoration: underline;
@@ -129,7 +130,7 @@
     line-height: 1.3;
   }
 
-  /* Formulários */
+  /* Formulários + Foco visível padronizado */
   button,
   input,
   select,
@@ -142,7 +143,6 @@
     outline: 2px solid transparent;
     outline-offset: 2px;
     border-radius: var(--radius-1);
-    /* anel duplo: "recorte" do fundo + anel de foco da marca */
     box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--focus-ring);
   }
   @supports not selector(:focus-visible) {
@@ -240,7 +240,7 @@
     }
   }
 
-  /* Acessibilidade / Mídia */
+  /* Mídia e acessibilidade */
   @media (prefers-reduced-motion: reduce) {
     * {
       animation-duration: 0.01ms !important;
@@ -254,7 +254,6 @@
         [tabindex="-1"]
       ):focus-visible {
       outline: 2px solid CanvasText;
-      box-shadow: none;
     }
     .skip-link:focus {
       background: Canvas;
@@ -296,8 +295,7 @@
     .footer {
       display: none;
     }
-    a[href^="http"]::after, a[href^="//"]::after
-    {
+    a[href^="http"]::after {
       content: " (" attr(href) ")";
       font-size: 0.9em;
     }
@@ -318,7 +316,7 @@
 /* ========== COMPONENTS (genéricos) ========== */
 @layer components {
   .container {
-    width: min(100% - 2 * var(--page-inline-padding), var(--container-max));
+    width: min(100% - clamp(1rem, 4vw, 2rem), var(--container-max));
     margin-inline: auto;
   }
 
@@ -374,15 +372,15 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .btn--compare:hover {
-      box-shadow: var(--shadow-1);
-      background: color-mix(in srgb, var(--color-accent), var(--mix-contrast) 5%);
-    }
     .btn:hover {
       box-shadow: var(--shadow-1);
     }
     .btn--primary:hover {
       background: color-mix(in srgb, var(--color-primary), var(--mix-contrast) 5%);
+    }
+    .btn--compare:hover {
+      box-shadow: var(--shadow-1);
+      background: color-mix(in srgb, var(--color-accent), var(--mix-contrast) 5%);
     }
   }
 }
@@ -409,5 +407,15 @@
     clip: auto !important;
     clip-path: none !important;
     white-space: normal !important;
+  }
+
+  /* Utilitários de layout (opcionais) */
+  .flow > * + * {
+    margin-block-start: var(--space-4);
+  } /* ritmo vertical */
+  .grid-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-4);
   }
 }

@@ -1,10 +1,10 @@
-/* ===== Design Tokens ===== */
+/* ===== Design Tokens (cores, tipografia, espaçamentos, raios, sombras) ===== */
+/* Breakpoints (mobile-first)
+   - tablet:   48rem (768px)
+   - notebook: 64rem (1024px)
+   - desktop:  80rem (1280px)
+*/
 :root {
-  /* Viewports */
-  --bp-tablet: 37.5rem; /* Tablet  ≥ 600px  */
-  --bp-notebook: 56.25rem; /* Notebook ≥ 900px */
-  --bp-desktop: 75rem; /* Desktop  ≥ 1200px*/
-
   /* Cores base */
   --color-bg: #fafafc;
   --color-surface: #ffffff;
@@ -31,7 +31,7 @@
   --lh-tight: 1.25;
   --lh-normal: 1.6;
 
-  /* Escala tipográfica */
+  /* Escala tipográfica (fluida) */
   --step--1: clamp(0.875rem, 0.86rem + 0.1vw, 0.95rem);
   --step-0: 1rem;
   --step-1: clamp(1.125rem, 1.1rem + 0.3vw, 1.375rem);
@@ -52,12 +52,11 @@
   --space-7: 4rem;
   --space-8: clamp(4rem, 6vw, 6rem);
 
+  /* Largura do container (criteriosa p/ legibilidade) */
   --container-max: 72rem; /* ~1152px */
+
+  /* Offset para âncoras com header fixo */
   --sticky-offset: 3.25rem;
-
-  --page-inline-padding: clamp(1rem, 4vw, 2rem);
-
-  --grid-gap: var(--space-2);
 
   /* Sombras / Bordas / Superfícies */
   --shadow-rgb: 0 0 0;
@@ -98,7 +97,7 @@
   }
 }
 
-/* ===== Tema alternativo ===== */
+/* ===== Tema alternativo (exemplo) ===== */
 html[data-theme="alt"] {
   --color-bg: #f7fafc;
   --color-surface: #ffffff;
