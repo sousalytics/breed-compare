@@ -267,6 +267,14 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .breed__summary .aka__label {
   color: var(--color-primary-contrast);
 }
+.breed__summary .breed__aka .aka__label,
+.breed__summary .breed__aka a {
+  color: var(--color-primary-contrast);
+  text-decoration-color: color-mix(in srgb, var(--color-primary-contrast), transparent 45%);
+}
+.breed__summary .breed__aka a:hover {
+  text-decoration-color: currentColor;
+}
 .breed__summary a {
   color: var(--color-primary-contrast);
   text-decoration-color: color-mix(in srgb, var(--color-primary-contrast), transparent 45%);
@@ -278,6 +286,11 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   outline: 2px solid var(--color-primary-contrast);
   outline-offset: 2px;
   box-shadow: none;
+}
+@media (prefers-contrast: no-preference) {
+  .breed__summary .breed__aka {
+    opacity: 0.95;
+  }
 }
 .breed__name {
   margin: 0;
