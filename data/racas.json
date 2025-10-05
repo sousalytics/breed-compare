@@ -25,6 +25,7 @@
       "funcoes": ["retriever", "water"],
       "origem_clima": ["temperado", "frio"]
     },
+    "popularidade": { "br": 62, "global": 48, "us": 35 },
     "foto": "/assets/breeds/_placeholder.jpg",
     "foto_w": 1200,
     "foto_h": 800,
@@ -57,6 +58,7 @@
       "funcoes": ["companhia", "guard"],
       "origem_clima": ["temperado"]
     },
+    "popularidade": { "br": 62, "global": 48, "us": 35 },
     "foto": "/assets/breeds/_placeholder.jpg",
     "foto_w": 1200,
     "foto_h": 800,
@@ -89,6 +91,7 @@
       "funcoes": ["companhia"],
       "origem_clima": ["variado", "tropical"]
     },
+    "popularidade": { "br": 62, "global": 48, "us": 35 },
     "foto": "/assets/breeds/_placeholder.jpg",
     "foto_w": 1200,
     "foto_h": 800,

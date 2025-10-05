@@ -162,6 +162,42 @@ for r in racas:
     aliases = get_aliases_for_breed(r, aliases_map)
     AKA_BLOCK = (f"<p class='breed__aka'><span class='aka__label'>Também conhecido como:</span> {attr(join_pt(aliases))}</p>") if aliases else ""
 
+    # === Popularidade (opcional) -> até 3 itens ===
+    def render_pop(pop):
+        if not isinstance(pop, dict) or not pop:
+            return "<section class='card pop'><h2 class='section-title'>Popularidade</h2><p class='muted'>Ainda sem dados suficientes.</p></section>"
+
+        labels = {
+            "br": "Brasil", "global": "Global", "us": "EUA",
+            "uk": "Reino Unido", "pt": "Portugal", "de": "Alemanha", "fr": "França"
+        }
+        # ordena por valor e limita 3
+        items = []
+        for k, v in sorted(pop.items(), key=lambda kv: (kv[1] if isinstance(kv[1], (int, float)) else -1), reverse=True)[:3]:
+            try:
+                val = max(0, min(100, int(v)))
+            except:
+                continue
+            label = labels.get(k, k.upper())
+            items.append(
+                f"<li class='pop__item'>"
+                f"<span class='pop__label'>{attr(label)}</span>"
+                f"<span class='pop__bar' style='--val:{val}' aria-hidden='true'></span>"
+                f"<data class='pop__value' value='{val}'>{val}%</data>"
+                f"</li>"
+            )
+        if not items:
+            return "<section class='card pop'><h2 class='section-title'>Popularidade</h2><p class='muted'>Ainda sem dados suficientes.</p></section>"
+        return (
+            "<section class='card pop'>"
+            "<h2 class='section-title'>Popularidade</h2>"
+            "<ol class='pop__list'>" + "".join(items) + "</ol>"
+            "</section>"
+        )
+
+    POPULARIDADE_BLOCK = render_pop(r.get("popularidade"))
+
+
     page_html = tpl.safe_substitute(
       HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
       SITE_HEADER=site_header, SITE_FOOTER=site_footer,
@@ -177,6 +213,7 @@ for r in racas:
       foto=foto_src, foto_w=r.get("foto_w",""), foto_h=r.get("foto_h",""),
       foto_credito=r.get("foto_credito",""),
       AKA_BLOCK=AKA_BLOCK,
+      POPULARIDADE_BLOCK=POPULARIDADE_BLOCK,
       jsonld_breadcrumb=jsonld_breadcrumb(r["nome"], url, BASE),
       jsonld_breed=jsonld_breed(r, url),
     )
