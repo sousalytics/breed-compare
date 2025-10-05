@@ -289,33 +289,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   color: var(--color-text);
 }
 
-/* Tablet (48–64rem): Resumo e FCI lado a lado (sem foto no hero) */
-@media (min-width: 48rem) and (max-width: 63.999rem) {
-  .breed__hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3);
-    align-items: start;
-  }
-  .fci-card {
-    height: 100%;
-    align-self: stretch;
-  }
-}
-/* Notebook (≥64rem): Resumo | FCI (foto permanece como card separado) */
-@media (min-width: 64rem) {
-  .breed__hero {
-    display: grid;
-    grid-template-columns: minmax(520px, 1fr) 1fr;
-    gap: var(--space-4);
-    align-items: start;
-  }
-  .fci-card {
-    height: 100%;
-    align-self: stretch;
-  }
-}
-
 /* --- Card base e FCI --- */
 .card {
   background: var(--color-surface);
@@ -625,15 +598,13 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 }
 
-/* === NOTEBOOK (≥64rem): hero “se dissolve” no grid do container === */
-@media (min-width: 64rem) {
-  /* Em vez de ter grid próprio, o hero vira “pass-through”:
-     seus filhos passam a ocupar as colunas do grid de .breed */
+/* === NOVO: em tablet+ o hero “se dissolve” no grid do container === */
+@media (min-width: 48rem) {
   .breed__hero {
-    display: contents; /* remove o grid interno do hero */
-  }
+    display: contents;
+  } /* remove o grid interno do hero */
 
-  /* Resumo (esquerda) e FCI (direita) ficam exatamente nas mesmas colunas dos KPIs */
+  /* Resumo (esquerda) e FCI (direita) ocupam as mesmas colunas dos KPIs */
   .breed__summary {
     grid-column: 1;
     margin: 0;
@@ -641,10 +612,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   .fci-card {
     grid-column: 2;
     margin: 0;
-  }
-
-  /* Garantimos que o próprio card do FCI estique como os KPIs */
-  .fci-card {
     align-self: start;
   }
 }
