@@ -1,4 +1,11 @@
 /* ==========================================================================
+   Breakpoints (mobile-first)
+   - tablet:   48rem (768px)
+   - notebook: 64rem (1024px)
+   - desktop:  80rem (1280px)
+   ========================================================================== */
+
+/* ==========================================================================
    1) Site Chrome: Header / Nav / Footer
    ========================================================================== */
 
@@ -84,6 +91,21 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   text-underline-offset: 0.15em;
 }
 
+/* Mobile: links do footer em coluna p/ evitar “aperto” */
+@media (max-width: 47.999rem) {
+  .footer__inner {
+    gap: 0.25rem;
+  }
+  .footer__nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .footer__link {
+    line-height: 1.35;
+  }
+}
+
 /* ==========================================================================
    2) Breadcrumbs
    ========================================================================== */
@@ -105,7 +127,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 /* ==========================================================================
-   3) Inputs / Ícones / Utilidades visuais
+   3) Inputs / Ícones / Tabela larga
    ========================================================================== */
 .input {
   width: 100%;
@@ -157,7 +179,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   gap: 0.375rem;
 }
 
-/* Tabela larga dentro de wrapper rolável */
+/* Tabela/grade larga deve rolar no eixo X quando necessário */
 .table-scroll table {
   min-width: var(--table-min-width);
 }
@@ -173,6 +195,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   --meter-max: 56rem;
 }
 
+/* --- SUMÁRIO (hero) --- */
 .breed__hero {
   display: flex;
   flex-direction: column;
@@ -196,19 +219,22 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   align-content: start;
 }
 
-/* < tablet */
-@media (max-width: 47.999rem) {
-  .breed__summary,
-  .fci-card {
-    min-height: auto;
-    height: auto;
-  }
+/* Elementos do hero */
+.breed__name {
+  margin: 0;
+  line-height: 1.1;
 }
-
 .breed__lead {
   opacity: 0.85;
   margin-top: 0.25rem;
 }
+.breed__heading {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  min-width: 0;
+}
+
 .breed__thumb {
   grid-area: thumb;
 }
@@ -218,95 +244,11 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   height: 84px;
   object-fit: cover;
   border-radius: var(--radius-2);
-}
-.breed__name {
-  margin: 0;
-  line-height: 1.1;
-}
-.breed__heading {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  min-width: 0;
-}
-.breed__pop {
-  margin-block: var(--space-8) var(--space-5);
-  padding-top: 0;
-  border-top: 0;
+  /* CLS: reservando proporção (fallback caso falte width/height no HTML) */
+  aspect-ratio: 1 / 1;
 }
 
-.btn--sm {
-  padding: 0.4rem 0.6rem;
-  font-size: 0.9rem;
-  border-radius: var(--radius-2);
-}
-
-/* notebook ≥ 64rem */
-@media (min-width: 64rem) {
-  .breed__hero {
-    display: grid;
-    grid-template-columns: minmax(520px, 1fr) 1fr;
-    grid-template-areas: "summary fci";
-    align-items: start;
-    gap: var(--space-4);
-  }
-  .breed__thumb {
-    grid-area: thumb;
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    align-self: start;
-    justify-self: end;
-    margin: 0;
-  }
-  .breed__summary {
-    grid-area: summary;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: start;
-  }
-  .fci-card {
-    grid-area: fci;
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-  }
-  .breed__thumb img {
-    width: 140px;
-    height: 140px;
-    object-fit: cover;
-  }
-  .breed__heading {
-    grid-column: 1;
-  }
-  .breed__kpis {
-    margin-top: var(--space-3);
-  }
-}
-/* tablet ≥ 48rem */
-@media (min-width: 48rem) {
-  .breed__lead {
-    grid-column: 1 / -1;
-  }
-}
-/* < notebook */
-@media (max-width: 63.999rem) {
-  .breed__thumb {
-    max-width: 320px;
-  }
-  .breed__thumb img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--radius-2);
-    display: block;
-  }
-}
-/* desktop ≥ 80rem (pequeno ajuste de respiro) */
-@media (min-width: 80rem) {
-  .breed__hero {
-    gap: var(--space-5);
-  }
-}
-
+/* “Também conhecido como…” */
 .breed__aka {
   margin-top: auto;
   margin-bottom: 0;
@@ -321,14 +263,117 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   color: var(--color-text);
 }
 
-/* notebook ≥ 64rem */
-@media (min-width: 64rem) {
+/* <= tablet: empilha; foto FULL width abaixo do título; AKA abaixo da foto */
+@media (max-width: 47.999rem) {
   .breed__summary {
-    grid-template-rows: 1fr auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-height: auto;
+  }
+  .breed__heading {
+    order: 1;
+  }
+  .breed__thumb {
+    order: 2;
+  }
+  .breed__aka {
+    order: 3;
+  }
+
+  .breed__thumb img {
+    inline-size: 100%;
+    block-size: auto;
+    border-radius: var(--radius-2);
+    aspect-ratio: 3 / 2; /* mini-capa mais panorâmica no mobile */
   }
 }
 
-/* Card genérico */
+/* >= notebook: duas colunas (conteúdo + FCI) */
+@media (min-width: 64rem) {
+  .breed__hero {
+    display: grid;
+    grid-template-columns: minmax(520px, 1fr) 1fr;
+    grid-template-areas: "summary fci";
+    align-items: start;
+    gap: var(--space-4);
+  }
+  .breed__summary {
+    grid-area: summary;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+  .breed__thumb {
+    grid-area: thumb;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start;
+    justify-self: end;
+    margin: 0;
+  }
+  .breed__thumb img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    aspect-ratio: auto;
+  }
+  .fci-card {
+    grid-area: fci;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+  }
+  .breed__kpis {
+    margin-top: var(--space-3);
+  }
+}
+
+/* >= desktop: mais respiro */
+@media (min-width: 80rem) {
+  .breed__hero {
+    gap: var(--space-5);
+  }
+}
+
+/* --- MODO OVERLAY (opcional): foto como fundo com texto por cima --- */
+/* Para ativar: adicione .breed--overlay em um wrapper da página */
+.breed--overlay .breed__summary {
+  position: relative;
+  overflow: hidden;
+}
+.breed--overlay .breed__thumb {
+  order: 1;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.breed--overlay .breed__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+  aspect-ratio: auto;
+}
+.breed--overlay .breed__summary::after {
+  /* gradiente para legibilidade */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.35) 100%);
+}
+.breed--overlay .breed__heading,
+.breed--overlay .breed__aka {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+.breed--overlay .aka__label {
+  color: #fff;
+}
+
+/* --- Card FCI --- */
 .card {
   background: var(--color-surface);
   border: var(--border-1);
@@ -336,7 +381,44 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   padding: var(--space-2);
 }
 
-/* Indicadores */
+.fci-card {
+  margin: 0;
+  line-height: 1.45;
+  height: auto;
+  align-self: start;
+  background: var(--color-surface);
+  border: var(--border-1);
+  border-radius: var(--radius-2);
+  padding: var(--space-2);
+}
+.fci-card p {
+  margin: 0;
+  line-height: 1.45;
+}
+.fci-card p + p {
+  margin-top: var(--space-2, 0.625rem);
+}
+.fci-card .badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.fci-card__porte {
+  margin-top: var(--space-3, 1rem);
+}
+.fci-card__group .badge {
+  vertical-align: middle;
+}
+.fci-card__origem,
+.fci-card__codigo {
+  margin: 0.25rem 0;
+}
+
+/* --- Indicadores/KPIs/CTA (sem alterações funcionais) --- */
 .indicator__details {
   margin-top: 0.5rem;
   color: var(--color-text);
@@ -447,53 +529,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   border-top: 0;
 }
 
-/* Card FCI */
-.fci-card {
-  grid-area: fci;
-  margin: 0;
-  line-height: 1.45;
-  height: auto;
-  background: var(--color-surface);
-  border: var(--border-1);
-  border-radius: var(--radius-2);
-  padding: var(--space-2);
-  align-self: start;
-}
-.fci-card p {
-  margin: 0;
-  line-height: 1.45;
-}
-.fci-card p + p {
-  margin-top: var(--space-2, 0.625rem);
-}
-.fci-card .badge {
-  display: inline-block;
-  padding: 0.2rem 0.5rem;
-  border-radius: 999px;
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
-  font-weight: 600;
-  font-size: 0.875rem;
-}
-.fci-card__porte {
-  margin-top: var(--space-3, 1rem);
-}
-.fci-card__group .badge {
-  display: inline-block;
-  padding: 0.2rem 0.5rem;
-  border-radius: 999px;
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
-  font-weight: 600;
-  font-size: 0.875rem;
-  vertical-align: middle;
-}
-.fci-card__origem,
-.fci-card__codigo {
-  margin: 0.25rem 0;
-}
-
-/* KPIs */
 .breed__kpis {
   margin-block: var(--space-2);
 }
@@ -551,7 +586,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   color: var(--color-accent);
 }
 
-/* Popularidade */
 .pop-chart {
   min-height: 160px;
 }
@@ -575,7 +609,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-size: 0.95rem;
   border-radius: var(--radius-2);
 }
-/* < tablet */
 @media (max-width: 47.999rem) {
   .breed__cta {
     flex-direction: column;
@@ -622,8 +655,13 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   grid-template-columns: 1fr 12rem 14rem auto;
   align-items: end;
 }
-/* < tablet (antes 800px → padronizado p/ 48rem) */
 @media (max-width: 47.999rem) {
+  .filters {
+    position: static;
+    top: auto;
+    margin-block-end: var(--space-2);
+    z-index: auto;
+  } /* evita sobrepor lista no mobile */
   .filters__row {
     grid-template-columns: 1fr;
   }
@@ -656,7 +694,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .breed-listing {
   margin-block: var(--space-3, 1rem) var(--space-4, 1.5rem);
 }
-
 .breed-list {
   list-style: none;
   padding: 0;
@@ -665,7 +702,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   gap: var(--space-2);
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
-
 .breed-card {
   border: var(--border-1);
   border-radius: var(--radius-2);
@@ -688,6 +724,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   object-fit: cover;
   border-radius: var(--radius-2);
   display: block;
+  aspect-ratio: 3 / 2; /* CLS guard */
 }
 .breed-card__actions {
   margin-top: 0.5rem;
@@ -710,9 +747,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-size: 0.9rem;
   color: var(--color-text-2, #424242);
 }
-.breed-card__body .badge {
-  margin-right: 0.35rem;
-}
+.breed-card__body .badge,
 .badge {
   margin-right: 0.35rem;
 }
@@ -731,6 +766,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
    6) Página de Comparação (cabeçalho + grids + chips)
    ========================================================================== */
 
+/* Cabeçalho das colunas */
 .cmp-headgrid {
   display: grid;
   gap: 0.5rem;
@@ -749,7 +785,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   display: flex;
   align-items: center;
 }
-
 .cmp-colhead {
   position: relative;
   flex-direction: column;
@@ -772,6 +807,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .cmp-thumb {
   width: 64px;
   height: 64px;
+  aspect-ratio: 1 / 1;
 }
 .cmp-colhead__thumbwrap .cmp-thumb {
   object-fit: cover;
@@ -814,7 +850,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-weight: var(--weight-semibold);
   min-width: 0;
 }
-
 .cmp-colhead,
 .cmp-add-col {
   background: #fff;
@@ -825,21 +860,17 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   justify-content: center;
   min-height: 84px;
 }
-
 .cmp-colhead[draggable="true"] {
   cursor: grab;
 }
 .cmp-colhead.is-dragging {
   opacity: 0.6;
 }
-
 .copy-hint {
   margin-left: 0.5rem;
   font-size: 0.9rem;
   color: var(--color-muted);
 }
-
-/* < tablet */
 @media (max-width: 47.999rem) {
   .cmp-thumb {
     display: none;
@@ -847,47 +878,21 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   .cmp-colhead__actions {
     display: none;
   }
+  .cmp-headgrid {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 0.5rem;
+    padding-bottom: 0.25rem;
+  }
+  .cmp-colhead,
+  .cmp-add-col {
+    scroll-snap-align: start;
+    min-width: 12rem;
+  }
 }
 
-.cmp-add-col {
-  padding: 0.75rem;
-  flex-direction: row;
-  gap: 0.5rem;
-}
-.cmp-add-input {
-  width: 100%;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid #cfd3dc;
-  border-radius: var(--radius-2);
-}
-
-.cmp-card {
-  margin-block: var(--space-2);
-}
-.cmp-card.card {
-  padding: var(--space-2);
-}
-.cmp-card__title {
-  margin: 0 0 0.5rem;
-  font-size: 1.05rem;
-}
-.cmp-card .cmp-grid {
-  display: grid;
-  gap: 0.2rem;
-  margin-top: 0.5rem;
-}
-.cmp-cell {
-  background: #fff;
-  border: 1px solid #ececf1;
-  padding: 0.6rem 0.75rem;
-  border-radius: var(--radius-2);
-}
-.cmp-cell--label {
-  font-weight: var(--weight-semibold);
-  color: var(--color-muted);
-  background: var(--surface-1);
-}
-
+/* Chips de seleção */
 .selected-chips {
   display: flex;
   flex-wrap: wrap;
@@ -909,123 +914,78 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-weight: 700;
 }
 
-/* === Lista de raças: filtros no mobile não podem sobrepor conteúdo === */
-@media (max-width: 47.999rem) {
-  .filters {
-    position: static; /* desliga sticky em telas pequenas */
-    top: auto;
-    margin-block-end: var(--space-2); /* respiro antes da lista */
-    z-index: auto;
-  }
+/* Cards de grupos */
+.cmp-card {
+  margin-block: var(--space-2);
+}
+.cmp-card.card {
+  padding: var(--space-2);
+}
+.cmp-card__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
 }
 
-/* === Página da raça (≤48rem): hero empilhado e alinhado === */
-@media (max-width: 47.999rem) {
-  .breed__hero {
-    display: block;
-  } /* garante fluxo vertical simples */
-  .breed__summary {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    min-height: auto; /* evita “cartão alto” vazio */
-  }
-  .breed__thumb {
-    order: 2;
-  } /* opcional: imagem depois do título/lead */
-  .breed__heading {
-    order: 1;
-  }
-  .breed__thumb img {
-    inline-size: 100%;
-    block-size: auto;
-    border-radius: var(--radius-2);
-  }
-  .fci-card {
-    margin-top: var(--space-2);
-  } /* separa do summary */
+/* === Grade padrão (>= tablet): tabela/grade legível por colunas === */
+.cmp-card .cmp-grid {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: 0.5rem;
+}
+.cmp-cell {
+  background: #fff;
+  border: 1px solid #ececf1;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-2);
+}
+.cmp-cell--label {
+  font-weight: var(--weight-semibold);
+  color: var(--color-muted);
+  background: var(--surface-1);
 }
 
-/* === Header/Footer: aparência de largura total e footer arrumado no mobile === */
-.header,
-.footer {
-  width: 100%;
-  background: var(--color-surface);
-}
-
+/* === Modo STACKED (≤48rem): leitura por linhas, sem “tabela” === */
 @media (max-width: 47.999rem) {
-  .footer__inner {
-    gap: 0.25rem;
-  }
-  .footer__nav {
-    flex-direction: column; /* links em coluna em 320px */
-    align-items: flex-start;
-    gap: 0.25rem;
-  }
-  .footer__link {
-    line-height: 1.35;
-  }
-}
-
-/* === Comparador: modo compacto em telas ≤48rem === */
-@media (max-width: 47.999rem) {
-  /* Cabeçalho de colunas pode rolar horizontalmente se ficar largo */
-  .cmp-headgrid {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    gap: 0.5rem;
-    padding-bottom: 0.25rem;
-  }
-  .cmp-colhead,
-  .cmp-add-col {
-    scroll-snap-align: start;
-    min-width: 12rem;
-  }
-
-  /* Cards de grupos mais compactos */
-  .cmp-card {
-    padding: var(--space-2);
-  }
-  .cmp-card__title {
-    font-size: 1rem;
-    margin-bottom: 0.35rem;
-  }
-
-  /* Grid dos valores: permite leitura com rolagem horizontal */
+  /* Cada “linha” vira um bloco: label + valores abaixo */
   .cmp-card .cmp-grid {
-    display: grid;
-    grid-auto-flow: column; /* colunas “infinitas” na horizontal */
-    grid-auto-columns: minmax(11.5rem, 1fr); /* cada coluna legível */
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 0.25rem;
-    padding-bottom: 0.25rem;
+    display: block;
   }
-
-  /* Coluna de rótulos legível (se existir célula label por col) */
+  .cmp-card .cmp-row {
+    margin-bottom: 0.5rem;
+  } /* se existir um contêiner por linha */
+  /* Fallback sem .cmp-row: cada label “abre” uma nova seção visual */
   .cmp-cell--label {
+    display: block;
     position: sticky;
     left: 0;
+    top: auto;
     z-index: 1;
-    background: var(--color-surface);
-    font-weight: var(--weight-semibold);
+    border-radius: var(--radius-2);
   }
 
-  /* Tipografia e paddings mais densos */
+  /* Valores empilhados */
+  .cmp-cell:not(.cmp-cell--label) {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.975rem;
+  }
+
+  /* Se você puder acrescentar data-col="Nome da raça" nos valores,
+     mostramos o nome da coluna automaticamente: */
+  .cmp-cell:not(.cmp-cell--label)[data-col]::before {
+    content: attr(data-col) " — ";
+    display: inline-block;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Densidade confortável no mobile */
   .cmp-cell {
-    padding: 0.45rem 0.55rem;
-    font-size: 0.95rem;
+    padding: 0.5rem 0.6rem;
   }
 }
 
-/* === Aspect-ratio para reservar espaço e reduzir CLS === */
-.breed-card__thumb img {
-  aspect-ratio: 3 / 2;
-} /* 120×80 padrão da lista */
-.breed__thumb img {
-  aspect-ratio: 1 / 1;
-} /* avatar quadrado do hero */
-.cmp-thumb {
-  aspect-ratio: 1 / 1;
-} /* thumbs do comparador */
+/* ==========================================================================
+   7) Helpers pontuais usados aqui
+   ========================================================================== */
+/* nada aqui por enquanto */
