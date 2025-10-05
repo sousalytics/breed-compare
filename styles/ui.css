@@ -22,9 +22,6 @@
     margin-block: var(--space-2) !important;
   }
 
-  .badge {
-    display: none;
-  } /* remove pílulas não essenciais */
   .breadcrumbs {
     margin-bottom: 0.25rem;
   }
@@ -115,8 +112,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
-
-/* Mobile: links do footer em coluna p/ evitar “aperto” */
 @media (max-width: 47.999rem) {
   .footer__inner {
     gap: 0.25rem;
@@ -204,6 +199,21 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   gap: 0.375rem;
 }
 
+/* Ícones de sexo (KPIs) */
+.sex {
+  display: inline-block;
+  font-size: 0.95em;
+  line-height: 1;
+  vertical-align: -0.05em;
+  margin-inline: 0.25ch;
+}
+.sex--m {
+  color: var(--color-primary);
+}
+.sex--f {
+  color: var(--color-accent);
+}
+
 /* Tabela/grade larga deve rolar no eixo X quando necessário */
 .table-scroll table {
   min-width: var(--table-min-width);
@@ -236,7 +246,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   min-height: var(--hero-minh);
   gap: var(--space-2);
 }
-
 .breed__name {
   margin: 0;
   line-height: 1.1;
@@ -245,27 +254,17 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   opacity: 0.85;
   margin-top: 0.25rem;
 }
-
 .breed__heading {
   display: flex;
   flex-direction: column;
   min-width: 0;
   flex: 1 1 auto;
 }
-
-.breed__thumb img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius-2);
-  aspect-ratio: 3 / 2; /* previne CLS */
-  object-fit: cover;
-}
 .breed__thumb {
   display: none !important;
 }
 
-/* AKA SEMPRE no rodapé do card (mobile e tablet) */
+/* AKA no rodapé do card */
 .breed__aka {
   margin-top: auto;
   padding-top: 0.25rem;
@@ -277,7 +276,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   color: var(--color-text);
 }
 
-/* === Tablet (48–64rem): Resumo e FCI lado a lado (sem foto no hero) === */
+/* Tablet (48–64rem): Resumo e FCI lado a lado (sem foto no hero) */
 @media (min-width: 48rem) and (max-width: 63.999rem) {
   .breed__hero {
     display: grid;
@@ -290,8 +289,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
     align-self: stretch;
   }
 }
-
-/* === Notebook (≥64rem): mantém Resumo | FCI (foto já está fora) === */
+/* Notebook (≥64rem): Resumo | FCI (foto permanece como card separado) */
 @media (min-width: 64rem) {
   .breed__hero {
     display: grid;
@@ -305,7 +303,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 }
 
-/* --- Card FCI --- */
+/* --- Card base e FCI --- */
 .card {
   background: var(--color-surface);
   border: var(--border-1);
@@ -359,6 +357,57 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 .indicator__details > summary::marker {
   content: "";
+}
+
+/* Linha do indicador (título + badge + botão) */
+.indicator__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.indicator__label {
+  font-weight: var(--weight-semibold);
+}
+
+/* Badge “3/5” */
+.indicator__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  border: var(--border-1);
+  background: var(--surface-1);
+  font-weight: var(--weight-semibold);
+}
+
+/* Botão “+ / –” (toggle) */
+.indicator__togglebtn {
+  display: inline-grid;
+  place-items: center;
+  padding: 0.25rem 0.45rem;
+  line-height: 1;
+  border-radius: var(--radius-2);
+  border: var(--border-1);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+.indicator__togglebtn:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--focus-ring);
+}
+/* Ícones no botão baseados em aria-expanded */
+.indicator__togglebtn .icon-minus {
+  display: none;
+}
+.indicator__togglebtn[aria-expanded="true"] .icon-plus {
+  display: none;
+}
+.indicator__togglebtn[aria-expanded="true"] .icon-minus {
+  display: inline;
 }
 
 .indicators__list {
@@ -438,13 +487,13 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .pop {
   margin: 0;
 } /* card sem margem extra */
-/* Popularidade: título externo + card colado */
 .breed__pop > h2 {
   margin-block: 0 0.25rem;
 }
 .breed__pop .pop {
   margin: 0;
 }
+/* Metodologia “colada” ao card */
 .breed__pop .indicators__note {
   margin-top: 0.35rem;
 }
@@ -488,13 +537,13 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 /* 320px: garante render do wrapper e do card */
 @media (max-width: 20rem) {
   .breed__pop,
-  .pop,
-  .breed__pop .pop-chart {
+  .breed__pop .pop-chart,
+  .breed__pop .pop {
     display: block !important;
   }
 }
 
-/* === NOVO: Card de Foto (entre FCI e KPIs) === */
+/* --- Card de Foto (entre FCI e KPIs) --- */
 .breed__photo.card {
   padding: var(--space-2);
 }
@@ -507,12 +556,19 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   height: auto;
   border-radius: var(--radius-2);
   object-fit: cover;
-  aspect-ratio: 3 / 2; /* guarda-proporção */
+  aspect-ratio: 3 / 2;
 }
 .photo__cap {
   margin-top: 0.35rem;
   font-size: 0.875rem;
   color: var(--color-muted);
+}
+
+/* CTAs finais com respiro */
+.breed__cta {
+  display: flex;
+  gap: 0.75rem;
+  margin: var(--space-3) 0 var(--space-5);
 }
 
 /* ==========================================================================
@@ -557,7 +613,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
     top: auto;
     margin-block-end: var(--space-2);
     z-index: auto;
-  } /* evita sobrepor lista no mobile */
+  }
   .filters__row {
     grid-template-columns: 1fr;
   }
@@ -703,7 +759,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .cmp-thumb {
   width: 64px;
   height: 64px;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1/1;
 }
 .cmp-colhead__thumbwrap .cmp-thumb {
   object-fit: cover;
@@ -767,6 +823,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-size: 0.9rem;
   color: var(--color-muted);
 }
+
 @media (max-width: 47.999rem) {
   .cmp-thumb {
     display: none;
@@ -822,7 +879,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-size: 1.05rem;
 }
 
-/* === Grade padrão (>= tablet): tabela/grade legível por colunas === */
+/* Grade padrão */
 .cmp-card .cmp-grid {
   display: grid;
   gap: 0.2rem;
@@ -840,16 +897,14 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   background: var(--surface-1);
 }
 
-/* === Modo STACKED (≤48rem): leitura por linhas, sem “tabela” === */
+/* Modo STACKED (≤48rem) */
 @media (max-width: 47.999rem) {
-  /* Cada “linha” vira um bloco: label + valores abaixo */
   .cmp-card .cmp-grid {
     display: block;
   }
   .cmp-card .cmp-row {
     margin-bottom: 0.5rem;
-  } /* se existir um contêiner por linha */
-  /* Fallback sem .cmp-row: cada label “abre” uma nova seção visual */
+  }
   .cmp-cell--label {
     display: block;
     position: sticky;
@@ -858,24 +913,17 @@ html[data-theme="alt"] .header .logo .logo__glyph {
     z-index: 1;
     border-radius: var(--radius-2);
   }
-
-  /* Valores empilhados */
   .cmp-cell:not(.cmp-cell--label) {
     display: block;
     margin-top: 0.25rem;
     font-size: 0.975rem;
   }
-
-  /* Se você puder acrescentar data-col="Nome da raça" nos valores,
-     mostramos o nome da coluna automaticamente: */
   .cmp-cell:not(.cmp-cell--label)[data-col]::before {
     content: attr(data-col) " — ";
     display: inline-block;
     font-weight: 600;
     color: var(--color-text);
   }
-
-  /* Densidade confortável no mobile */
   .cmp-cell {
     padding: 0.5rem 0.6rem;
   }
@@ -889,8 +937,5 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   .kpi--peso .kpi__label::before,
   .kpi--vida .kpi__label::before {
     content: "";
-  } /* sem emojis */
-  .pop-chart {
-    display: none;
-  }
+  } /* sem emojis no piso */
 }
