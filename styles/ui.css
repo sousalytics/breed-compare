@@ -490,13 +490,11 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .breed__kpis {
   margin-block: var(--space-2);
 }
+/* === KPIs: sempre 1 coluna (um embaixo do outro), inclusive em 1440 === */
 .kpis__grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: grid;
   gap: var(--space-2);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: 1fr; /* força uma coluna em todas as larguras */
 }
 .kpi {
   display: flex;
@@ -593,7 +591,37 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   object-fit: cover;
   aspect-ratio: 3 / 2;
 }
-/* Limites progressivos da foto (altura máxima) */
+
+/* === Layout: Foto ↔ KPIs em 2 colunas (tablet+) com gaps consistentes === */
+@media (min-width: 48rem) {
+  .breed {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* col-esq (foto/hero) | col-dir (FCI/KPIs) */
+    gap: var(--space-4); /* controla TODO o respiro vertical/horizontal */
+    align-items: start;
+  }
+
+  /* Blocos que ocupam a largura toda */
+  .breed__hero,
+  .breed__indicators,
+  .breed__pop,
+  .breed__cta {
+    grid-column: 1 / -1;
+  }
+
+  /* Foto e KPIs lado a lado */
+  .breed__photo {
+    grid-column: 1;
+    align-self: start;
+    margin: 0;
+  } /* zera margens para usar gap */
+  .breed__kpis {
+    grid-column: 2;
+    align-self: start;
+    margin: 0;
+  }
+}
+/* === Foto: limites progressivos de altura para não “estourar” === */
 @media (min-width: 48rem) {
   .breed__photo img {
     max-block-size: 18rem;
@@ -614,33 +642,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   font-size: 0.875rem;
   color: var(--color-muted);
 }
-/* === Layout: Foto ao lado dos KPIs em tablet+ ===
-   Usamos o container da página (.breed) como grid e definimos
-   quais blocos ocupam a largura toda e quais dividem (foto/kpis). */
-@media (min-width: 48rem) {
-  .breed {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3);
-  }
-  /* Seções que continuam ocupando 2 colunas */
-  .breed__hero,
-  .breed__indicators,
-  .breed__pop,
-  .breed__cta {
-    grid-column: 1 / -1;
-  }
 
-  /* Foto ↔ KPIs lado a lado */
-  .breed__photo {
-    grid-column: 1;
-    align-self: start;
-  }
-  .breed__kpis {
-    grid-column: 2;
-    align-self: start;
-  }
-}
 @media (min-width: 64rem) {
   .breed {
     gap: var(--space-4);
