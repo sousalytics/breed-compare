@@ -908,3 +908,124 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .chip span {
   font-weight: 700;
 }
+
+/* === Lista de raças: filtros no mobile não podem sobrepor conteúdo === */
+@media (max-width: 47.999rem) {
+  .filters {
+    position: static; /* desliga sticky em telas pequenas */
+    top: auto;
+    margin-block-end: var(--space-2); /* respiro antes da lista */
+    z-index: auto;
+  }
+}
+
+/* === Página da raça (≤48rem): hero empilhado e alinhado === */
+@media (max-width: 47.999rem) {
+  .breed__hero {
+    display: block;
+  } /* garante fluxo vertical simples */
+  .breed__summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-height: auto; /* evita “cartão alto” vazio */
+  }
+  .breed__thumb {
+    order: 2;
+  } /* opcional: imagem depois do título/lead */
+  .breed__heading {
+    order: 1;
+  }
+  .breed__thumb img {
+    inline-size: 100%;
+    block-size: auto;
+    border-radius: var(--radius-2);
+  }
+  .fci-card {
+    margin-top: var(--space-2);
+  } /* separa do summary */
+}
+
+/* === Header/Footer: aparência de largura total e footer arrumado no mobile === */
+.header,
+.footer {
+  width: 100%;
+  background: var(--color-surface);
+}
+
+@media (max-width: 47.999rem) {
+  .footer__inner {
+    gap: 0.25rem;
+  }
+  .footer__nav {
+    flex-direction: column; /* links em coluna em 320px */
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .footer__link {
+    line-height: 1.35;
+  }
+}
+
+/* === Comparador: modo compacto em telas ≤48rem === */
+@media (max-width: 47.999rem) {
+  /* Cabeçalho de colunas pode rolar horizontalmente se ficar largo */
+  .cmp-headgrid {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 0.5rem;
+    padding-bottom: 0.25rem;
+  }
+  .cmp-colhead,
+  .cmp-add-col {
+    scroll-snap-align: start;
+    min-width: 12rem;
+  }
+
+  /* Cards de grupos mais compactos */
+  .cmp-card {
+    padding: var(--space-2);
+  }
+  .cmp-card__title {
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  /* Grid dos valores: permite leitura com rolagem horizontal */
+  .cmp-card .cmp-grid {
+    display: grid;
+    grid-auto-flow: column; /* colunas “infinitas” na horizontal */
+    grid-auto-columns: minmax(11.5rem, 1fr); /* cada coluna legível */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  /* Coluna de rótulos legível (se existir célula label por col) */
+  .cmp-cell--label {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--color-surface);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* Tipografia e paddings mais densos */
+  .cmp-cell {
+    padding: 0.45rem 0.55rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* === Aspect-ratio para reservar espaço e reduzir CLS === */
+.breed-card__thumb img {
+  aspect-ratio: 3 / 2;
+} /* 120×80 padrão da lista */
+.breed__thumb img {
+  aspect-ratio: 1 / 1;
+} /* avatar quadrado do hero */
+.cmp-thumb {
+  aspect-ratio: 1 / 1;
+} /* thumbs do comparador */
