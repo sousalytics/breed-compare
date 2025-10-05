@@ -210,7 +210,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 }
 
 /* ==========================================================================
-   4) Página de Raça (hero, sumário, FCI, CTAs, KPIs, popularidade)
+   4) Página de Raça (hero, FCI, CTAs, KPIs, Popularidade)
    ========================================================================== */
 
 :root {
@@ -220,31 +220,23 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   --meter-max: 56rem;
 }
 
-/* --- SUMÁRIO (hero) --- */
+/* --- HERO (Resumo da raça) --- */
 .breed__hero {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  align-items: stretch;
 }
 .breed__summary {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-2);
-  align-items: stretch;
   background: var(--color-surface);
   border: var(--border-1);
   border-radius: var(--radius-2);
   padding: var(--space-2);
-}
-.breed__summary,
-.fci-card {
+  display: flex;
+  flex-direction: column;
   min-height: var(--hero-minh);
-  height: 100%;
-  align-content: start;
+  gap: var(--space-2);
 }
 
-/* Elementos do hero */
 .breed__name {
   margin: 0;
   line-height: 1.1;
@@ -253,125 +245,63 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   opacity: 0.85;
   margin-top: 0.25rem;
 }
+
 .breed__heading {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
-.breed__thumb {
-  grid-area: thumb;
-}
 .breed__thumb img {
   display: block;
-  width: 84px;
-  height: 84px;
-  object-fit: cover;
+  width: 100%;
+  height: auto;
   border-radius: var(--radius-2);
-  /* CLS: reservando proporção (fallback caso falte width/height no HTML) */
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 2; /* previne CLS */
+  object-fit: cover;
+}
+.breed__thumb {
+  display: none !important;
 }
 
-/* “Também conhecido como…” */
+/* AKA SEMPRE no rodapé do card (mobile e tablet) */
 .breed__aka {
   margin-top: auto;
-  margin-bottom: 0;
-  padding-top: 0.35rem;
+  padding-top: 0.25rem;
   font-size: 0.925rem;
-  line-height: 1.35;
   color: var(--color-muted);
 }
 .breed__aka .aka__label {
-  margin-right: 0.35ch;
   font-weight: var(--weight-semibold);
   color: var(--color-text);
 }
 
-/* <= tablet: ordem heading -> foto -> AKA, com AKA colado no rodapé */
-@media (max-width: 47.999rem) {
-  .breed__summary {
-    display: flex;
-    flex-direction: column;
-    min-height: var(--hero-minh); /* altura de “capa” */
-    gap: var(--space-2);
-    padding-bottom: var(--space-2);
+/* === Tablet (48–64rem): Resumo e FCI lado a lado (sem foto no hero) === */
+@media (min-width: 48rem) and (max-width: 63.999rem) {
+  .breed__hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    align-items: start;
   }
-
-  /* ordem visual */
-  .breed__heading {
-    order: 1;
-  }
-  .breed__thumb {
-    order: 2;
-  }
-  .breed__aka {
-    order: 3;
-    margin-top: auto;
-    padding-top: 0.25rem;
-  }
-
-  /* foto “capa” quando existir em ≥375px */
-  .breed__thumb img {
-    inline-size: 100%;
-    block-size: auto;
-    border-radius: var(--radius-2);
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
+  .fci-card {
+    height: 100%;
+    align-self: stretch;
   }
 }
 
-/* Piso 320px: sem foto (prioriza leitura) */
-@media (max-width: 20rem) {
-  .breed__thumb {
-    display: none !important;
-  }
-}
-
-/* >= notebook: duas colunas (conteúdo + FCI) */
+/* === Notebook (≥64rem): mantém Resumo | FCI (foto já está fora) === */
 @media (min-width: 64rem) {
   .breed__hero {
     display: grid;
     grid-template-columns: minmax(520px, 1fr) 1fr;
-    grid-template-areas: "summary fci";
-    align-items: start;
     gap: var(--space-4);
-  }
-  .breed__summary {
-    grid-area: summary;
-    display: grid;
-    grid-template-columns: 1fr auto;
     align-items: start;
-  }
-  .breed__thumb {
-    grid-area: thumb;
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    align-self: start;
-    justify-self: end;
-    margin: 0;
-  }
-  .breed__thumb img {
-    width: 140px;
-    height: 140px;
-    object-fit: cover;
-    aspect-ratio: auto;
   }
   .fci-card {
-    grid-area: fci;
+    height: 100%;
     align-self: stretch;
-    display: flex;
-    flex-direction: column;
-  }
-  .breed__kpis {
-    margin-top: var(--space-3);
-  }
-}
-
-/* >= desktop: mais respiro */
-@media (min-width: 80rem) {
-  .breed__hero {
-    gap: var(--space-5);
   }
 }
 
@@ -382,16 +312,9 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   border-radius: var(--radius-2);
   padding: var(--space-2);
 }
-
 .fci-card {
   margin: 0;
   line-height: 1.45;
-  height: auto;
-  align-self: start;
-  background: var(--color-surface);
-  border: var(--border-1);
-  border-radius: var(--radius-2);
-  padding: var(--space-2);
 }
 .fci-card p {
   margin: 0;
@@ -420,7 +343,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   margin: 0.25rem 0;
 }
 
-/* --- Indicadores/KPIs/CTA (sem alterações funcionais) --- */
+/* --- Indicadores/KPIs/CTA --- */
 .indicator__details {
   margin-top: 0.5rem;
   color: var(--color-text);
@@ -456,55 +379,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .indicators__note {
   font-size: 0.95rem;
   opacity: 0.8;
-}
-
-.indicator__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.25rem;
-}
-.indicator__label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: var(--weight-semibold);
-}
-.indicator__badge {
-  display: inline-block;
-  padding: 0.15rem 0.45rem;
-  border-radius: 999px;
-  background: var(--surface-1);
-  border: var(--border-1);
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-}
-.indicator__togglebtn {
-  display: inline-grid;
-  place-items: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 999px;
-  border: var(--border-1);
-  background: transparent;
-  padding: 0;
-  text-decoration: none;
-}
-.indicator__togglebtn .icon-minus {
-  display: none;
-}
-.indicator__togglebtn[aria-expanded="true"] .icon-plus {
-  display: none;
-}
-.indicator__togglebtn[aria-expanded="true"] .icon-minus {
-  display: inline;
-}
-.indicator__perfil {
-  margin-top: 0.35rem;
-}
-.indicator__text {
-  margin-top: 0.5rem;
 }
 
 .scale {
@@ -559,43 +433,22 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .kpi__value {
   font-weight: 700;
 }
-.kpi--altura .kpi__label::before {
-  content: "📏 ";
-}
-.kpi--peso .kpi__label::before {
-  content: "⚖️ ";
-}
-.kpi--vida .kpi__label::before {
-  content: "❤️ ";
-}
 
-.sex {
-  display: inline-grid;
-  place-items: center;
-  inline-size: 1.4em;
-  block-size: 1.4em;
-  border-radius: 999px;
-  font-weight: 800;
-  line-height: 1;
-  margin-inline: 0.35ch;
-  border: 2px solid currentColor;
-  background: color-mix(in srgb, currentColor, transparent 85%);
-}
-.sex--m {
-  color: var(--color-primary);
-}
-.sex--f {
-  color: var(--color-accent);
-}
-
-.pop-chart {
-  min-height: 160px;
-}
-
-/* === Popularidade (mini-barras, até 3 itens) === */
+/* --- Popularidade (mini-barras, BR/Global) --- */
 .pop {
-  margin-block: var(--space-2);
+  margin: 0;
+} /* card sem margem extra */
+/* Popularidade: título externo + card colado */
+.breed__pop > h2 {
+  margin-block: 0 0.25rem;
 }
+.breed__pop .pop {
+  margin: 0;
+}
+.breed__pop .indicators__note {
+  margin-top: 0.35rem;
+}
+
 .pop__list {
   list-style: none;
   padding: 0;
@@ -632,112 +485,34 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   text-align: right;
 }
 
-/* compactar levemente no mobile */
-@media (max-width: 47.999rem) {
-  .pop__item {
-    grid-template-columns: minmax(7ch, auto) 1fr auto;
-  }
-}
-
-/* garante que nada esconda a popularidade no piso */
+/* 320px: garante render do wrapper e do card */
 @media (max-width: 20rem) {
   .breed__pop,
   .pop,
-  .pop-chart {
-    display: block !important;
-  }
-}
-/* Título externo “Popularidade” com respiro semelhante a “Características & Cuidados” */
-.breed__pop > h2 {
-  margin-block: 0 0.25rem; /* bota o card “coladinho” no título */
-}
-
-/* O card de popularidade não precisa de margem extra */
-.breed__pop .pop {
-  margin: 0;
-}
-
-/* Popularidade (barras) – já existente; mantém */
-.pop__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 0.5rem;
-}
-.pop__item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 0.5rem;
-}
-.pop__bar {
-  height: 0.5rem;
-  background: var(--surface-1);
-  border-radius: 999px;
-  position: relative;
-  overflow: hidden;
-}
-.pop__bar::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: calc(var(--val, 0) * 1%);
-  background: var(--color-primary);
-}
-.pop__value {
-  font-variant-numeric: tabular-nums;
-  min-width: 3ch;
-  text-align: right;
-}
-
-/* 320px: garante render */
-@media (max-width: 20rem) {
-  .breed__pop,
-  .pop {
+  .breed__pop .pop-chart {
     display: block !important;
   }
 }
 
-/* Popularidade: colar o parágrafo de metodologia ao card */
-.breed__pop > h2 {
-  margin-block: 0 0.25rem;
+/* === NOVO: Card de Foto (entre FCI e KPIs) === */
+.breed__photo.card {
+  padding: var(--space-2);
 }
-.breed__pop .pop {
+.photo__figure {
   margin: 0;
 }
-.breed__pop + .indicators__note {
-  /* parágrafo logo após popularidade */
-  margin-top: 0.35rem; /* estava “longe”; agora cola no card */
-}
-
-/* CTAs */
-.breed__cta {
-  display: flex;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  margin-block: var(--space-3) var(--space-4);
-}
-.breed__cta .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: auto;
-  flex: 0 0 auto;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.95rem;
+.breed__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
   border-radius: var(--radius-2);
+  object-fit: cover;
+  aspect-ratio: 3 / 2; /* guarda-proporção */
 }
-@media (max-width: 47.999rem) {
-  .breed__cta {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .breed__cta .btn {
-    width: 100%;
-  }
+.photo__cap {
+  margin-top: 0.35rem;
+  font-size: 0.875rem;
+  color: var(--color-muted);
 }
 
 /* ==========================================================================
@@ -1117,53 +892,5 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   } /* sem emojis */
   .pop-chart {
     display: none;
-  }
-}
-/* Tablet (48–64rem): hero em duas colunas e AKA abaixo da foto */
-@media (min-width: 48rem) and (max-width: 63.999rem) {
-  .breed__hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3);
-    align-items: start;
-    grid-template-areas: "summary fci";
-  }
-  .breed__summary {
-    grid-area: summary;
-    display: grid;
-    grid-template-columns: 1fr 220px; /* conteúdo | coluna da foto */
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      "heading thumb"
-      "heading aka"; /* AKA fica abaixo da foto */
-    gap: var(--space-2);
-    align-items: start;
-    min-height: var(--hero-minh);
-  }
-  .breed__heading {
-    grid-area: heading;
-  }
-  .breed__thumb {
-    grid-area: thumb;
-  }
-  .breed__aka {
-    grid-area: aka;
-    align-self: end;
-    padding-top: 0.25rem;
-  }
-
-  .breed__thumb img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: var(--radius-2);
-    aspect-ratio: 3 / 2;
-  }
-
-  /* FCI ao lado do resumo, completando a largura */
-  .fci-card {
-    grid-area: fci;
-    align-self: stretch;
-    height: 100%;
   }
 }

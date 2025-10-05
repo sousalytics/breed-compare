@@ -161,6 +161,22 @@ def render_pop_block(r):
         )
     return "<section class='card pop'><ol class='pop__list'>" + "".join(lis) + "</ol></section>"
 
+def render_foto_block(r, BASE):
+    """Card de foto: sempre entre FCI e KPIs, com width/height p/ zero CLS."""
+    src = r.get("foto", "") or "/assets/breeds/_placeholder.png"
+    if src.startswith("/"):
+        src = f"{BASE}{src}"
+    w = r.get("foto_w") or 640
+    h = r.get("foto_h") or 426  # 3:2 padrão se não vier no JSON
+    credito = r.get("foto_credito", "")
+    cap = f"<figcaption class='photo__cap'>{attr(credito)}</figcaption>" if credito else ""
+    return (
+        "<section class='breed__photo card' aria-labelledby='foto-title'>"
+        "<h2 id='foto-title' class='visually-hidden'>Foto</h2>"
+        f"<figure class='photo__figure'>"
+        f"<img src='{src}' alt='Foto ilustrativa de {attr(r['nome'])}' loading='lazy' width='{w}' height='{h}'>"
+        f"{cap}</figure></section>"
+    )
 
 # ===== Páginas de raça =====
 for r in racas:
@@ -190,15 +206,13 @@ for r in racas:
     porte_slug = (r["atributos"].get("porte") or "").lower()
     porte_label = human_porte(porte_slug)
 
-    foto_src = r.get("foto","") or "/assets/breeds/_placeholder.png"
-    if foto_src.startswith("/"):
-       foto_src = f"{BASE}{foto_src}"
-
     # AKA
     aliases = get_aliases_for_breed(r, aliases_map)
     AKA_BLOCK = (f"<p class='breed__aka'><span class='aka__label'>Também conhecido como:</span> {attr(join_pt(aliases))}</p>") if aliases else ""
 
     POPULARIDADE_BLOCK = render_pop_block(r)
+
+    FOTO_BLOCK = render_foto_block(r, BASE)
 
     page_html = tpl.safe_substitute(
       HEAD_BASE=head_base, baseUrl=BASE, url=url, slug=slug,
@@ -212,10 +226,9 @@ for r in racas:
       atividade=atividade_val, grooming=grooming_val, clima=clima_val,
       detalhe_atividade_html=detA_txt, detalhe_grooming_html=detG_txt, detalhe_clima_html=detC_txt,
       funcao_txt="", ativ_txt_trailer="",
-      foto=foto_src, foto_w=r.get("foto_w",""), foto_h=r.get("foto_h",""),
-      foto_credito=r.get("foto_credito",""),
       AKA_BLOCK=AKA_BLOCK,
       POPULARIDADE_BLOCK=POPULARIDADE_BLOCK,
+      FOTO_BLOCK = FOTO_BLOCK,
       jsonld_breadcrumb=jsonld_breadcrumb(r["nome"], url, BASE),
       jsonld_breed=jsonld_breed(r, url),
     )

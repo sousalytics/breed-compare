@@ -32,15 +32,6 @@
       </nav>
       <header class="breed__hero">
         <aside class="breed__summary" aria-labelledby="breed-name">
-          <figure class="breed__thumb">
-            <img
-              src="${foto}"
-              alt="Foto ilustrativa de ${nome}"
-              loading="lazy"
-              width="220"
-              height="147"
-            />
-          </figure>
           <div class="breed__heading">
             <h1 id="breed-name" class="breed__name">${nome}</h1>
             <p class="breed__lead">${lead}</p>
@@ -56,6 +47,8 @@
           <p class="fci-card__codigo"><strong>Código FCI:</strong> ${fci_codigo}</p>
         </aside>
       </header>
+
+      ${FOTO_BLOCK}
 
       <section class="breed__kpis" aria-labelledby="kpis-title">
         <h2 id="kpis-title" class="visually-hidden">Medidas principais</h2>
