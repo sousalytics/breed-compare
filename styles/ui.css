@@ -606,7 +606,6 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 
   /* Blocos que ocupam a largura toda */
-  .breed__hero,
   .breed__indicators,
   .breed__pop,
   .breed__cta {
@@ -623,6 +622,30 @@ html[data-theme="alt"] .header .logo .logo__glyph {
     grid-column: 2;
     align-self: start;
     margin: 0;
+  }
+}
+
+/* === NOTEBOOK (≥64rem): hero “se dissolve” no grid do container === */
+@media (min-width: 64rem) {
+  /* Em vez de ter grid próprio, o hero vira “pass-through”:
+     seus filhos passam a ocupar as colunas do grid de .breed */
+  .breed__hero {
+    display: contents; /* remove o grid interno do hero */
+  }
+
+  /* Resumo (esquerda) e FCI (direita) ficam exatamente nas mesmas colunas dos KPIs */
+  .breed__summary {
+    grid-column: 1;
+    margin: 0;
+  }
+  .fci-card {
+    grid-column: 2;
+    margin: 0;
+  }
+
+  /* Garantimos que o próprio card do FCI estique como os KPIs */
+  .fci-card {
+    align-self: start;
   }
 }
 /* === Foto: limites progressivos de altura para não “estourar” === */
