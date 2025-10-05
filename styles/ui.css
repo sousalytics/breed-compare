@@ -5,6 +5,31 @@
    - desktop:  80rem (1280px)
    ========================================================================== */
 
+/* ===== Compacto: 320px (20rem) ===== */
+@media (max-width: 20rem) {
+  /* Sem fotos no piso: lista, raça (hero), comparador */
+  .breed-card__thumb,
+  .breed__thumb,
+  .cmp-thumb,
+  .cmp-colhead__thumbwrap {
+    display: none !important;
+  }
+
+  /* Densidade e respiro menores */
+  .page-header,
+  .breed__indicators,
+  .breed__kpis {
+    margin-block: var(--space-2) !important;
+  }
+
+  .badge {
+    display: none;
+  } /* remove pílulas não essenciais */
+  .breadcrumbs {
+    margin-bottom: 0.25rem;
+  }
+}
+
 /* ==========================================================================
    1) Site Chrome: Header / Nav / Footer
    ========================================================================== */
@@ -263,29 +288,34 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   color: var(--color-text);
 }
 
-/* <= tablet: empilha; foto FULL width abaixo do título; AKA abaixo da foto */
+/* <= tablet: empilha e força a ordem com grid-areas */
 @media (max-width: 47.999rem) {
   .breed__summary {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-areas:
+      "heading"
+      "thumb"
+      "aka";
+    grid-auto-rows: auto;
     gap: var(--space-2);
     min-height: auto;
   }
   .breed__heading {
-    order: 1;
+    grid-area: heading;
   }
   .breed__thumb {
-    order: 2;
+    grid-area: thumb;
   }
   .breed__aka {
-    order: 3;
+    grid-area: aka;
   }
 
   .breed__thumb img {
     inline-size: 100%;
     block-size: auto;
     border-radius: var(--radius-2);
-    aspect-ratio: 3 / 2; /* mini-capa mais panorâmica no mobile */
+    aspect-ratio: 3 / 2; /* previne CLS e dá “cara de capa” */
+    object-fit: cover;
   }
 }
 
@@ -988,4 +1018,13 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 /* ==========================================================================
    7) Helpers pontuais usados aqui
    ========================================================================== */
-/* nada aqui por enquanto */
+@media (max-width: 20rem) {
+  .kpi--altura .kpi__label::before,
+  .kpi--peso .kpi__label::before,
+  .kpi--vida .kpi__label::before {
+    content: "";
+  } /* sem emojis */
+  .pop-chart {
+    display: none;
+  }
+}
