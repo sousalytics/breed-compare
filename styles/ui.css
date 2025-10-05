@@ -699,6 +699,18 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 }
 
+/* Popularidade: colar o parágrafo de metodologia ao card */
+.breed__pop > h2 {
+  margin-block: 0 0.25rem;
+}
+.breed__pop .pop {
+  margin: 0;
+}
+.breed__pop + .indicators__note {
+  /* parágrafo logo após popularidade */
+  margin-top: 0.35rem; /* estava “longe”; agora cola no card */
+}
+
 /* CTAs */
 .breed__cta {
   display: flex;
@@ -1105,5 +1117,53 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   } /* sem emojis */
   .pop-chart {
     display: none;
+  }
+}
+/* Tablet (48–64rem): hero em duas colunas e AKA abaixo da foto */
+@media (min-width: 48rem) and (max-width: 63.999rem) {
+  .breed__hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    align-items: start;
+    grid-template-areas: "summary fci";
+  }
+  .breed__summary {
+    grid-area: summary;
+    display: grid;
+    grid-template-columns: 1fr 220px; /* conteúdo | coluna da foto */
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "heading thumb"
+      "heading aka"; /* AKA fica abaixo da foto */
+    gap: var(--space-2);
+    align-items: start;
+    min-height: var(--hero-minh);
+  }
+  .breed__heading {
+    grid-area: heading;
+  }
+  .breed__thumb {
+    grid-area: thumb;
+  }
+  .breed__aka {
+    grid-area: aka;
+    align-self: end;
+    padding-top: 0.25rem;
+  }
+
+  .breed__thumb img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--radius-2);
+    aspect-ratio: 3 / 2;
+  }
+
+  /* FCI ao lado do resumo, completando a largura */
+  .fci-card {
+    grid-area: fci;
+    align-self: stretch;
+    height: 100%;
   }
 }
