@@ -291,28 +291,38 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 /* <= tablet: empilha e fixa o AKA no rodapé do card */
 @media (max-width: 47.999rem) {
   .breed__summary {
-    /* trocamos de grid para flex só no mobile */
+    /* o card do hero precisa oferecer altura para o heading “crescer” */
     display: flex;
     flex-direction: column;
-    min-height: var(--hero-minh); /* mantém altura “de capa” */
+    min-height: var(--hero-minh);
     gap: var(--space-2);
-    padding-bottom: var(--space-2); /* respiro antes da borda inferior */
+    padding-bottom: var(--space-2);
   }
 
-  /* ordem visual */
+  /* heading ocupa a altura disponível */
+  .breed__heading {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto; /* <- essencial p/ o AKA “descer” */
+    min-height: 0;
+  }
+
+  /* ordem visual: título/lead, foto (se ativa), AKA */
   .breed__heading {
     order: 1;
   }
   .breed__thumb {
     order: 2;
   }
+
+  /* AKA gruda no rodapé do card */
   .breed__aka {
     order: 3;
-    margin-top: auto; /* empurra para o final do card */
-    padding-top: 0.25rem; /* “quase encostado” */
+    margin-top: auto;
+    padding-top: 0.25rem;
   }
 
-  /* se a foto estiver ativa acima de 320 px, ela vira “capa” no mobile */
+  /* Foto “capa” em telas >320, mas: */
   .breed__thumb img {
     inline-size: 100%;
     block-size: auto;
@@ -322,7 +332,7 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   }
 }
 
-/* Piso 320 px (20rem): sem fotos */
+/* Piso 320 px (20rem): sem fotos (prioriza leitura) */
 @media (max-width: 20rem) {
   .breed__thumb {
     display: none !important;
@@ -593,9 +603,9 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   min-height: 160px;
 }
 
-/* === Popularidade (mini-barras) === */
+/* === Popularidade (mini-barras, até 3 itens) === */
 .pop {
-  margin-block: var(--space-4);
+  margin-block: var(--space-2);
 }
 .pop__list {
   list-style: none;
@@ -607,8 +617,8 @@ html[data-theme="alt"] .header .logo .logo__glyph {
 .pop__item {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 0.5rem;
   align-items: center;
+  gap: 0.5rem;
 }
 .pop__label {
   font-weight: var(--weight-semibold);
@@ -633,10 +643,19 @@ html[data-theme="alt"] .header .logo .logo__glyph {
   text-align: right;
 }
 
-/* compactar um pouquinho no mobile */
+/* compactar levemente no mobile */
 @media (max-width: 47.999rem) {
   .pop__item {
     grid-template-columns: minmax(7ch, auto) 1fr auto;
+  }
+}
+
+/* garante que nada esconda a popularidade no piso */
+@media (max-width: 20rem) {
+  .breed__pop,
+  .pop,
+  .pop-chart {
+    display: block !important;
   }
 }
 
