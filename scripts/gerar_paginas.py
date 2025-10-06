@@ -161,6 +161,27 @@ def render_pop_block(r):
         )
     return "<section class='pop'><h2 class='visually-hidden'>Popularidade</h2><div class='pop__bars'>" + "".join(rows) + "</div></section>"
 
+def _top5_by(key):
+    # key: "br" ou "global"
+    usable = []
+    for r in racas:
+        v = (r.get("popularidade") or {}).get(key)
+        if isinstance(v, (int, float)):
+            usable.append((r, int(max(0, min(100, v)))))
+    usable.sort(key=lambda t: t[1], reverse=True)
+    return usable[:5]
+
+def _rank_items_html(items):
+    # items: lista de (raca_dict, valor)
+    out = []
+    for r, v in items:
+        slug = r.get("slug") or slugify(r["nome"])
+        out.append(f"<li><a href='{BASE}/racas/{slug}.html'>{attr(r['nome'])}</a> — {v}</li>")
+    return "\n".join(out)
+
+br_top5 = _rank_items_html(_top5_by("br"))
+gl_top5 = _rank_items_html(_top5_by("global"))
+
 def render_foto_block(r):
     src = r.get("foto","") or "/assets/breeds/_placeholder.jpg"
     if src.startswith("/"):
@@ -255,7 +276,7 @@ ROOT.write_text("", encoding="utf-8") if not ROOT.exists() else None  # no-op
 
 # Home
 (ROOT/"index.html").write_text(
-    tpl_home.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=SITE_HEADER, SITE_FOOTER=SITE_FOOTER),
+    tpl_home.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=SITE_HEADER, SITE_FOOTER=SITE_FOOTER, BR_TOP5_ITEMS=br_top5, GLOBAL_TOP5_ITEMS=gl_top5),
     encoding="utf-8"
 )
 # Sobre

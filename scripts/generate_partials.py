@@ -21,7 +21,6 @@ def load_site():
     site.setdefault("noindex", True)
     site.setdefault("nav", [
         {"label": "Raças", "href": "/racas/"},
-        {"label": "Comparar", "href": "/comparar/"},
         {"label": "Sobre", "href": "/sobre/"},
         {"label": "Guia Responsável", "href": "/guia-responsavel/"}
     ])

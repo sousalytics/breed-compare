@@ -439,3 +439,52 @@
   font-size: 0.95rem;
   text-align: center;
 }
+
+/* Header & Nav (mobile-first) */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+}
+
+.logo {
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+  color: var(--text);
+}
+
+/* reset seguro p/ a UL da navegação */
+.nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto; /* rola se apertado */
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav__link {
+  display: inline-block;
+  padding: 0.5rem 0.7rem;
+  border-radius: var(--radius-2);
+  text-decoration: none;
+  color: var(--text);
+}
+.nav__link:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: var(--shadow-focus);
+}
+.nav__link:hover {
+  background: var(--surface-2);
+}
