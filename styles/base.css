@@ -61,9 +61,6 @@ a:focus-visible {
   box-shadow: var(--shadow-focus);
   border-radius: 0.25rem;
 }
-.prose a {
-  text-decoration: underline;
-}
 
 button,
 input,
