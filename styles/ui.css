@@ -10,8 +10,9 @@
 
 /* ===== 1) Header / Nav / Footer ===== */
 .header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  background: linear-gradient(90deg, var(--brand-800), var(--brand-600));
+  border-bottom: 0;
+  color: var(--brand-contrast);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -31,7 +32,7 @@
 .logo {
   font-weight: var(--weight-bold);
   text-decoration: none;
-  color: var(--text);
+  color: var(--brand-contrast);
   white-space: nowrap;
 }
 .nav__list {
@@ -54,7 +55,7 @@
   padding: 0.5rem 0.7rem;
   border-radius: var(--radius-2);
   text-decoration: none;
-  color: var(--text);
+  color: var(--brand-contrast);
   white-space: nowrap;
 }
 .nav__link:focus-visible {
@@ -62,7 +63,7 @@
   box-shadow: var(--shadow-focus);
 }
 .nav__link:hover {
-  background: var(--surface-2);
+  background: rgba(255, 255, 255, 0.08);
 }
 .site-footer {
   margin-block: var(--space-7) var(--space-5);
@@ -425,6 +426,33 @@
 }
 
 /* ===== 4) Páginas ===== */
+/* Home */
+.hero-dock {
+  background: var(--surface);
+  border: 1px solid var(--brand-600);
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-2);
+  padding: var(--space-3);
+  margin-block-start: -1.1rem;
+}
+@media (min-width: 48rem) {
+  .hero-dock {
+    margin-block-start: -1.4rem;
+    padding: var(--space-4);
+  }
+}
+
+.quick-search {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2);
+  align-items: center;
+}
+.quick-search .input {
+  border-color: var(--border);
+  background: var(--surface);
+}
+
 /* Lista de raças */
 .page-breeds .filters {
   margin-block-start: calc(var(--space-5) * -1);

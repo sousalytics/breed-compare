@@ -280,8 +280,12 @@ html_cmp = tpl_compare.safe_substitute(
 ROOT.write_text("", encoding="utf-8") if not ROOT.exists() else None  # no-op
 
 # Home
+datalist = "<datalist id='racas-list'>" + "".join(
+    f"<option value='{attr(r['nome'])}'></option>" for r in sorted(racas, key=lambda x: x['nome'])
+) + "</datalist>"
+
 (ROOT/"index.html").write_text(
-    tpl_home.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=SITE_HEADER, SITE_FOOTER=SITE_FOOTER, BR_TOP5_ITEMS=br_top5, GLOBAL_TOP5_ITEMS=gl_top5),
+    tpl_home.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=SITE_HEADER, SITE_FOOTER=SITE_FOOTER, BR_TOP5_ITEMS=br_top5, GLOBAL_TOP5_ITEMS=gl_top5, DATALIST_BREEDS=datalist),
     encoding="utf-8"
 )
 # Sobre

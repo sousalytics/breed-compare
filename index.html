@@ -39,16 +39,26 @@
 
 
     <main id="conteudo" tabindex="-1" class="container">
-      <!-- HERO -->
-      <header class="page-band" role="home-title">
-        <div class="page-band__inner container">
-          <h1 id="home-title" class="page-band__title">Guia Raças</h1>
-          <p class="page-band__meta">
-            Busque, filtre e aprenda sobre as raças de cães — com foco em clareza, acessibilidade e
-            responsabilidade.
-          </p>
-        </div>
-      </header>
+      <!-- HERO funcional (dock de busca) -->
+      <section class="hero-dock container container--narrow" aria-labelledby="home-title">
+        <h1 id="home-title" class="visually-hidden">Guia Raças</h1>
+
+        <form class="quick-search" role="search" action="https://www.guiaracas.com.br/racas/" method="get">
+          <label for="q" class="visually-hidden">Buscar raça</label>
+          <input
+            id="q"
+            name="q"
+            type="search"
+            class="input"
+            placeholder="Busque uma raça pelo nome…"
+            list="racas-list"
+          />
+          <button class="btn" type="submit">Buscar</button>
+        </form>
+
+        <datalist id='racas-list'><option value='Bulldog Inglês'></option><option value='Labrador Retriever'></option><option value='Vira-lata (SRD)'></option></datalist>
+        <!-- TODO: preenchido pelo Python (opcional) -->
+      </section>
 
       <!-- ACTIONS (reusando componentes KPI) -->
       <section class="container container--narrow" aria-labelledby="acoes-title">
