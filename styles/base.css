@@ -105,7 +105,7 @@ hr {
   margin-block: var(--space-6);
 }
 
-.container {
+.container--narrow {
   inline-size: min(100% - var(--space-6), 72rem);
   margin-inline: auto;
 }
