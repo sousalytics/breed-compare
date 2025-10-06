@@ -15,7 +15,7 @@
   color: var(--brand-contrast);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 40;
 }
 .header__inner {
   display: flex;
@@ -428,16 +428,22 @@
 /* ===== 4) Páginas ===== */
 /* Home */
 .hero-dock {
+  position: sticky;
+  top: calc(var(--header-h) - var(--hero-overlap));
+  z-index: 60;
   background: var(--surface);
   border: 1px solid var(--brand-600);
   border-radius: var(--radius-2);
   box-shadow: var(--shadow-2);
   padding: var(--space-3);
-  margin-block-start: -1.1rem;
+  margin-block-start: calc(-1 * var(--hero-overlap));
 }
 @media (min-width: 48rem) {
+  :root {
+    --header-h: 72px;
+    --hero-overlap: 1.25rem;
+  }
   .hero-dock {
-    margin-block-start: -1.4rem;
     padding: var(--space-4);
   }
 }
