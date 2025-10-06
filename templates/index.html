@@ -30,9 +30,16 @@
           <button class="btn" type="submit">Buscar</button>
         </form>
 
-        ${DATALIST_BREEDS}
+        <!-- ${DATALIST_BREEDS} -->
         <!-- TODO: preenchido pelo Python (opcional) -->
       </section>
+
+      <!-- Atalhos rápidos -->
+      <div class="quick-links" aria-label="Atalhos para explorar">
+        <a class="chip" href="${baseUrl}/racas/">Ver todas as raças</a>
+        <a class="chip" href="${baseUrl}/racas/#porte">Por porte</a>
+        <a class="chip" href="${baseUrl}/racas/#grupo">Por grupo FCI</a>
+      </div>
 
       <!-- ACTIONS (reusando componentes KPI) -->
       <section class="container container--narrow" aria-labelledby="acoes-title">

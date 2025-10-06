@@ -76,7 +76,8 @@
 
   /* Header & Dock */
   --header-h: 64px;
-  --hero-overlap: 1rem;
+  --hero-overlap: 0.9rem;
+  --control-h: 44px;
 
   /* Container e breakpoints (mobile-first) */
   --container: 72rem; /* ~1152px */

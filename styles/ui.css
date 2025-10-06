@@ -441,7 +441,7 @@
 @media (min-width: 48rem) {
   :root {
     --header-h: 72px;
-    --hero-overlap: 1.25rem;
+    --hero-overlap: 1rem;
   }
   .hero-dock {
     padding: var(--space-4);
@@ -457,6 +457,38 @@
 .quick-search .input {
   border-color: var(--border);
   background: var(--surface);
+}
+
+.hero-dock .quick-search .input,
+.hero-dock .quick-search .btn {
+  min-block-size: var(--control-h);
+  padding-block: 0.4rem;
+  line-height: 1.2;
+}
+
+.hero-dock .quick-search .btn {
+  display: inline-grid;
+  place-items: center;
+  padding-inline: 0.9rem;
+  border-radius: 0.75rem;
+}
+
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: var(--space-4);
+}
+.chip {
+  display: inline-block;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  text-decoration: none;
+}
+.chip:hover {
+  background: var(--surface-2);
 }
 
 /* Lista de raças */
