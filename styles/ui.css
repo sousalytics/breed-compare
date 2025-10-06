@@ -16,12 +16,13 @@
   position: sticky;
   top: 0;
   z-index: 40;
+  padding-block: var(--space-4);
 }
 .header__inner {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding-block: var(--space-3);
+  padding-block: var(--space-4);
   justify-content: flex-start;
 }
 .header__inner .nav {
@@ -441,7 +442,7 @@
 @media (min-width: 48rem) {
   :root {
     --header-h: 72px;
-    --hero-overlap: 1rem;
+    --hero-overlap: 1.25rem;
   }
   .hero-dock {
     padding: var(--space-4);
@@ -457,20 +458,6 @@
 .quick-search .input {
   border-color: var(--border);
   background: var(--surface);
-}
-
-.hero-dock .quick-search .input,
-.hero-dock .quick-search .btn {
-  min-block-size: var(--control-h);
-  padding-block: 0.4rem;
-  line-height: 1.2;
-}
-
-.hero-dock .quick-search .btn {
-  display: inline-grid;
-  place-items: center;
-  padding-inline: 0.9rem;
-  border-radius: 0.75rem;
 }
 
 .quick-links {

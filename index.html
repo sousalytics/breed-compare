@@ -60,29 +60,23 @@
         <!-- TODO: preenchido pelo Python (opcional) -->
       </section>
 
-      <!-- Atalhos rápidos -->
-      <div class="quick-links" aria-label="Atalhos para explorar">
-        <a class="chip" href="https://www.guiaracas.com.br/racas/">Ver todas as raças</a>
-        <a class="chip" href="https://www.guiaracas.com.br/racas/#porte">Por porte</a>
-        <a class="chip" href="https://www.guiaracas.com.br/racas/#grupo">Por grupo FCI</a>
-      </div>
+      <section class="container container--narrow" aria-labelledby="atalhos-title">
+        <h2 id="atalhos-title" class="visually-hidden">Atalhos</h2>
+
+        <!-- Explorar -->
+        <div class="quick-links" aria-label="Explorar raças">
+          <a class="chip" href="https://www.guiaracas.com.br/racas/">Ver todas as raças</a>
+          <a class="chip" href="https://www.guiaracas.com.br/racas/#porte">Porte: Pequeno</a>
+          <a class="chip" href="https://www.guiaracas.com.br/racas/#porte">Porte: Médio</a>
+          <a class="chip" href="https://www.guiaracas.com.br/racas/#porte">Porte: Grande</a>
+          <a class="chip" href="https://www.guiaracas.com.br/racas/#porte">Porte: Gigante</a>
+          <a class="chip" href="#rankings-title">Raças populares (BR)</a>
+        </div>
+      </section>
 
       <!-- ACTIONS (reusando componentes KPI) -->
       <section class="container container--narrow" aria-labelledby="acoes-title">
-        <h2 id="acoes-title" class="visually-hidden">Ação principal 1</h2>
-        <ul class="kpis kpis--stack">
-          <li class="kpi">
-            <div class="kpi__label">
-              <h3>Explorar raças</h3>
-              <p>Busque por nome, porte e grupo FCI.</p>
-            </div>
-            <a class="btn" href="https://www.guiaracas.com.br/racas/">Ver lista de raças</a>
-          </li>
-        </ul>
-      </section>
-
-      <section class="container container--narrow" aria-labelledby="acoes-title">
-        <h2 id="acoes-title" class="visually-hidden">Ação principal 2</h2>
+        <h2 id="acoes-title" class="visually-hidden">Ação principal</h2>
         <ul class="kpis kpis--stack">
           <li class="kpi">
             <div class="kpi__label">
@@ -95,7 +89,7 @@
       </section>
 
       <!-- RANKINGS -->
-      <section class="container container--narrow" aria-labelledby="rankings-title">
+      <!-- <section class="container container--narrow" aria-labelledby="rankings-title">
         <h2 id="rankings-title">Raças populares</h2>
 
         <h3>Top 5 no Brasil</h3>
@@ -118,7 +112,7 @@
             variar.</small
           >
         </p>
-      </section>
+      </section> -->
     </main>
 
     <footer class="footer site-footer" role="contentinfo">
