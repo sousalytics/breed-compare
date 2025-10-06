@@ -106,28 +106,32 @@ hr {
 }
 
 .container {
-  inline-size: min(100% - var(--space-6), 72rem);
+  inline-size: min(100% - var(--space-6), var(--container, 72rem));
   margin-inline: auto;
+}
+
+.container--narrow {
+  max-inline-size: 42rem;
 }
 
 /* ≥ 768px (tablet) */
 @media (min-width: 48rem) {
   .container--narrow {
-    inline-size: min(100% - var(--space-8), 46rem);
+    max-inline-size: 46rem;
   }
 }
 
 /* ≥ 1024px (notebook) */
 @media (min-width: 64rem) {
   .container--narrow {
-    inline-size: min(100% - var(--space-10), 52rem);
+    max-inline-size: 52rem;
   }
 }
 
 /* ≥ 1440px (desktop) */
 @media (min-width: 90rem) {
   .container--narrow {
-    inline-size: min(100% - var(--space-12), 56rem);
+    max-inline-size: 56rem;
   }
 }
 
