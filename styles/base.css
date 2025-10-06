@@ -158,6 +158,38 @@ h3 {
   background: var(--surface);
 }
 
+.visually-hidden {
+  position: absolute !important;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  transform: translateY(-150%);
+  background: var(--brand-900);
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-2);
+  z-index: 1000;
+  text-decoration: none;
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 /* Botões base */
 .btn {
   --_bg: var(--brand);

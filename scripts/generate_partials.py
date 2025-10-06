@@ -67,7 +67,7 @@ def render_header(site):
     items = []
     for it in site["nav"]:
         items.append(f'<li><a class="nav__link" href="{absolutize(base, it.get("href") or "#")}">{_e(it.get("label") or "")}</a></li>')
-    return f"""<a class="visually-hidden" href="#conteudo">Pular para o conteúdo</a>
+    return f"""<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 <header class="header" role="banner">
   <div class="header__inner container">
     <a href="{absolutize(base, '/')}" class="logo" aria-label="{name} — Página inicial">{name}</a>
