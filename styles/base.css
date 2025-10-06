@@ -51,15 +51,18 @@ img {
 
 a {
   color: var(--brand-700);
-  text-decoration-color: color-mix(in srgb, currentColor, transparent 45%);
+  text-decoration-color: none;
 }
 a:hover {
-  text-decoration-color: currentColor;
+  text-decoration-color: none;
 }
 a:focus-visible {
   outline: 2px solid transparent;
   box-shadow: var(--shadow-focus);
   border-radius: 0.25rem;
+}
+.prose a {
+  text-decoration: underline;
 }
 
 button,

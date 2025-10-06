@@ -265,8 +265,20 @@
   box-shadow: var(--shadow-1);
   display: grid;
   gap: var(--space-3);
-  margin-block-end: var(--space-6);
 }
+.kpis--stack .kpi {
+  display: grid;
+  gap: var(--space-2);
+  align-items: start;
+}
+.kpis--stack .kpi > .btn {
+  justify-self: start;
+  white-space: nowrap;
+}
+.kpis--stack {
+  margin-block-end: var(--space-7);
+}
+
 .kpi {
   display: flex;
   align-items: center;
@@ -387,7 +399,7 @@
   block-size: 100%;
   background: var(--brand-600);
 }
-/* === DATAVIZ dos rankings: barra horizontal proporcional (0–100) === */
+/* DATAVIZ dos rankings: barra horizontal proporcional (0–100) */
 .rank-list {
   list-style: none;
   margin: 0;
@@ -494,6 +506,9 @@
   gap: var(--space-3);
   padding-block: var(--space-3);
 }
+.header__inner .nav {
+  min-inline-size: 0;
+}
 
 .logo {
   font-weight: var(--weight-bold);
@@ -508,9 +523,13 @@
   padding: 0;
   display: flex;
   gap: var(--space-2);
-  overflow-x: auto; /* rola se apertado */
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   flex-wrap: nowrap;
+  padding-inline: var(--space-2);
+}
+.nav__list > li:last-child {
+  padding-inline-end: var(--space-2);
 }
 
 .nav__link {
