@@ -483,15 +483,7 @@
   }
 }
 
-/* Rodapé simples */
-.site-footer {
-  margin-block: var(--space-7) var(--space-5);
-  color: var(--muted);
-  font-size: 0.95rem;
-  text-align: center;
-}
-
-/* Header & Nav (mobile-first) */
+/* Header / Nav / Footer */
 .header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -546,6 +538,29 @@
 }
 .nav__link:hover {
   background: var(--surface-2);
+}
+
+.site-footer {
+  margin-block: var(--space-7) var(--space-5);
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+.footer__nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.25rem, 1vw, 0.5rem);
+}
+
+.footer__nav .footer__link {
+  white-space: nowrap;
+}
+
+.footer__nav .footer__link + .footer__link::before {
+  content: "·";
+  margin-inline: 0.25rem;
+  color: var(--muted);
 }
 
 /* BOTÕES */
