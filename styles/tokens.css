@@ -75,9 +75,8 @@
   --shadow-focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--focus-ring);
 
   /* Header & Dock */
-  --header-h: 64px;
-  --hero-overlap: 0.9rem;
-  --control-h: 44px;
+  --header-h: 72px;
+  --hero-overlap: 1rem;
 
   /* Container e breakpoints (mobile-first) */
   --container: 72rem; /* ~1152px */

@@ -198,3 +198,35 @@ document.addEventListener("DOMContentLoaded", () => {
     location.href = a.getAttribute("href").split("?")[0];
   });
 })();
+
+// --- Filtros via URL: /racas/?q=...&porte=pequeno&grupo=5  -------------------
+(function initFilterFromURL() {
+  // Rode somente na lista de raças
+  // (usa heurística: existem os controles de filtro?)
+  const $q = document.querySelector('input[name="q"], #q');
+  const $porte = document.querySelector('select[name="porte"], #porte');
+  const $grupo = document.querySelector('select[name="grupo"], #grupo');
+  if (!$q && !$porte && !$grupo) return; // não é a página /racas/
+
+  const params = new URLSearchParams(window.location.search);
+  if (!["q", "porte", "grupo"].some((k) => params.has(k))) return;
+
+  const setVal = (el, v) => {
+    if (!el || v == null || v === "") return;
+    el.value = v;
+    // aciona handlers existentes (filtros já escritos por você)
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+  };
+
+  setVal($q, params.get("q"));
+  setVal($porte, params.get("porte")); // ex.: pequeno | medio | grande | gigante
+  setVal($grupo, params.get("grupo")); // ex.: 1..10
+
+  // Se existir função global de reaplicar filtros, usamos.
+  if (typeof window.applyFilters === "function") {
+    window.applyFilters();
+  }
+
+  // Se veio com âncora #filtros, não atrapalhamos o scroll padrão.
+})();

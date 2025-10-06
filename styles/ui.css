@@ -31,6 +31,8 @@
   padding-inline-end: var(--space-3);
 }
 .logo {
+  font-size: clamp(1rem, 2.6vw + 0.4rem, 1.35rem);
+  letter-spacing: 0.2px;
   font-weight: var(--weight-bold);
   text-decoration: none;
   color: var(--brand-contrast);
@@ -439,6 +441,11 @@
   padding: var(--space-3);
   margin-block-start: calc(-1 * var(--hero-overlap));
 }
+.hero-dock .quick-search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-2);
+}
 @media (min-width: 48rem) {
   :root {
     --header-h: 72px;
@@ -461,18 +468,28 @@
 }
 
 .quick-links {
-  display: flex;
+  display: grid;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-block: var(--space-4);
+  grid-template-columns: 1fr;
+  gap: var(--space-2) var(--space-3);
+  margin-block: var(--space-3);
+}
+@media (min-width: 25rem) {
+  /* ~400px */
+  .quick-links {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 .chip {
-  display: inline-block;
-  padding: 0.45rem 0.75rem;
+  display: inline-grid;
+  place-items: center;
+  min-block-size: 42px;
+  padding: 0.45rem 0.8rem;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--surface);
   text-decoration: none;
+  text-align: center;
 }
 .chip:hover {
   background: var(--surface-2);
