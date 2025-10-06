@@ -1,8 +1,85 @@
-/* ===========================
+/* ===================================================
    UI — Componentes & Páginas
-   =========================== */
+   1) Header/Nav/Footer
+   2) Bandas e seções genéricas
+   3) Componentes (genéricos → modificadores)
+   4) Dataviz
+   5) Páginas
+   6) Utilitários (botões, notas)
+   =================================================== */
 
-/* Banda de página */
+/* ===== 1) Header / Nav / Footer ===== */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  justify-content: flex-start;
+}
+.header__inner .nav {
+  min-inline-size: 0;
+  margin-left: var(--space-3);
+}
+.logo {
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+  color: var(--text);
+  white-space: nowrap;
+}
+.nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap;
+  padding-inline: var(--space-2);
+  justify-content: flex-start;
+}
+.nav__list > li:last-child {
+  padding-inline-end: var(--space-2);
+}
+.nav__link {
+  display: inline-block;
+  padding: 0.5rem 0.7rem;
+  border-radius: var(--radius-2);
+  text-decoration: none;
+  color: var(--text);
+  white-space: nowrap;
+}
+.nav__link:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: var(--shadow-focus);
+}
+.nav__link:hover {
+  background: var(--surface-2);
+}
+.site-footer {
+  margin-block: var(--space-7) var(--space-5);
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+.footer__nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.25rem, 1vw, 0.5rem);
+}
+.footer__nav .footer__link {
+  white-space: nowrap;
+}
+
+/* ===== 2) Bandas & Seções genéricas ===== */
 .page-band {
   background: linear-gradient(90deg, var(--brand-800), var(--brand-600));
   color: var(--brand-contrast);
@@ -22,7 +99,22 @@
   opacity: 0.9;
 }
 
-/* Filtros */
+/* Bandas horizontais decorativas */
+.section-bands {
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 280px,
+    var(--brand-100) 280px,
+    var(--brand-100) 560px
+  );
+  background-size: 100% 560px;
+  border-radius: var(--radius-2);
+}
+
+/* ===== 3) Componentes ===== */
+
+/* 3.1 Filtros */
 .filters {
   background: var(--surface);
   border: 1px solid var(--brand-600);
@@ -55,16 +147,12 @@
   gap: var(--space-3);
   flex-wrap: wrap;
 }
-
-/* Em telas maiores, filtros em linha */
 @media (min-width: 48rem) {
   .filters__row {
     grid-template-columns: 1fr 220px 220px 140px;
     align-items: end;
   }
 }
-
-/* Campos visuais */
 .input {
   border: 1px solid var(--border);
   border-radius: 0.625rem;
@@ -80,7 +168,7 @@
   background-repeat: no-repeat;
 }
 
-/* GRID da lista de raças */
+/* 3.2 GRID da lista de raças */
 .breed-grid {
   display: grid;
   gap: var(--space-4);
@@ -98,7 +186,7 @@
   }
 }
 
-/* Card de raça */
+/* 3.3 Card de raça */
 .breed-card {
   position: relative;
   background: var(--surface);
@@ -127,7 +215,6 @@
   color: var(--muted);
   font-size: 0.95rem;
 }
-
 .badge {
   position: absolute;
   inset-block-start: var(--space-2);
@@ -139,151 +226,11 @@
   font-weight: var(--weight-semibold);
   box-shadow: var(--shadow-1);
 }
-
 .breed-card__actions {
   padding: var(--space-4);
 }
 
-/* Bandas horizontais */
-.section-bands {
-  background: linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 280px,
-    var(--brand-100) 280px,
-    var(--brand-100) 560px
-  );
-  background-size: 100% 560px;
-  border-radius: var(--radius-2);
-}
-
-/* ========= PÁGINA: Lista de Raças ========= */
-.page-breeds .filters {
-  margin-block-start: calc(var(--space-5) * -1);
-} /* flutuando logo após a band */
-.page-breeds .filters {
-  margin-block-end: var(--space-5);
-}
-.page-breeds .breed-grid {
-  margin-block: var(--space-4);
-}
-
-/* ========= PÁGINA: Detalhe da Raça ========= */
-
-/* Hero branco flutuante sem borda */
-.breed-hero {
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-2);
-  padding: var(--space-5);
-  box-shadow: var(--shadow-1);
-  display: grid;
-  gap: var(--space-3);
-}
-.breed-hero__aka {
-  color: var(--muted);
-}
-.breed-hero__aka .aka__label {
-  font-weight: var(--weight-semibold);
-}
-
-/* Layout principal da página de detalhes */
-.breed {
-  display: grid;
-  gap: var(--space-5);
-}
-@media (min-width: 48rem) {
-  .breed {
-    grid-template-columns: 1fr 1fr; /* col 1 | col 2 */
-    align-items: start;
-  }
-}
-
-/* FCI card */
-.fci-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-2);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-1);
-}
-.fci-card__title {
-  font-size: var(--fs-3);
-  margin: 0 0 var(--space-3);
-  color: var(--brand-900);
-}
-.fci-chip {
-  display: inline-block;
-  background: var(--brand-600);
-  color: var(--brand-contrast);
-  padding: 0.35rem 0.65rem;
-  border-radius: 999px;
-  font-weight: var(--weight-semibold);
-}
-
-/* Foto */
-.breed__photo {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-2);
-  padding: var(--space-2);
-  box-shadow: var(--shadow-1);
-}
-.breed__photo img {
-  display: block;
-  inline-size: 100%;
-  aspect-ratio: 3/2;
-  object-fit: cover;
-  border-radius: var(--radius-2);
-}
-@media (min-width: 48rem) {
-  .breed__photo img {
-    max-block-size: 18rem;
-  }
-}
-@media (min-width: 64rem) {
-  .breed__photo img {
-    max-block-size: 20rem;
-  }
-}
-@media (min-width: 80rem) {
-  .breed__photo img {
-    max-block-size: 22rem;
-  }
-}
-
-/* KPIs */
-.kpis {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-2);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-1);
-  display: grid;
-  gap: var(--space-3);
-}
-.kpis--stack .kpi {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2);
-  inline-size: 100%;
-}
-.kpis--stack .kpi > .btn {
-  justify-self: center;
-}
-.kpis--stack {
-  margin-block-end: var(--space-7);
-}
-.kpis.kpis--stack {
-  display: grid !important;
-  gap: var(--space-3);
-}
-
+/* 3.4 KPIs — genérico primeiro */
 .kpi {
   display: flex;
   align-items: center;
@@ -312,7 +259,34 @@
   content: "❤️ ";
 }
 
-/* Símbolos macho/fêmea */
+/* 3.5 KPIs — wrapper e modificadores */
+.kpis {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-1);
+  display: grid;
+  gap: var(--space-3);
+}
+.kpis--stack {
+  margin-block-end: var(--space-7);
+}
+.kpis--stack .kpi {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  inline-size: 100%;
+}
+.kpis--stack .kpi > .btn {
+  align-self: center;
+}
+
+/* 3.6 Símbolos macho/fêmea */
 .sex {
   display: inline-grid;
   place-items: center;
@@ -336,7 +310,7 @@
     0 0 0 4px color-mix(in srgb, var(--accent-600), transparent 75%);
 }
 
-/* Características & Cuidados */
+/* 3.7 Características & Cuidados */
 .features {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -375,7 +349,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Popularidade */
+/* 3.8 Popularidade */
 .pop {
   background: var(--brand-100);
   border: 1px solid var(--brand-600);
@@ -404,7 +378,8 @@
   block-size: 100%;
   background: var(--brand-600);
 }
-/* DATAVIZ dos rankings: barra horizontal proporcional (0–100) */
+
+/* 3.9 DATAVIZ simples para rankings (0–100) */
 .rank-list {
   list-style: none;
   margin: 0;
@@ -414,7 +389,7 @@
 }
 .rank {
   display: grid;
-  grid-template-columns: 1fr auto; /* nome ... valor */
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 0.5rem;
 }
@@ -438,24 +413,102 @@
   background: var(--brand-600);
 }
 
-/* Metodologia */
+/* 3.10 Metodologia / notas */
 .meta-note {
   color: var(--muted);
   font-size: 0.95rem;
 }
 
-/* Ações finais */
-.cta-grid {
+/* ===== 4) Páginas ===== */
+/* Lista de raças */
+.page-breeds .filters {
+  margin-block-start: calc(var(--space-5) * -1);
+}
+.page-breeds .filters {
+  margin-block-end: var(--space-5);
+}
+.page-breeds .breed-grid {
+  margin-block: var(--space-4);
+}
+
+/* Detalhe da raça */
+.breed-hero {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-1);
   display: grid;
   gap: var(--space-3);
 }
+.breed-hero__aka {
+  color: var(--muted);
+}
+.breed-hero__aka .aka__label {
+  font-weight: var(--weight-semibold);
+}
+.breed {
+  display: grid;
+  gap: var(--space-5);
+}
 @media (min-width: 48rem) {
-  .cta-grid {
-    grid-template-columns: 1fr;
+  .breed {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+.fci-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-1);
+}
+.fci-card__title {
+  font-size: var(--fs-3);
+  margin: 0 0 var(--space-3);
+  color: var(--brand-900);
+}
+.fci-chip {
+  display: inline-block;
+  background: var(--brand-600);
+  color: var(--brand-contrast);
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-weight: var(--weight-semibold);
+}
+.breed__photo {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2);
+  padding: var(--space-2);
+  box-shadow: var(--shadow-1);
+}
+.breed__photo img {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 3/2;
+  object-fit: cover;
+  border-radius: var(--radius-2);
+}
+@media (min-width: 48rem) {
+  .breed__photo img {
+    max-block-size: 18rem;
+  }
+}
+@media (min-width: 64rem) {
+  .breed__photo img {
+    max-block-size: 20rem;
+  }
+}
+@media (min-width: 80rem) {
+  .breed__photo img {
+    max-block-size: 22rem;
   }
 }
 
-/* Layout específico do detalhe */
+/* Layout específico do detalhe (wraps) */
 .breed__layout {
   display: grid;
   gap: var(--space-5);
@@ -467,19 +520,19 @@
   }
   .breed__hero-wrap {
     grid-column: 1 / -1;
-  } /* hero ocupa toda a largura */
+  }
   .fci-wrap {
     grid-column: 2;
-  } /* topo direita */
+  }
   .photo-wrap {
     grid-column: 1;
-  } /* esquerda */
+  }
   .kpis-wrap {
     grid-column: 2;
-  } /* direita */
+  }
   .features-wrap {
     grid-column: 1 / -1;
-  } /* full */
+  }
   .pop-wrap {
     grid-column: 1;
   }
@@ -488,84 +541,7 @@
   }
 }
 
-/* Header / Nav / Footer */
-.header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.header__inner {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding-block: var(--space-3);
-  justify-content: flex-start;
-}
-.header__inner .nav {
-  min-inline-size: 0;
-  margin-left: var(--space-3);
-}
-
-.logo {
-  font-weight: var(--weight-bold);
-  text-decoration: none;
-  color: var(--text);
-  white-space: nowrap;
-}
-
-.nav__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  gap: var(--space-2);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  flex-wrap: nowrap;
-  padding-inline: var(--space-2);
-  justify-content: flex-start;
-}
-.nav__list > li:last-child {
-  padding-inline-end: var(--space-2);
-}
-
-.nav__link {
-  display: inline-block;
-  padding: 0.5rem 0.7rem;
-  border-radius: var(--radius-2);
-  text-decoration: none;
-  color: var(--text);
-  white-space: nowrap;
-}
-.nav__link:focus-visible {
-  outline: 2px solid transparent;
-  box-shadow: var(--shadow-focus);
-}
-.nav__link:hover {
-  background: var(--surface-2);
-}
-
-.site-footer {
-  margin-block: var(--space-7) var(--space-5);
-  color: var(--muted);
-  font-size: 0.95rem;
-  text-align: center;
-}
-.footer__nav {
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: clamp(0.25rem, 1vw, 0.5rem);
-}
-
-.footer__nav .footer__link {
-  white-space: nowrap;
-}
-
-/* BOTÕES */
+/* ===== 5) Utilitários (Botões) ===== */
 .btn,
 .btn:visited,
 .btn:hover {
