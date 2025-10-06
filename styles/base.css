@@ -109,19 +109,6 @@ hr {
   inline-size: min(100% - var(--space-6), 72rem);
   margin-inline: auto;
 }
-/* Tablet ≥ 768px (48rem): aperta um pouco a largura útil */
-@media (min-width: 48rem) {
-  .container {
-    inline-size: min(100% - var(--space-8), 60rem);
-  }
-}
-
-/* Desktop largo ≥ 1440px (90rem): não “estica” demais */
-@media (min-width: 90rem) {
-  .container {
-    inline-size: min(100% - var(--space-10), 68rem);
-  }
-}
 
 .visually-hidden {
   position: absolute !important;
