@@ -117,21 +117,21 @@ hr {
 /* ≥ 768px (tablet) */
 @media (min-width: 48rem) {
   .container--narrow {
-    max-inline-size: 46rem;
+    max-inline-size: 44rem;
   }
 }
 
 /* ≥ 1024px (notebook) */
 @media (min-width: 64rem) {
   .container--narrow {
-    max-inline-size: 52rem;
+    max-inline-size: 50rem;
   }
 }
 
 /* ≥ 1440px (desktop) */
 @media (min-width: 90rem) {
   .container--narrow {
-    max-inline-size: 56rem;
+    max-inline-size: 54rem;
   }
 }
 
