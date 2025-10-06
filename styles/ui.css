@@ -73,10 +73,11 @@
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: clamp(0.25rem, 1vw, 0.5rem);
+  gap: clamp(0.6rem, 1.8vw, 1.2rem);
 }
 .footer__nav .footer__link {
   white-space: nowrap;
+  padding-inline: 0.125rem;
 }
 
 /* ===== 2) Bandas & Seções genéricas ===== */
