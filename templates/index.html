@@ -2,46 +2,70 @@
 <html lang="pt-BR">
   <head>
     ${HEAD_BASE}
-    <title>Guia Raças — Compare e conheça raças de cães</title>
+    <title>Guia Raças — Busque e conheça raças de cães</title>
     <meta
       name="description"
-      content="Descubra raças de cães, compare características e entenda cuidados essenciais. Acesse informações claras e confiáveis."
+      content="Descubra raças de cães, busque características e entenda cuidados essenciais. Acesse informações claras e confiáveis."
     />
     <link rel="canonical" href="${baseUrl}/" />
   </head>
   <body class="page-home">
     ${SITE_HEADER}
 
-    <header class="page-band" role="presentation">
-      <div class="container page-band__inner">
-        <h1 class="page-band__title">Guia Raças</h1>
-        <p class="page-band__meta">
-          Compare, filtre e aprenda sobre as raças de cães — com foco em clareza, acessibilidade e
-          responsabilidade.
-        </p>
-      </div>
-    </header>
-
     <main id="conteudo" tabindex="-1" class="container">
-      <section class="grid" aria-labelledby="home-cta">
-        <h2 id="home-cta" class="visually-hidden">Ações principais</h2>
-        <div class="card bg-surface round shadow-1" style="padding: var(--space-5)">
-          <h3 style="margin-top: 0">Explorar raças</h3>
-          <p>Busque por nome, porte e grupo FCI. Veja detalhes e adicione à comparação.</p>
-          <p><a class="btn" href="${baseUrl}/racas/">Ver lista de raças</a></p>
+      <!-- HERO -->
+      <header class="page-band" role="home-title">
+        <div class="page-band__inner container">
+          <h1 id="home-title" class="page-band__title">Guia Raças</h1>
+          <p class="page-band__meta">
+            Busque, filtre e aprenda sobre as raças de cães — com foco em clareza, acessibilidade e
+            responsabilidade.
+          </p>
         </div>
-        <div class="card bg-surface round shadow-1" style="padding: var(--space-5)">
-          <h3 style="margin-top: 0">Comparar lado a lado</h3>
-          <p>Selecione até 3 raças e compare características importantes.</p>
-          <p><a class="btn btn--accent" href="${baseUrl}/comparar/">Ir ao comparador</a></p>
-        </div>
+      </header>
+
+      <!-- ACTIONS (reusando componentes KPI) -->
+      <section class="container" aria-labelledby="acoes-title">
+        <h2 id="acoes-title" class="visually-hidden">Ações principais</h2>
+
+        <ul class="kpis">
+          <li class="kpi">
+            <div class="kpi__label">
+              <h3>Explorar raças</h3>
+              <p>Busque por nome, porte e grupo FCI.</p>
+            </div>
+            <a class="btn" href="${baseUrl}/racas/">Ver lista de raças</a>
+          </li>
+
+          <li class="kpi">
+            <div class="kpi__label">
+              <h3>Guia responsável</h3>
+              <p>Informações essenciais antes de decidir por um cão.</p>
+            </div>
+            <a class="btn" href="${baseUrl}/guia-responsavel/">Ler o guia</a>
+          </li>
+        </ul>
       </section>
 
-      <section class="stack" aria-labelledby="home-sobre" style="margin-block: var(--space-6)">
-        <h2 id="home-sobre">Como organizamos os dados</h2>
+      <!-- RANKINGS -->
+      <section class="container" aria-labelledby="rankings-title">
+        <h2 id="rankings-title">Raças populares</h2>
+
+        <h3>Top 5 no Brasil</h3>
+        <ol>
+          ${BR_TOP5_ITEMS}
+        </ol>
+
+        <h3>Top 5 no mundo</h3>
+        <ol>
+          ${GLOBAL_TOP5_ITEMS}
+        </ol>
+
         <p>
-          Seguimos diretrizes de acessibilidade, foco em qualidade e fontes verificáveis. Veja
-          <a href="${baseUrl}/sobre/#metodologia">Metodologia</a>.
+          <small
+            >Fonte: Google Trends (0–100 normalizado). Os valores são indicativos e podem
+            variar.</small
+          >
         </p>
       </section>
     </main>

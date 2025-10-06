@@ -19,6 +19,7 @@
 
     <title>Comparar Raças — Guia Raças</title>
     <meta name="description" content="Compare até 3 raças de cães lado a lado." />
+    <link rel="canonical" href="https://www.guiaracas.com.br/comparar/" />
   </head>
   <body class="page-compare" data-baseurl="https://www.guiaracas.com.br">
     <a class="visually-hidden" href="#conteudo">Pular para o conteúdo</a>
@@ -27,30 +28,34 @@
     <a href="https://www.guiaracas.com.br/" class="logo" aria-label="Guia Raças — Página inicial">Guia Raças</a>
     <nav class="nav" aria-label="Principal">
       <ul class="nav__list">
-        <li><a class="nav__link" href="https://www.guiaracas.com.br/racas/">Raças</a></li> <li><a class="nav__link" href="https://www.guiaracas.com.br/comparar/">Comparar</a></li> <li><a class="nav__link" href="https://www.guiaracas.com.br/sobre/">Sobre</a></li> <li><a class="nav__link" href="https://www.guiaracas.com.br/guia-responsavel/">Guia Responsável</a></li>
+        <li><a class="nav__link" href="https://www.guiaracas.com.br/racas/">Raças</a></li> <li><a class="nav__link" href="https://www.guiaracas.com.br/sobre/">Sobre</a></li> <li><a class="nav__link" href="https://www.guiaracas.com.br/guia-responsavel/">Guia Responsável</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
 
+    <header class="page-band" role="presentation">
+      <div class="container page-band__inner">
+        <h1 class="page-band__title">Comparar Raças</h1>
+        <p class="page-band__meta">
+          Adicione raças pela página <a href="https://www.guiaracas.com.br/racas/">Raças</a> (botão “+ Comparar”).
+        </p>
+      </div>
+    </header>
+
     <main id="conteudo" tabindex="-1" class="compare-main container" role="main">
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <nav class="breadcrumbs" aria-label="Você está em">
         <ol class="breadcrumbs__list">
           <li><a href="https://www.guiaracas.com.br/">Início</a></li>
-          <li>Comparar</li>
+          <li aria-current="page">Comparar</li>
         </ol>
       </nav>
-      <header class="page-header">
-        <h1 class="page-title">Comparar Raças</h1>
-        <p class="page-lead">
-          Adicione raças a partir da página <a href="https://www.guiaracas.com.br/racas/">Raças</a> (botão “+
-          Comparar”).
-        </p>
 
-        <div class="selected-chips" aria-live="polite"></div>
-      </header>
+      <!-- Chips das raças selecionadas (preenchido via JS) -->
+      <div class="selected-chips" aria-live="polite"></div>
 
+      <!-- Cabeçalho da comparação (preenchido via JS) -->
       <div class="cmp-headgrid" role="region" aria-live="polite"></div>
 
       <datalist id="breeds-datalist"></datalist>
