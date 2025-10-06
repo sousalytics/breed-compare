@@ -25,7 +25,8 @@
 }
 .header__inner .nav {
   min-inline-size: 0;
-  margin-left: var(--space-3);
+  margin-left: auto;
+  padding-inline-end: var(--space-3);
 }
 .logo {
   font-weight: var(--weight-bold);
