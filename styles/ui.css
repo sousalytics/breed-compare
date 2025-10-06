@@ -272,7 +272,7 @@
   align-items: start;
 }
 .kpis--stack .kpi > .btn {
-  justify-self: start;
+  justify-self: center;
   white-space: nowrap;
 }
 .kpis--stack {

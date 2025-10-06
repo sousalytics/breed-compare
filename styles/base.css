@@ -49,12 +49,11 @@ img {
   height: auto;
 }
 
-a {
-  color: var(--brand-700);
-  text-decoration-color: none;
-}
+a,
+a:visited,
 a:hover {
-  text-decoration-color: none;
+  color: var(--brand-700);
+  text-decoration: none;
 }
 a:focus-visible {
   outline: 2px solid transparent;
