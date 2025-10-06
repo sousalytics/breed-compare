@@ -1,22 +1,16 @@
-/* ===================================================
-   UI — Componentes & Páginas
-   1) Header/Nav/Footer
-   2) Bandas e seções genéricas
-   3) Componentes (genéricos → modificadores)
-   4) Dataviz
-   5) Páginas
-   6) Utilitários (botões, notas)
-   =================================================== */
+/* ===========================
+   FILE: styles/ui.css
+   =========================== */
 
 /* ===== 1) Header / Nav / Footer ===== */
 .header {
-  background: linear-gradient(90deg, var(--brand-800), var(--brand-600));
+  background: var(--brand-gradient);
   border-bottom: 0;
   color: var(--brand-contrast);
   position: sticky;
   top: 0;
   z-index: 40;
-  padding-block: var(--space-4);
+  /* sem padding aqui: padding fica no .header__inner para altura consistente */
 }
 .header__inner {
   display: flex;
@@ -27,7 +21,7 @@
 }
 .header__inner .nav {
   min-inline-size: 0;
-  margin-left: auto;
+  margin-left: var(--space-3);
   padding-inline-end: var(--space-3);
 }
 .logo {
@@ -61,13 +55,17 @@
   color: var(--brand-contrast);
   white-space: nowrap;
 }
+.nav__link:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
 .nav__link:focus-visible {
   outline: 2px solid transparent;
   box-shadow: var(--shadow-focus);
 }
-.nav__link:hover {
-  background: rgba(255, 255, 255, 0.08);
+.nav__link[aria-current="page"] {
+  box-shadow: inset 0 -2px 0 var(--brand-contrast);
 }
+
 .site-footer {
   margin-block: var(--space-7) var(--space-5);
   color: var(--muted);
@@ -85,9 +83,9 @@
   padding-inline: 0.125rem;
 }
 
-/* ===== 2) Bandas & Seções genéricas ===== */
+/* ===== 2) Bandas & Seções ===== */
 .page-band {
-  background: linear-gradient(90deg, var(--brand-800), var(--brand-600));
+  background: var(--brand-gradient);
   color: var(--brand-contrast);
   padding-block: var(--space-5);
   margin-block-end: var(--space-5);
@@ -105,7 +103,6 @@
   opacity: 0.9;
 }
 
-/* Bandas horizontais decorativas */
 .section-bands {
   background: linear-gradient(
     to bottom,
@@ -119,7 +116,6 @@
 }
 
 /* ===== 3) Componentes ===== */
-
 /* 3.1 Filtros */
 .filters {
   background: var(--surface);
@@ -174,7 +170,7 @@
   background-repeat: no-repeat;
 }
 
-/* 3.2 GRID da lista de raças */
+/* 3.2 Grid de raças */
 .breed-grid {
   display: grid;
   gap: var(--space-4);
@@ -236,7 +232,7 @@
   padding: var(--space-4);
 }
 
-/* 3.4 KPIs — genérico primeiro */
+/* 3.4 KPIs (genérico) */
 .kpi {
   display: flex;
   align-items: center;
@@ -265,7 +261,7 @@
   content: "❤️ ";
 }
 
-/* 3.5 KPIs — wrapper e modificadores */
+/* 3.5 KPIs (wrapper + modificadores) */
 .kpis {
   list-style: none;
   padding: 0;
@@ -292,7 +288,7 @@
   align-self: center;
 }
 
-/* 3.6 Símbolos macho/fêmea */
+/* 3.6 Símbolos M/F */
 .sex {
   display: inline-grid;
   place-items: center;
@@ -316,7 +312,7 @@
     0 0 0 4px color-mix(in srgb, var(--accent-600), transparent 75%);
 }
 
-/* 3.7 Características & Cuidados */
+/* 3.7 Features */
 .features {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -385,7 +381,7 @@
   background: var(--brand-600);
 }
 
-/* 3.9 DATAVIZ simples para rankings (0–100) */
+/* 3.9 Rankings (0–100) */
 .rank-list {
   list-style: none;
   margin: 0;
@@ -407,7 +403,7 @@
   color: var(--muted);
 }
 .rank__bar {
-  grid-column: 1 / -1;
+  grid-column: 1/-1;
   block-size: 0.5rem;
   background: var(--surface-2);
   border-radius: 999px;
@@ -422,14 +418,14 @@
   background: var(--brand-600);
 }
 
-/* 3.10 Metodologia / notas */
+/* 3.10 Notas */
 .meta-note {
   color: var(--muted);
   font-size: 0.95rem;
 }
 
 /* ===== 4) Páginas ===== */
-/* Home */
+/* Home: Dock (hero funcional) */
 .hero-dock {
   position: sticky;
   top: calc(var(--header-h) - var(--hero-overlap));
@@ -456,26 +452,19 @@
   }
 }
 
-.quick-search {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: var(--space-2);
-  align-items: center;
+/* Chips & busca: altura uniforme */
+.chip,
+.hero-dock .quick-search .input,
+.hero-dock .quick-search .btn {
+  min-block-size: var(--control-h);
 }
-.quick-search .input {
-  border-color: var(--border);
-  background: var(--surface);
-}
-
 .quick-links {
   display: grid;
-  flex-wrap: wrap;
   grid-template-columns: 1fr;
   gap: var(--space-2) var(--space-3);
   margin-block: var(--space-3);
 }
 @media (min-width: 25rem) {
-  /* ~400px */
   .quick-links {
     grid-template-columns: 1fr 1fr;
   }
@@ -483,7 +472,6 @@
 .chip {
   display: inline-grid;
   place-items: center;
-  min-block-size: 42px;
   padding: 0.45rem 0.8rem;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -583,7 +571,7 @@
   }
 }
 
-/* Layout específico do detalhe (wraps) */
+/* Layout do detalhe (wraps) */
 .breed__layout {
   display: grid;
   gap: var(--space-5);
@@ -616,9 +604,88 @@
   }
 }
 
-/* ===== 5) Utilitários (Botões) ===== */
+/* ===== 5) Utilitários/ajustes finais ===== */
 .btn,
 .btn:visited,
 .btn:hover {
   color: var(--brand-contrast);
+}
+
+/* Stubs (faltantes do auditor) */
+.aka__names {
+  color: var(--muted);
+}
+.breadcrumbs {
+  margin-block: var(--space-3);
+  font-size: 0.95rem;
+}
+.breadcrumbs__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+}
+.breadcrumbs__list li + li::before {
+  content: "/";
+  color: var(--muted);
+  margin-inline: 0.25rem;
+}
+.breed-list {
+  display: grid;
+  gap: var(--space-4);
+}
+.btn--sm {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.9rem;
+  min-block-size: 36px;
+}
+.cta-grid {
+  display: grid;
+  gap: var(--space-3);
+}
+@media (min-width: 48rem) {
+  .cta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.indicator__togglebtn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2);
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+.page-home main,
+.page-breed main,
+.page-breeds main,
+.page-about main,
+.page-guide main,
+.page-privacy main,
+.page-a11y main,
+.page-sitemap main,
+.page-404 main {
+}
+.photo__cap {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+.pop-chart {
+  display: block;
+}
+.scale {
+  font-variant-numeric: tabular-nums;
+}
+.selected-chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }

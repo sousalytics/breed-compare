@@ -19,7 +19,7 @@ JS_GLOBS = ["scripts/**/*.js"]
 # ---- Config (ajuste aqui se mudar convenções) ----
 SAFELIST = {
   # utilitários/core
-  "visually-hidden","sr-only-focusable","skip-link","js",
+  "visually-hidden","sr-only-focusable","skip-link","js", "bg-surface", "shadow-1", "shadow-2",
   # header/nav
   "header","header__inner","logo","nav","nav__list","footer","footer__inner",
   # comparador (injetadas por JS)
@@ -75,21 +75,38 @@ def extract_used_from_html(text: str) -> set[str]:
                 used.add(_norm(cls))
     return used
 
+# ---- dentro de extract_used_from_js(text) ----
 def extract_used_from_js(text: str) -> set[str]:
-    """Extrai classes usadas em JS (classList.add, className, class='...', templates com crase)."""
+    """Extrai classes usadas em JS (classList, className, setAttribute, seletores CSS)."""
     used = set()
 
-    # 1) classList.add('a','b', "c")
-    for args in re.findall(r'classList\.add\((.*?)\)', text, flags=re.S):
-        for token in re.findall(r'["\']([a-zA-Z0-9_-]+)["\']', args):
+    # 1) classList.add/remove/toggle('a','b',"c")
+    for call in re.findall(r'classList\.(?:add|remove|toggle)\((.*?)\)', text, flags=re.S):
+        for token in re.findall(r'["\']([a-zA-Z0-9_-]+)["\']', call):
             used.add(_norm(token))
 
-    # 2) Template strings: class=`a b` (com crase)
+    # 2) Atribuição direta: el.className = "a b"
+    for value in re.findall(r'\.className\s*=\s*(["\'])(.*?)\1', text, flags=re.S):
+        for token in re.findall(r'[a-zA-Z0-9_-]+', value[1]):
+            used.add(_norm(token))
+
+    # 3) setAttribute('class', 'a b')
+    for value in re.findall(r'setAttribute\(\s*["\']class["\']\s*,\s*(["\'])(.*?)\1\)', text, flags=re.S):
+        for token in re.findall(r'[a-zA-Z0-9_-]+', value[1]):
+            used.add(_norm(token))
+
+    # 4) Template strings: class=`a b` (com crase)
     for content in re.findall(r'class\s*=\s*`([^`]+)`', text, flags=re.S):
         for token in re.findall(r'[a-zA-Z0-9_-]+', content):
             used.add(_norm(token))
 
+    # 5) Seletores em querySelector/All, matches e closest: extrai .minhas-classe(s)
+    for sel in re.findall(r'(?:querySelector(?:All)?|matches|closest)\(\s*([\'"`])([^\'"`]+)\1\s*\)', text):
+        for token in re.findall(r'\.([a-zA-Z0-9_-]+)', sel[1]):
+            used.add(_norm(token))
+
     return used
+
 
 def is_safelisted(cls: str) -> bool:
     return cls in SAFELIST or any(cls.startswith(pref) for pref in SAFE_PREFIXES)

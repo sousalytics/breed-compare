@@ -3,7 +3,6 @@
 # Acessibilidade/Privacidade/Sitemap/404)
 
 from string import Template
-from pathlib import Path
 import json
 
 from build_lib import (
@@ -56,9 +55,12 @@ def jsonld_breed(d, url):
     qa=_pm(alt_macho) or _pm(alt_fem)
     qp=_pm(peso_m)   or _pm(peso_f)
     qv=_pm(vida_txt)
-    if qa: props.append({"@type":"PropertyValue","name":"Altura","value":{**qa,"unitCode":"CMT"}})
-    if qp: props.append({"@type":"PropertyValue","name":"Peso","value":{**qp,"unitCode":"KGM"}})
-    if qv: props.append({"@type":"PropertyValue","name":"Expectativa de vida","value":{**qv,"unitCode":"ANN"}})
+    if qa:
+        props.append({"@type":"PropertyValue","name":"Altura","value":{**qa,"unitCode":"CMT"}})
+    if qp:
+        props.append({"@type":"PropertyValue","name":"Peso","value":{**qp,"unitCode":"KGM"}})
+    if qv:
+        props.append({"@type":"PropertyValue","name":"Expectativa de vida","value":{**qv,"unitCode":"ANN"}})
 
     desc = d.get("lead") or d.get("notas", {}).get("resumo", "")
     return json.dumps({
@@ -207,6 +209,20 @@ def fmt_mf(macho_txt, femea_txt, unidade):
     f = femea_txt or "—"
     return f"{m} <span class='sex sex--m' aria-hidden='true'>♂</span> / {f} <span class='sex sex--f' aria-hidden='true'>♀</span> {unidade}"
 
+def mark_current(header_html: str, base_url: str, current_path: str) -> str:
+    """
+    Marca aria-current=\"page\" no link do header cujo href corresponde ao caminho informado.
+    Ex.: current_path='/racas/' marca o item 'Raças'.
+    """
+    base = (base_url or "").rstrip("/")
+    # normaliza caminho (mantém '/' para home)
+    path = current_path if current_path == "/" else current_path.rstrip("/") + "/"
+    target = f'href="{base}{path}"'
+    return header_html.replace(target, f'{target} aria-current="page"')
+
+def header_for(current_path: str) -> str:
+    return mark_current(SITE_HEADER, BASE, current_path)
+
 # ===== Geração: páginas por raça =====
 out_breeds = ROOT / "racas"
 out_breeds.mkdir(exist_ok=True)
@@ -239,7 +255,7 @@ for r in racas:
 
     page_html = tpl_detail.safe_substitute(
         HEAD_BASE=HEAD_BASE, baseUrl=BASE, url=url, slug=slug,
-        SITE_HEADER=SITE_HEADER, SITE_FOOTER=SITE_FOOTER,
+        SITE_HEADER=header_for("/racas/"), SITE_FOOTER=SITE_FOOTER,
         nome=r["nome"], lead=lead,
         origem=r.get("origem","—"),
         fci_grupo=fci_grupo_txt, fci_descricao=fci_desc,
@@ -260,7 +276,7 @@ for r in racas:
 cards_html = "\n".join(render_card(r) for r in sorted(racas, key=lambda x: x["nome"]))
 html_list = tpl_list.safe_substitute(
     HEAD_BASE=HEAD_BASE, baseUrl=BASE,
-    SITE_HEADER=SITE_HEADER, SITE_FOOTER=SITE_FOOTER,
+    SITE_HEADER=header_for("/racas/"), SITE_FOOTER=SITE_FOOTER,
     LISTA_RACAS_ITEMS=cards_html,
     jsonld_breadcrumb_list=jsonld_breadcrumb_list(BASE)
 )
@@ -285,19 +301,19 @@ datalist = "<datalist id='racas-list'>" + "".join(
 ) + "</datalist>"
 
 (ROOT/"index.html").write_text(
-    tpl_home.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=SITE_HEADER, SITE_FOOTER=SITE_FOOTER, BR_TOP5_ITEMS=br_top5, GLOBAL_TOP5_ITEMS=gl_top5, DATALIST_BREEDS=datalist),
+    tpl_home.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=header_for("/"), SITE_FOOTER=SITE_FOOTER, BR_TOP5_ITEMS=br_top5, GLOBAL_TOP5_ITEMS=gl_top5, DATALIST_BREEDS=datalist),
     encoding="utf-8"
 )
 # Sobre
 (out_dir:=ROOT/"sobre").mkdir(exist_ok=True)
 (out_dir/"index.html").write_text(
-    tpl_sobre.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=SITE_HEADER, SITE_FOOTER=SITE_FOOTER),
+    tpl_sobre.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=header_for("/sobre/"), SITE_FOOTER=SITE_FOOTER),
     encoding="utf-8"
 )
 # Guia Responsável
 (out_dir:=ROOT/"guia-responsavel").mkdir(exist_ok=True)
 (out_dir/"index.html").write_text(
-    tpl_guia.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=SITE_HEADER, SITE_FOOTER=SITE_FOOTER),
+    tpl_guia.safe_substitute(HEAD_BASE=HEAD_BASE, baseUrl=BASE, SITE_HEADER=header_for("/guia-responsavel/"), SITE_FOOTER=SITE_FOOTER),
     encoding="utf-8"
 )
 # Acessibilidade

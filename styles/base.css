@@ -1,26 +1,20 @@
 /* ===========================
-   BASE — Reset + Tipografia
+   FILE: styles/base.css
    =========================== */
-
+/* Reset + base tipográfica */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
-
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   hanging-punctuation: first last;
 }
-
 html:focus-within {
   scroll-behavior: smooth;
 }
-:target {
-  scroll-margin-top: 6rem;
-}
-
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -30,6 +24,7 @@ body {
   background: var(--bg);
 }
 
+/* Mídias são responsivas por padrão */
 img,
 svg,
 video,
@@ -41,7 +36,6 @@ object {
   display: block;
   max-inline-size: 100%;
 }
-
 picture {
   display: block;
 }
@@ -49,6 +43,7 @@ img {
   height: auto;
 }
 
+/* Links (alto contraste) */
 a,
 a:visited {
   color: var(--link);
@@ -64,6 +59,7 @@ a:focus-visible {
   border-radius: 0.25rem;
 }
 
+/* Form controls base */
 button,
 input,
 select,
@@ -75,18 +71,13 @@ textarea {
   border-radius: 0.5rem;
   padding: 0.55rem 0.7rem;
 }
-
 button {
   cursor: pointer;
 }
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
+:where(button, input, select, textarea):focus-visible {
   outline: 2px solid transparent;
   box-shadow: var(--shadow-focus);
 }
-
 fieldset {
   border: 1px solid var(--border);
   border-radius: var(--radius-1);
@@ -95,57 +86,41 @@ legend {
   padding: 0 0.5rem;
 }
 
+/* Âncoras com header sticky */
+[id] {
+  scroll-margin-top: calc(var(--header-h, 72px) + 0.75rem);
+}
 :focus-visible {
   outline-offset: 2px;
 }
-
 hr {
   border: none;
   border-top: 1px solid var(--border);
   margin-block: var(--space-6);
 }
 
+/* Container */
 .container {
   inline-size: min(100% - var(--space-6), var(--container, 72rem));
   margin-inline: auto;
 }
-
 .container--narrow {
   max-inline-size: 42rem;
 }
-
-/* ≥ 768px (tablet) */
 @media (min-width: 48rem) {
   .container--narrow {
     max-inline-size: 44rem;
   }
 }
-
-/* ≥ 1024px (notebook) */
 @media (min-width: 64rem) {
   .container--narrow {
     max-inline-size: 50rem;
   }
 }
-
-/* ≥ 1440px (desktop) */
 @media (min-width: 90rem) {
   .container--narrow {
     max-inline-size: 54rem;
   }
-}
-
-.visually-hidden {
-  position: absolute !important;
-  inline-size: 1px;
-  block-size: 1px;
-  padding: 0;
-  border: 0;
-  clip: rect(0 0 0 0);
-  margin: -1px;
-  overflow: hidden;
-  white-space: nowrap;
-  clip-path: inset(50%);
 }
 
 /* Headings */
@@ -165,20 +140,13 @@ h3 {
   font-size: var(--fs-3);
 }
 
-/* Utilitários */
-.grid {
-  display: grid;
-  gap: var(--space-4);
-}
+/* Utilitários mínimos */
 .stack > * + * {
   margin-block-start: var(--space-4);
 }
 .center {
   display: grid;
   place-items: center;
-}
-.round {
-  border-radius: var(--radius-2);
 }
 .shadow-1 {
   box-shadow: var(--shadow-1);
@@ -215,7 +183,6 @@ h3 {
   outline: 2px solid transparent;
   box-shadow: var(--shadow-focus);
 }
-
 .btn--accent {
   --_bg: var(--accent);
   --_fg: var(--accent-contrast);
@@ -231,7 +198,7 @@ h3 {
   inline-size: 100%;
 }
 
-/* Transições globais respeitando redução de movimento */
+/* Transições globais (respeita reduce-motion) */
 * {
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }

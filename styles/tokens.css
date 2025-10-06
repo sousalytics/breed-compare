@@ -1,21 +1,22 @@
 /* ===========================
-   TOKENS
+   FILE: styles/tokens.css
    =========================== */
 :root {
-  /* Cores de marca (teal-forward) */
+  /* Cores de marca */
   --brand-900: #0f3e3b;
   --brand-800: #0f766e;
   --brand-700: #127a72;
   --brand-600: #0ea5a3;
   --brand-500: #14b8a6;
   --brand-400: #2dd4bf;
-  --brand-100: #e6fbf7; /* tint leve */
-  --brand-050: #f4fbfa; /* bg geral */
+  --brand-100: #e6fbf7;
+  --brand-050: #f4fbfa;
 
   --brand: var(--brand-700);
   --brand-contrast: #ffffff;
+  --brand-gradient: linear-gradient(90deg, var(--brand-800), var(--brand-600));
 
-  /* Acento quente (âmbar) */
+  /* Acento */
   --accent-700: #9a4a0a;
   --accent-600: #b45309;
   --accent-500: #d97706;
@@ -26,7 +27,7 @@
   /* Neutros */
   --bg: var(--brand-050);
   --surface: #ffffff;
-  --surface-2: #f7faf9; /* alternativa neutra */
+  --surface-2: #f7faf9;
   --text: #0b1320;
   --muted: #5b677a;
   --border: #dfe3eb;
@@ -39,7 +40,7 @@
   --link: var(--text);
   --link-hover: var(--brand-900);
 
-  /* Espaçamentos (8px scale) */
+  /* Espaçamentos (8px) */
   --space-0: 0;
   --space-1: 0.25rem; /* 4px */
   --space-2: 0.5rem; /* 8px */
@@ -77,6 +78,7 @@
   /* Header & Dock */
   --header-h: 72px;
   --hero-overlap: 1rem;
+  --control-h: 44px;
 
   /* Container e breakpoints (mobile-first) */
   --container: 72rem; /* ~1152px */
