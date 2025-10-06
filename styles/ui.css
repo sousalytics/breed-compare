@@ -265,15 +265,21 @@
   box-shadow: var(--shadow-1);
   display: grid;
   gap: var(--space-3);
+  margin-block-end: var(--space-6);
 }
 .kpi {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
 }
+.kpi > .btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
 .kpi__label {
   font-weight: var(--weight-semibold);
+  flex: 1 1 auto;
 }
 .kpi__value {
   font-weight: var(--weight-bold);
@@ -381,6 +387,39 @@
   block-size: 100%;
   background: var(--brand-600);
 }
+/* === DATAVIZ dos rankings: barra horizontal proporcional (0–100) === */
+.rank-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.rank {
+  display: grid;
+  grid-template-columns: 1fr auto; /* nome ... valor */
+  align-items: center;
+  gap: 0.5rem;
+}
+.rank__value {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.rank__bar {
+  grid-column: 1 / -1;
+  block-size: 0.5rem;
+  background: var(--surface-2);
+  border-radius: 999px;
+  position: relative;
+  overflow: hidden;
+}
+.rank__bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  inline-size: calc(var(--v) * 1%);
+  background: var(--brand-600);
+}
 
 /* Metodologia */
 .meta-note {
@@ -460,18 +499,18 @@
   font-weight: var(--weight-bold);
   text-decoration: none;
   color: var(--text);
+  white-space: nowrap;
 }
 
-/* reset seguro p/ a UL da navegação */
 .nav__list {
   list-style: none;
   margin: 0;
   padding: 0;
-
   display: flex;
   gap: var(--space-2);
   overflow-x: auto; /* rola se apertado */
   -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap;
 }
 
 .nav__link {
@@ -480,6 +519,7 @@
   border-radius: var(--radius-2);
   text-decoration: none;
   color: var(--text);
+  white-space: nowrap;
 }
 .nav__link:focus-visible {
   outline: 2px solid transparent;

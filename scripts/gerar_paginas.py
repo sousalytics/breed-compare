@@ -172,12 +172,17 @@ def _top5_by(key):
     return usable[:5]
 
 def _rank_items_html(items):
-    # items: lista de (raca_dict, valor)
     out = []
     for r, v in items:
         slug = r.get("slug") or slugify(r["nome"])
-        out.append(f"<li><a href='{BASE}/racas/{slug}.html'>{attr(r['nome'])}</a> — {v}</li>")
-    return "\n".join(out)
+        out.append(
+            f"<li class='rank'>"
+            f"  <a href='{BASE}/racas/{slug}.html'>{attr(r['nome'])}</a>"
+            f"  <span class='rank__value'>{int(v)}</span>"
+            f"  <span class='rank__bar' aria-hidden='true' style='--v:{int(v)}'></span>"
+            f"</li>"
+        )
+    return '\n'.join(out)
 
 br_top5 = _rank_items_html(_top5_by("br"))
 gl_top5 = _rank_items_html(_top5_by("global"))
