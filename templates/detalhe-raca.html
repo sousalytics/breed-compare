@@ -12,179 +12,113 @@
       ${jsonld_breed}
     </script>
   </head>
-  <body>
-    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <body class="page-breed">
     ${SITE_HEADER}
 
-    <main
-      id="conteudo"
-      tabindex="-1"
-      class="breed container"
-      role="main"
-      data-porte="${porte_slug}"
-    >
-      <nav class="breadcrumbs" aria-label="Você está em">
-        <ol class="breadcrumbs__list">
-          <li><a href="${baseUrl}/">Início</a></li>
-          <li><a href="${baseUrl}/racas/">Raças</a></li>
-          <li aria-current="page">${nome}</li>
-        </ol>
-      </nav>
-      <header class="breed__hero">
-        <aside class="breed__summary" aria-labelledby="breed-name">
-          <div class="breed__heading">
-            <h1 id="breed-name" class="breed__name">${nome}</h1>
-            <p class="breed__lead">${lead}</p>
-          </div>
-          ${AKA_BLOCK}
-        </aside>
+    <header class="page-band" role="presentation">
+      <div class="container page-band__inner">
+        <h1 class="page-band__title">${nome}</h1>
+        <p class="page-band__meta">${lead}</p>
+      </div>
+    </header>
 
-        <aside class="card fci-card" aria-labelledby="fci-title">
-          <h2 id="fci-title" class="visually-hidden">Grupo FCI</h2>
-          <p class="fci-card__group"><span class="badge">${fci_grupo}</span> ${fci_descricao}</p>
-          <p class="fci-card__porte"><strong>Porte:</strong> ${porte_label}</p>
-          <p class="fci-card__origem"><strong>Origem:</strong> ${origem}</p>
-          <p class="fci-card__codigo"><strong>Código FCI:</strong> ${fci_codigo}</p>
-        </aside>
-      </header>
-
-      ${FOTO_BLOCK}
-
-      <section class="breed__kpis" aria-labelledby="kpis-title">
-        <h2 id="kpis-title" class="visually-hidden">Medidas principais</h2>
-        <ul class="kpis__grid">
-          <li class="kpi kpi--altura">
-            <span class="kpi__label">Altura</span
-            ><span class="kpi__value">${altura_texto_html}</span>
-          </li>
-          <li class="kpi kpi--peso">
-            <span class="kpi__label">Peso</span><span class="kpi__value">${peso_texto_html}</span>
-          </li>
-          <li class="kpi kpi--vida">
-            <span class="kpi__label">Expectativa de vida</span
-            ><span class="kpi__value">${vida_texto}</span>
-          </li>
-        </ul>
-      </section>
-
-      <section class="breed__indicators" aria-labelledby="indicators-title">
-        <h2 id="indicators-title">Características &amp; Cuidados</h2>
-        <ul class="indicators__list">
-          <!-- Energia Física & Mental -->
-          <li class="indicators__item">
-            <div class="indicator__row">
-              <span class="indicator__label">Energia Física &amp; Mental</span>
-              <span class="indicator__badge" aria-hidden="true">${atividade}/5</span>
-
-              <button
-                class="indicator__togglebtn"
-                type="button"
-                aria-label="Ver detalhes de Energia Física e Mental"
-                aria-expanded="false"
-                data-target="det-energia-${slug}"
-              >
-                <span class="icon-plus" aria-hidden="true">+</span>
-                <span class="icon-minus" aria-hidden="true">–</span>
-              </button>
-            </div>
-
-            <div
-              class="scale"
-              role="img"
-              aria-label="Energia Física &amp; Mental: ${atividade} de 5"
-              data-value="${atividade}"
-            ></div>
-
-            <details id="det-energia-${slug}" class="indicator__details">
-              <summary class="visually-hidden">Detalhes de Energia Física &amp; Mental</summary>
-              <div class="indicator__text">
-                <p>${detalhe_atividade_html}</p>
-              </div>
-            </details>
-          </li>
-
-          <!-- Cuidados & Pelagem -->
-          <li class="indicators__item">
-            <div class="indicator__row">
-              <span class="indicator__label">Cuidados &amp; Pelagem</span>
-              <span class="indicator__badge" aria-hidden="true">${grooming}/5</span>
-
-              <button
-                class="indicator__togglebtn"
-                type="button"
-                aria-label="Ver detalhes de Cuidados e Pelagem"
-                aria-expanded="false"
-                data-target="det-pelagem-${slug}"
-              >
-                <span class="icon-plus" aria-hidden="true">+</span>
-                <span class="icon-minus" aria-hidden="true">–</span>
-              </button>
-            </div>
-
-            <div
-              class="scale"
-              role="img"
-              aria-label="Cuidados &amp; Pelagem: ${grooming} de 5"
-              data-value="${grooming}"
-            ></div>
-
-            <details id="det-pelagem-${slug}" class="indicator__details">
-              <summary class="visually-hidden">Detalhes de Cuidados &amp; Pelagem</summary>
-              <div class="indicator__text"><p>${detalhe_grooming_html}</p></div>
-            </details>
-          </li>
-
-          <!-- Ambiente & Espaço -->
-          <li class="indicators__item">
-            <div class="indicator__row">
-              <span class="indicator__label">Ambiente &amp; Espaço</span>
-              <span class="indicator__badge" aria-hidden="true">${clima}/5</span>
-
-              <button
-                class="indicator__togglebtn"
-                type="button"
-                aria-label="Ver detalhes de Ambiente e Espaço"
-                aria-expanded="false"
-                data-target="det-clima-${slug}"
-              >
-                <span class="icon-plus" aria-hidden="true">+</span>
-                <span class="icon-minus" aria-hidden="true">–</span>
-              </button>
-            </div>
-
-            <div
-              class="scale"
-              role="img"
-              aria-label="Ambiente &amp; Espaço: ${clima} de 5"
-              data-value="${clima}"
-            ></div>
-
-            <details id="det-clima-${slug}" class="indicator__details">
-              <summary class="visually-hidden">Detalhes de Ambiente &amp; Espaço</summary>
-              <div class="indicator__text"><p>${detalhe_clima_html}</p></div>
-            </details>
-          </li>
-        </ul>
-      </section>
-
-      <section class="breed__pop" aria-labelledby="pop-title">
-        <h2 id="pop-title">Popularidade</h2>
-        <div id="pop-chart" class="pop-chart" data-slug="${slug}">
-          ${POPULARIDADE_BLOCK}
-          <noscript>Popularidade por ano (gráfico requer JavaScript).</noscript>
+    <main id="conteudo" tabindex="-1" class="container">
+      <section class="breed__layout">
+        <!-- Hero branco flutuante -->
+        <div class="breed__hero-wrap">
+          <section class="breed-hero" aria-labelledby="hero-title">
+            <h2 id="hero-title" class="visually-hidden">Resumo</h2>
+            <p class="breed-hero__aka">
+              <span class="aka__label">Também conhecido como:</span>
+              <span class="aka__names">${aka_html}</span>
+            </p>
+          </section>
         </div>
-        <p class="indicators__note">
-          Metodologia e fontes: veja
-          <a href="${baseUrl}/sobre/#metodologia">Sobre → Metodologia</a>.
-        </p>
-      </section>
 
-      <footer class="breed__cta container">
-        <a class="btn btn--compare btn--sm" href="${baseUrl}/comparar/?add=${slug}"
-          >Comparar Características</a
-        >
-        <a class="btn btn--primary btn--sm" href="${baseUrl}/guia-responsavel/">Guia Responsável</a>
-      </footer>
+        <!-- FCI -->
+        <aside class="fci-wrap">
+          <section class="fci-card" aria-labelledby="fci-title">
+            <h2 id="fci-title" class="fci-card__title">Classificação FCI</h2>
+            <p><span class="fci-chip">${fci_grupo}</span></p>
+            <p><strong>Descrição:</strong> ${fci_descricao}</p>
+            <p><strong>Origem:</strong> ${origem}</p>
+            <p><strong>Código:</strong> ${fci_codigo}</p>
+            <p><strong>Porte:</strong> ${porte_label}</p>
+          </section>
+        </aside>
+
+        <!-- Foto -->
+        <div class="photo-wrap">${FOTO_BLOCK}</div>
+
+        <!-- KPIs -->
+        <div class="kpis-wrap">
+          <section class="kpis" aria-labelledby="kpi-title">
+            <h2 id="kpi-title" class="visually-hidden">Medidas e Expectativa</h2>
+            <div class="kpi kpi--altura">
+              <span class="kpi__label">Altura</span>
+              <span class="kpi__value">${altura_texto_html}</span>
+            </div>
+            <div class="kpi kpi--peso">
+              <span class="kpi__label">Peso</span>
+              <span class="kpi__value">${peso_texto_html}</span>
+            </div>
+            <div class="kpi kpi--vida">
+              <span class="kpi__label">Expectativa de vida</span>
+              <span class="kpi__value">${vida_texto}</span>
+            </div>
+          </section>
+        </div>
+
+        <!-- Características & Cuidados -->
+        <div class="features-wrap">
+          <section class="features" aria-labelledby="feat-title">
+            <div class="features__head">
+              <h2 id="feat-title">Características &amp; Cuidados</h2>
+            </div>
+            <div class="features__body">
+              <div class="indicator">
+                <span>Energia física</span>
+                <span class="indicator__badge">${atividade}/5</span>
+              </div>
+              <div class="indicator">
+                <span>Pelagem &amp; grooming</span>
+                <span class="indicator__badge">${grooming}/5</span>
+              </div>
+              <div class="indicator">
+                <span>Ambiente &amp; espaço</span>
+                <span class="indicator__badge">${clima}/5</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Popularidade + metodologia -->
+        <div class="pop-wrap">
+          <section class="pop" aria-labelledby="pop-title">
+            <h2 id="pop-title">Popularidade</h2>
+            <div id="pop-chart" class="pop-chart" data-slug="${slug}">
+              ${POPULARIDADE_BLOCK}
+              <noscript>Popularidade por ano (gráfico requer JavaScript).</noscript>
+            </div>
+          </section>
+          <p class="meta-note">
+            Metodologia e fontes: veja
+            <a href="${baseUrl}/sobre/#metodologia">Sobre → Metodologia</a>.
+          </p>
+        </div>
+
+        <!-- CTAs -->
+        <div class="cta-wrap">
+          <div class="cta-grid">
+            <a class="btn btn--full" href="${baseUrl}/comparar/?add=${slug}"
+              >Comparar com outra raça</a
+            >
+            <a class="btn btn--accent btn--full" href="${baseUrl}/guia-responsavel/"
+              >Ver guia responsável</a
+            >
+          </div>
+        </div>
+      </section>
     </main>
 
     ${SITE_FOOTER}

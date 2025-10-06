@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    ${HEAD_BASE}
+    <title>Acessibilidade — Guia Raças</title>
+    <meta
+      name="description"
+      content="Compromisso com acessibilidade: WCAG 2.2, navegação por teclado, contraste e conteúdo claro."
+    />
+    <link rel="canonical" href="${baseUrl}/acessibilidade/" />
+  </head>
+  <body class="page-a11y">
+    ${SITE_HEADER}
+
+    <header class="page-band" role="presentation">
+      <div class="container page-band__inner">
+        <h1 class="page-band__title">Acessibilidade</h1>
+        <p class="page-band__meta">Estamos trabalhando para cumprir WCAG 2.2 nível AA.</p>
+      </div>
+    </header>
+
+    <main id="conteudo" tabindex="-1" class="container">
+      <section class="stack">
+        <h2>Compromissos</h2>
+        <ul>
+          <li>Navegação por teclado e foco visível.</li>
+          <li>Contraste adequado (≥ 4.5:1 em textos).</li>
+          <li>Semântica correta e landmarks.</li>
+        </ul>
+      </section>
+
+      <section class="stack">
+        <h2>Relatar barreiras</h2>
+        <p>
+          Encontrou algum problema de acessibilidade? Escreva para
+          <a href="mailto:contato@guiaracas.com.br">contato@guiaracas.com.br</a>.
+        </p>
+      </section>
+    </main>
+
+    ${SITE_FOOTER}
+    <script src="${baseUrl}/scripts/main.js" defer></script>
+  </body>
+</html>

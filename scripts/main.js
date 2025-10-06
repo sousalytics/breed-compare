@@ -1,4 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Marcar item ativo do menu (aria-current)
+  try {
+    const here = location.pathname.replace(/index\.html$/, "").replace(/\/+$/, "/");
+    document.querySelectorAll(".nav__link").forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      const norm = href.replace(/index\.html$/, "").replace(/\/+$/, "/");
+      if (norm && here.startsWith(norm)) {
+        a.setAttribute("aria-current", "page");
+      }
+    });
+  } catch {}
+
+  // ======= SCALES =======
   document.querySelectorAll(".scale").forEach((el) => {
     const n = Number(el.getAttribute("data-value") || 0);
     el.innerHTML = "";
@@ -9,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // ======= TOGGLES =======
   document.querySelectorAll(".indicator__togglebtn").forEach((btn) => {
     const id = btn.getAttribute("data-target");
     const det = document.getElementById(id);
@@ -25,12 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// ======= LISTA DE RAÇAS: filtros e URL state =======
 (function () {
   const root = document.querySelector(".page-breeds");
   if (!root) return;
 
-  const DEBOUNCE_MS = 250; // ↑ (até ~300 ms) se engasgar; ↓ (150–200 ms) se parecer “lento” de resposta
-  const USE_DEBOUNCE = true; // true = espera ~250ms após digitar; false = aplica a cada tecla
+  const DEBOUNCE_MS = 250;
+  const USE_DEBOUNCE = true;
 
   function debounce(fn, wait = 250) {
     let t;
@@ -52,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .trim();
   }
 
-  const form = root.querySelector("#breed-filters");
-  const list = root.querySelector(".breed-list");
+  const form = root.querySelector("#breed-filters") || root.querySelector(".filters");
+  const list = root.querySelector(".breed-list") || root.querySelector(".breed-grid");
   if (!list) return;
 
   const items = Array.from(list.querySelectorAll(".breed-card"));
@@ -69,18 +84,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputQ = form.querySelector("#q");
   const selPorte = form.querySelector("#porte");
   const selGrupo = form.querySelector("#grupo");
-  const btnClear = form.querySelector("#limpar");
+  const btnClear = form.querySelector("#limpar") || form.querySelector('[type="reset"]');
 
   function readURL() {
     const p = new URLSearchParams(location.search);
-    inputQ.value = p.get("q") || "";
-    selPorte.value = p.get("porte") || "";
-    selGrupo.value = p.get("grupo") || "";
-
+    if (inputQ) inputQ.value = p.get("q") || "";
+    if (selPorte) selPorte.value = p.get("porte") || "";
+    if (selGrupo) selGrupo.value = p.get("grupo") || "";
     lastState = {
-      q: inputQ.value.trim().toLowerCase(),
-      porte: selPorte.value,
-      grupo: selGrupo.value,
+      q: (inputQ?.value || "").trim().toLowerCase(),
+      porte: selPorte?.value || "",
+      grupo: selGrupo?.value || "",
     };
   }
 
@@ -89,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function writeURL(q, porte, grupo) {
     if (lastState.q === q && lastState.porte === porte && lastState.grupo === grupo) return;
     lastState = { q, porte, grupo };
-
     const p = new URLSearchParams();
     if (q) p.set("q", q);
     if (porte) p.set("porte", porte);
@@ -99,12 +112,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function applyFilter() {
-    const qRaw = inputQ.value;
+    const qRaw = inputQ?.value || "";
     const qNorm = simplify(qRaw);
     const qTokens = qNorm ? qNorm.split(" ") : [];
 
-    const porte = selPorte.value;
-    const grupo = selGrupo.value;
+    const porte = selPorte?.value || "";
+    const grupo = selGrupo?.value || "";
 
     let visible = 0;
     items.forEach((li) => {
@@ -128,40 +141,39 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     applyFilter();
   });
-  selPorte.addEventListener("change", applyFilter);
-  selGrupo.addEventListener("change", applyFilter);
+  selPorte?.addEventListener("change", applyFilter);
+  selGrupo?.addEventListener("change", applyFilter);
   btnClear?.addEventListener("click", () => {
-    inputQ.value = "";
-    selPorte.value = "";
-    selGrupo.value = "";
+    if (inputQ) inputQ.value = "";
+    if (selPorte) selPorte.value = "";
+    if (selGrupo) selGrupo.value = "";
     applyFilter();
   });
 
   const debouncedApply = USE_DEBOUNCE ? debounce(applyFilter, DEBOUNCE_MS) : applyFilter;
 
   let composing = false;
-  inputQ.addEventListener("compositionstart", () => {
-    composing = true;
-  });
-  inputQ.addEventListener("compositionend", () => {
+  inputQ?.addEventListener("compositionstart", () => (composing = true));
+  inputQ?.addEventListener("compositionend", () => {
     composing = false;
     applyFilter();
   });
-  inputQ.addEventListener("input", () => {
+  inputQ?.addEventListener("input", () => {
     if (!composing) debouncedApply();
   });
-  inputQ.addEventListener("keydown", (e) => {
+  inputQ?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       applyFilter();
     }
   });
-  inputQ.addEventListener("blur", applyFilter);
+  inputQ?.addEventListener("blur", applyFilter);
 
   readURL();
   applyFilter();
 })();
 
+// ======= SELEÇÃO PARA COMPARAR =======
 (function () {
   const KEY = "compare:selected";
   function loadSel() {
@@ -174,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function saveSel(arr) {
     localStorage.setItem(KEY, JSON.stringify(arr.slice(0, 3)));
   }
-
   document.addEventListener("click", (e) => {
     const a = e.target.closest(".js-compare-add");
     if (!a) return;

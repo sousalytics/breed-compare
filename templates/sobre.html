@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    ${HEAD_BASE}
+    <title>Sobre — Guia Raças</title>
+    <meta name="description" content="Quem somos, objetivos do projeto e metodologia de dados." />
+    <link rel="canonical" href="${baseUrl}/sobre/" />
+  </head>
+  <body class="page-about">
+    ${SITE_HEADER}
+
+    <header class="page-band" role="presentation">
+      <div class="container page-band__inner">
+        <h1 class="page-band__title">Sobre</h1>
+        <p class="page-band__meta">Objetivo, escopo e como coletamos e organizamos os dados.</p>
+      </div>
+    </header>
+
+    <main id="conteudo" tabindex="-1" class="container">
+      <section class="stack" aria-labelledby="sobre">
+        <h2 id="sobre">O projeto</h2>
+        <p>
+          Este site ajuda pessoas a entenderem melhor as características de raças de cães, com foco
+          em responsabilidade na adoção/compra e bem-estar animal.
+        </p>
+      </section>
+
+      <section class="stack" aria-labelledby="metodologia">
+        <h2 id="metodologia">Metodologia</h2>
+        <p>
+          Consolidamos dados de fontes confiáveis (clubes caninos, literatura especializada, bases
+          públicas). Normalizamos termos, unidades e escalas para comparação justa entre raças.
+        </p>
+        <ul>
+          <li>Alturas/Pesos: intervalos por sexo quando aplicável.</li>
+          <li>Popularidade: indicadores relativos (BR e Global).</li>
+          <li>Indicadores 1–5: descrições explicativas, não prescritivas.</li>
+        </ul>
+        <p>Fontes são indicadas em cada página de raça e nesta seção quando aplicável.</p>
+      </section>
+    </main>
+
+    ${SITE_FOOTER}
+    <script src="${baseUrl}/scripts/main.js" defer></script>
+  </body>
+</html>

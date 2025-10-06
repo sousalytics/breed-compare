@@ -3,12 +3,10 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#0033a0" />
+<meta name="theme-color" content="#127a72" />
 <meta name="robots" content="noindex, nofollow" />
 
-<script>
-  document.documentElement.classList.add("js");
-</script>
+<script>document.documentElement.classList.add("js");</script>
 
 <link rel="icon" href="https://www.guiaracas.com.br/public/favicon.svg" />
 <link rel="apple-touch-icon" href="https://www.guiaracas.com.br/public/apple-touch-180.png" />
@@ -19,47 +17,36 @@
 
 <link rel="preload" as="image" href="https://www.guiaracas.com.br/assets/icons/sprite.svg" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap"
-/>
-
-    <title>Raças — Guia Raças</title>
+    <title>Lista de Raças — Guia Raças</title>
     <meta name="description" content="Encontre raças de cães por nome, porte e grupo FCI." />
     <link rel="canonical" href="https://www.guiaracas.com.br/racas/" />
     <script type="application/ld+json">
       {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Início", "item": "https://www.guiaracas.com.br/"}, {"@type": "ListItem", "position": 2, "name": "Raças", "item": "https://www.guiaracas.com.br/racas/"}]}
     </script>
   </head>
-  <body>
-    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-    <header class="header" role="banner">
+  <body class="page-breeds">
+    <a class="visually-hidden" href="#conteudo">Pular para o conteúdo</a>
+<header class="header" role="banner">
   <div class="header__inner container">
-    <a href="https://www.guiaracas.com.br/" class="logo">Guia Raças</a>
+    <a href="https://www.guiaracas.com.br/" class="logo" aria-label="Guia Raças — Página inicial">Guia Raças</a>
     <nav class="nav" aria-label="Principal">
       <ul class="nav__list">
-        <li><a class="nav__link" href="https://www.guiaracas.com.br/racas/">Raças</a></li>
-        <li><a class="nav__link" href="https://www.guiaracas.com.br/sobre/">Sobre</a></li>
+        <li><a class="nav__link" href="https://www.guiaracas.com.br/racas/">Raças</a></li> <li><a class="nav__link" href="https://www.guiaracas.com.br/comparar/">Comparar</a></li> <li><a class="nav__link" href="https://www.guiaracas.com.br/sobre/">Sobre</a></li> <li><a class="nav__link" href="https://www.guiaracas.com.br/guia-responsavel/">Guia Responsável</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
 
-    <main id="conteudo" tabindex="-1" class="page-breeds container" role="main">
-      <nav class="breadcrumbs" aria-label="Você está em">
-        <ol class="breadcrumbs__list">
-          <li><a href="https://www.guiaracas.com.br/">Início</a></li>
-          <li aria-current="page">Raças</li>
-        </ol>
-      </nav>
-      <header class="page-header">
-        <h1 class="page-title">Raças</h1>
-        <p class="breed__lead">Busque por nome, filtre por porte e por grupo da FCI.</p>
-      </header>
+    <header class="page-band" role="presentation">
+      <div class="container page-band__inner">
+        <h1 class="page-band__title">Raças</h1>
+        <p class="page-band__meta">Busque por nome, filtre por porte e por grupo FCI.</p>
+      </div>
+    </header>
 
+    <main id="conteudo" tabindex="-1" class="container">
+      <!-- Filtros flutuantes -->
       <form
         id="breed-filters"
         role="search"
@@ -83,7 +70,7 @@
 
           <div class="field">
             <label for="porte">Porte</label>
-            <select id="porte" name="porte" class="input">
+            <select id="porte" name="porte" class="input select">
               <option value="">Todos</option>
               <option value="mini">Mini</option>
               <option value="pequeno">Pequeno</option>
@@ -95,48 +82,42 @@
 
           <div class="field">
             <label for="grupo">Grupo FCI</label>
-            <select id="grupo" name="grupo" class="input">
+            <select id="grupo" name="grupo" class="input select">
               <option value="">Todos</option>
-              <option value='1'>Grupo 1 — Cães Pastores e Boiadeiros (exceto suícos)</option>
-<option value='2'>Grupo 2 — Pinscher, Schnauzer, Molossos e Boiadeiros Suiços</option>
-<option value='3'>Grupo 3 — Terriers</option>
-<option value='4'>Grupo 4 — Dachshunds</option>
-<option value='5'>Grupo 5 — Spitz e Tipos Primitivos</option>
-<option value='6'>Grupo 6 — Sabujos e Rastreadores</option>
-<option value='7'>Grupo 7 — Cães de Aponte</option>
-<option value='8'>Grupo 8 — Retrievers, Levantadores e Cães d&#x27;Água</option>
-<option value='9'>Grupo 9 — Cães de Companhia</option>
-<option value='10'>Grupo 10 — Galgos e Lebreiros</option>
+              ${OPTIONS_GRUPO}
             </select>
           </div>
 
           <div class="actions">
-            <button class="btn btn--sm btn--apply" type="submit">Aplicar</button>
-            <button class="btn btn--sm btn--clear" type="button" id="limpar">Limpar</button>
+            <button class="btn" type="submit">Aplicar</button>
+            <button class="btn btn--ghost" type="button" id="limpar">Limpar</button>
           </div>
         </div>
+        <p id="results-status" class="visually-hidden" aria-live="polite"></p>
+        <datalist id="breed-nomes"></datalist>
         <noscript><p>Sem JavaScript, a busca filtra por query string (GET).</p></noscript>
       </form>
 
-      <section aria-labelledby="lista-title" class="breed-listing">
+      <section
+        aria-labelledby="lista-title"
+        class="section-bands"
+        style="margin-block: var(--space-5)"
+      >
         <h2 id="lista-title" class="visually-hidden">Lista de raças</h2>
-        <ul class="breed-list" aria-live="polite">
-          <li class='breed-card'  data-name='bulldog inglês' data-porte='medio' data-grupo='2' data-alias='Bulldog'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>      <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' />    </figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/bulldog-ingles.html'>Bulldog Inglês</a></h3>      <div class='breed-card__actions'>        <a class='btn btn--sm btn--primary js-compare-add' data-slug='bulldog-ingles' href='https://www.guiaracas.com.br/comparar/?add=bulldog-ingles'>+ Comparar</a>      </div>    </div>  </article></li>
-<li class='breed-card'  data-name='labrador retriever' data-porte='grande' data-grupo='8' data-alias='Labrador | Retriever du Labrador'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>      <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' />    </figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/labrador-retriever.html'>Labrador Retriever</a></h3>      <div class='breed-card__actions'>        <a class='btn btn--sm btn--primary js-compare-add' data-slug='labrador-retriever' href='https://www.guiaracas.com.br/comparar/?add=labrador-retriever'>+ Comparar</a>      </div>    </div>  </article></li>
-<li class='breed-card'  data-name='vira-lata (srd)' data-porte='medio' data-grupo='' data-alias='Sem Raça Definida | SRD'>  <article class='breed-card__inner'>    <figure class='breed-card__thumb'>      <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' width='120' height='80' loading='lazy' decoding='async' />    </figure>    <div class='breed-card__body'>      <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/vira-lata-srd.html'>Vira-lata (SRD)</a></h3>      <div class='breed-card__actions'>        <a class='btn btn--sm btn--primary js-compare-add' data-slug='vira-lata-srd' href='https://www.guiaracas.com.br/comparar/?add=vira-lata-srd'>+ Comparar</a>      </div>    </div>  </article></li>
+        <!-- A grid é aplicada via classe breed-grid (mobile-first) -->
+        <ul class="breed-list breed-grid" aria-live="polite">
+          <li class='breed-card'  data-name='Bulldog Inglês' data-porte='medio' data-grupo='2' data-alias='Bulldog'>  <div class='breed-card__media'>    <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' loading='lazy' decoding='async' width='480' height='320' />  </div>  <div class='breed-card__body'>    <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/bulldog-ingles.html'>Bulldog Inglês</a></h3>    <p class='breed-card__meta'>Origem: Reino Unido</p>    <span class='badge'>Grupo 2</span>  </div>  <div class='breed-card__actions'>    <a class='btn btn--full js-compare-add' data-slug='bulldog-ingles' href='https://www.guiaracas.com.br/comparar/?add=bulldog-ingles'>+ Comparar</a>  </div></li>
+<li class='breed-card'  data-name='Labrador Retriever' data-porte='grande' data-grupo='8' data-alias='Labrador | Retriever du Labrador'>  <div class='breed-card__media'>    <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' loading='lazy' decoding='async' width='480' height='320' />  </div>  <div class='breed-card__body'>    <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/labrador-retriever.html'>Labrador Retriever</a></h3>    <p class='breed-card__meta'>Origem: Canadá / Reino Unido</p>    <span class='badge'>Grupo 8</span>  </div>  <div class='breed-card__actions'>    <a class='btn btn--full js-compare-add' data-slug='labrador-retriever' href='https://www.guiaracas.com.br/comparar/?add=labrador-retriever'>+ Comparar</a>  </div></li>
+<li class='breed-card'  data-name='Vira-lata (SRD)' data-porte='medio' data-grupo='' data-alias='Sem Raça Definida | SRD'>  <div class='breed-card__media'>    <img src='https://www.guiaracas.com.br/assets/breeds/_placeholder.jpg' alt='' loading='lazy' decoding='async' width='480' height='320' />  </div>  <div class='breed-card__body'>    <h3 class='breed-card__title'><a href='https://www.guiaracas.com.br/racas/vira-lata-srd.html'>Vira-lata (SRD)</a></h3>    <p class='breed-card__meta'>Origem: —</p>    <span class='badge'>—</span>  </div>  <div class='breed-card__actions'>    <a class='btn btn--full js-compare-add' data-slug='vira-lata-srd' href='https://www.guiaracas.com.br/comparar/?add=vira-lata-srd'>+ Comparar</a>  </div></li>
         </ul>
       </section>
     </main>
 
-    <footer class="footer" role="contentinfo">
+    <footer class="footer site-footer" role="contentinfo">
   <nav class="footer__nav" aria-label="Links institucionais">
-    <a class="footer__link" href="https://www.guiaracas.com.br/sitemap.html">Mapa do site</a>
-    <a class="footer__link" href="https://www.guiaracas.com.br/acessibilidade/">Acessibilidade</a>
-    <a class="footer__link" href="https://www.guiaracas.com.br/privacidade/">Privacidade</a>
+    <a class="footer__link" href="https://www.guiaracas.com.br/sitemap.html">Mapa do site</a> <a class="footer__link" href="https://www.guiaracas.com.br/acessibilidade/">Acessibilidade</a> <a class="footer__link" href="https://www.guiaracas.com.br/privacidade/">Privacidade</a>
   </nav>
-  <p>
-    &copy; 2025 Guia Raças — Conteúdo educativo. Consulte um veterinário para decisões de saúde.
-  </p>
+  <p>&copy; 2025 Guia Raças — Conteúdo educativo. Consulte um veterinário para decisões de saúde.</p>
 </footer>
 
     <script src="https://www.guiaracas.com.br/scripts/main.js" defer></script>

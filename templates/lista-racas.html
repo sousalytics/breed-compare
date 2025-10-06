@@ -2,29 +2,25 @@
 <html lang="pt-BR">
   <head>
     ${HEAD_BASE}
-    <title>Raças — Guia Raças</title>
+    <title>Lista de Raças — Guia Raças</title>
     <meta name="description" content="Encontre raças de cães por nome, porte e grupo FCI." />
     <link rel="canonical" href="${baseUrl}/racas/" />
     <script type="application/ld+json">
       ${jsonld_breadcrumb_list}
     </script>
   </head>
-  <body>
-    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <body class="page-breeds">
     ${SITE_HEADER}
 
-    <main id="conteudo" tabindex="-1" class="page-breeds container" role="main">
-      <nav class="breadcrumbs" aria-label="Você está em">
-        <ol class="breadcrumbs__list">
-          <li><a href="${baseUrl}/">Início</a></li>
-          <li aria-current="page">Raças</li>
-        </ol>
-      </nav>
-      <header class="page-header">
-        <h1 class="page-title">Raças</h1>
-        <p class="breed__lead">Busque por nome, filtre por porte e por grupo da FCI.</p>
-      </header>
+    <header class="page-band" role="presentation">
+      <div class="container page-band__inner">
+        <h1 class="page-band__title">Raças</h1>
+        <p class="page-band__meta">Busque por nome, filtre por porte e por grupo FCI.</p>
+      </div>
+    </header>
 
+    <main id="conteudo" tabindex="-1" class="container">
+      <!-- Filtros flutuantes -->
       <form
         id="breed-filters"
         role="search"
@@ -48,7 +44,7 @@
 
           <div class="field">
             <label for="porte">Porte</label>
-            <select id="porte" name="porte" class="input">
+            <select id="porte" name="porte" class="input select">
               <option value="">Todos</option>
               <option value="mini">Mini</option>
               <option value="pequeno">Pequeno</option>
@@ -60,23 +56,30 @@
 
           <div class="field">
             <label for="grupo">Grupo FCI</label>
-            <select id="grupo" name="grupo" class="input">
+            <select id="grupo" name="grupo" class="input select">
               <option value="">Todos</option>
               ${OPTIONS_GRUPO}
             </select>
           </div>
 
           <div class="actions">
-            <button class="btn btn--sm btn--apply" type="submit">Aplicar</button>
-            <button class="btn btn--sm btn--clear" type="button" id="limpar">Limpar</button>
+            <button class="btn" type="submit">Aplicar</button>
+            <button class="btn btn--ghost" type="button" id="limpar">Limpar</button>
           </div>
         </div>
+        <p id="results-status" class="visually-hidden" aria-live="polite"></p>
+        <datalist id="breed-nomes"></datalist>
         <noscript><p>Sem JavaScript, a busca filtra por query string (GET).</p></noscript>
       </form>
 
-      <section aria-labelledby="lista-title" class="breed-listing">
+      <section
+        aria-labelledby="lista-title"
+        class="section-bands"
+        style="margin-block: var(--space-5)"
+      >
         <h2 id="lista-title" class="visually-hidden">Lista de raças</h2>
-        <ul class="breed-list" aria-live="polite">
+        <!-- A grid é aplicada via classe breed-grid (mobile-first) -->
+        <ul class="breed-list breed-grid" aria-live="polite">
           ${LISTA_RACAS_ITEMS}
         </ul>
       </section>

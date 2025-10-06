@@ -1,5 +1,22 @@
 {
   "env": "dev",
+  "name": "Guia Raças",
   "base_url": "https://www.guiaracas.com.br",
-  "robots": "noindex, nofollow"
+  "noindex": true,
+
+  "nav": [
+    { "label": "Raças", "href": "/racas/" },
+    { "label": "Comparar", "href": "/comparar/" },
+    { "label": "Sobre", "href": "/sobre/" },
+    { "label": "Guia Responsável", "href": "/guia-responsavel/" }
+  ],
+  "footer_links": [
+    { "label": "Mapa do site", "href": "/sitemap.html" },
+    { "label": "Acessibilidade", "href": "/acessibilidade/" },
+    { "label": "Privacidade", "href": "/privacidade/" }
+  ],
+  "social": {
+    "github": "https://github.com/sousalytics/breed-compare"
+  },
+  "contact_email": "contato@guiaracas.com.br"
 }
