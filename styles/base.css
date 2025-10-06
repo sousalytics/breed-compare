@@ -105,9 +105,30 @@ hr {
   margin-block: var(--space-6);
 }
 
-.container--narrow {
+.container {
   inline-size: min(100% - var(--space-6), 72rem);
   margin-inline: auto;
+}
+
+/* ≥ 768px (tablet) */
+@media (min-width: 48rem) {
+  .container--narrow {
+    inline-size: min(100% - var(--space-8), 46rem);
+  }
+}
+
+/* ≥ 1024px (notebook) */
+@media (min-width: 64rem) {
+  .container--narrow {
+    inline-size: min(100% - var(--space-10), 52rem);
+  }
+}
+
+/* ≥ 1440px (desktop) */
+@media (min-width: 90rem) {
+  .container--narrow {
+    inline-size: min(100% - var(--space-12), 56rem);
+  }
 }
 
 .visually-hidden {
