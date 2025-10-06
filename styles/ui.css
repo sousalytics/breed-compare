@@ -547,3 +547,10 @@
 .nav__link:hover {
   background: var(--surface-2);
 }
+
+/* BOTÕES */
+.btn,
+.btn:visited,
+.btn:hover {
+  color: var(--brand-contrast);
+}

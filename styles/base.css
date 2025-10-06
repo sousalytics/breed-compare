@@ -50,9 +50,12 @@ img {
 }
 
 a,
-a:visited,
+a:visited {
+  color: var(--link);
+  text-decoration: none;
+}
 a:hover {
-  color: var(--brand-700);
+  color: var(--link-hover);
   text-decoration: none;
 }
 a:focus-visible {

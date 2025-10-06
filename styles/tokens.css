@@ -38,6 +38,8 @@
   --warning: #f59e0b;
   --danger: #dc2626;
   --focus-ring: #5b9aff;
+  --link: var(--text);
+  --link-hover: var(--brand-900);
 
   /* Espaçamentos (8px scale) */
   --space-0: 0;
