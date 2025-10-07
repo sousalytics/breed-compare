@@ -42,7 +42,7 @@
   -webkit-overflow-scrolling: touch;
   flex-wrap: nowrap;
   padding-inline: var(--space-2);
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 .nav__list > li:last-child {
   padding-inline-end: var(--space-2);

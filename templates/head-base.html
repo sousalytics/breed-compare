@@ -3,7 +3,9 @@
 <meta name="theme-color" content="#127a72" />
 <meta name="robots" content="noindex, nofollow" />
 
-<script>document.documentElement.classList.add("js");</script>
+<script>
+  document.documentElement.classList.add("js");
+</script>
 
 <link rel="icon" href="https://www.guiaracas.com.br/public/favicon.svg" />
 <link rel="apple-touch-icon" href="https://www.guiaracas.com.br/public/apple-touch-180.png" />
@@ -13,3 +15,19 @@
 <link rel="stylesheet" href="https://www.guiaracas.com.br/styles/ui.css" />
 
 <link rel="preload" as="image" href="https://www.guiaracas.com.br/assets/icons/sprite.svg" />
+
+<meta
+  http-equiv="Content-Security-Policy"
+  content="
+  default-src 'self';
+  img-src 'self' data: https:;
+  style-src 'self' 'unsafe-inline';
+  script-src 'self';
+  connect-src 'self';
+  base-uri 'self';
+  form-action 'self';
+  frame-ancestors 'none';
+  upgrade-insecure-requests;
+  require-trusted-types-for 'script';
+"
+/>
