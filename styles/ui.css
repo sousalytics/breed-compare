@@ -23,6 +23,7 @@
   min-inline-size: 0;
   margin-left: var(--space-3);
   padding-inline-end: var(--space-3);
+  margin-inline-start: auto;
 }
 .logo {
   font-size: clamp(1rem, 2.6vw + 0.4rem, 1.35rem);
@@ -42,7 +43,7 @@
   -webkit-overflow-scrolling: touch;
   flex-wrap: nowrap;
   padding-inline: var(--space-2);
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 .nav__list > li:last-child {
   padding-inline-end: var(--space-2);
